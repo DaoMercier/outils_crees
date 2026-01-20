@@ -1,0 +1,1869 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartographie des besoins pour groupes mixtes</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+        
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+                max-width: 100%;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-container {
+                box-shadow: none !important;
+                border: none !important;
+                page-break-after: always;
+            }
+            button, .actions {
+                display: none !important;
+            }
+            .circle-container {
+                break-inside: avoid;
+            }
+            .participant-nav, .app-header {
+                display: none !important;
+            }
+            .page-break {
+                page-break-after: always;
+            }
+        }
+        
+        .print-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        
+        h2 {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-top: 25px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 30px;
+            color: #666;
+        }
+        
+        .intro {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        /* Learner information */
+        .learner-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f8f8;
+            border-radius: 5px;
+        }
+        
+        .learner-info label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .learner-info input,
+        .learner-info select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        /* Circles styling */
+        .circle-container {
+            margin-bottom: 30px;
+            border-radius: 8px;
+            padding: 0 0 15px 0;
+            background-color: #f8f8f8;
+            overflow: hidden;
+        }
+        
+        .blue-circle h2 {
+            background-color: #90caf9;
+        }
+        
+        .purple-circle h2 {
+            background-color: #b39ddb;
+        }
+        
+        .green-circle h2 {
+            background-color: #a5d6a7;
+        }
+        
+        .orange-circle h2 {
+            background-color: #ffcc80;
+        }
+        
+        .pink-circle h2 {
+            background-color: #f48fb1;
+        }
+        
+        .teal-circle h2 {
+            background-color: #80cbc4;
+        }
+        
+        .dimension-items {
+            padding: 15px;
+        }
+        
+        .dimension-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .dimension-item input[type="checkbox"] {
+            margin-right: 12px;
+            margin-top: 4px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .dimension-item label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .priority-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 10px;
+        }
+        
+        .priority-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .priority-selection {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .priority-selection input[type="radio"] {
+            display: none;
+        }
+        
+        .priority-selection label {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .priority-selection input[type="radio"]:checked + label {
+            background-color: #ff9800;
+            color: white;
+            border-color: #ff9800;
+        }
+        
+        /* Visual representation - 6 dimensions */
+        .visual-representation {
+            margin-top: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hexagon-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 1;
+        }
+        
+        .dimension-label {
+            position: absolute;
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            text-align: center;
+            min-width: 150px;
+        }
+        
+        .dim-label-1 { top: 0; left: 50%; transform: translateX(-50%); background-color: #90caf9; color: white; }
+        .dim-label-2 { top: 25%; right: 0; background-color: #b39ddb; color: white; }
+        .dim-label-3 { bottom: 25%; right: 0; background-color: #a5d6a7; color: white; }
+        .dim-label-4 { bottom: 0; left: 50%; transform: translateX(-50%); background-color: #ffcc80; color: white; }
+        .dim-label-5 { bottom: 25%; left: 0; background-color: #f48fb1; color: white; }
+        .dim-label-6 { top: 25%; left: 0; background-color: #80cbc4; color: white; }
+        
+        /* Additional notes */
+        .additional-notes {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+        }
+        
+        .additional-notes h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .additional-notes textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+        }
+        
+        /* Actions */
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .actions button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .reset-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .reset-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .print-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .print-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .save-btn {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .save-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        /* Multi-user interface */
+        .participant-nav {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+        }
+        
+        .participant-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .participant-item {
+            padding: 6px 12px;
+            background-color: #e8eaf6;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .participant-item.active {
+            background-color: #3f51b5;
+            color: white;
+        }
+        
+        .participant-item:hover {
+            background-color: #c5cae9;
+        }
+        
+        .participant-item.active:hover {
+            background-color: #3949ab;
+        }
+        
+        .participant-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background-color: #3f51b5;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #303f9f;
+        }
+        
+        .btn-secondary {
+            background-color: #ff9800;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f57c00;
+        }
+        
+        .btn-danger {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+        
+        .btn-success {
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #388e3c;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        
+        .close-btn {
+            cursor: pointer;
+            font-size: 22px;
+            color: #777;
+        }
+        
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        /* Synthesis view */
+        .synthesis-container {
+            display: none;
+        }
+        
+        .synthesis-view {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .synthesis-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+        
+        .synthesis-table th, 
+        .synthesis-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .synthesis-table th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        .priority-cell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin: 0 auto;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .priority-1 {
+            background-color: #ffb74d;
+        }
+        
+        .priority-2 {
+            background-color: #81c784;
+        }
+        
+        .priority-3 {
+            background-color: #64b5f6;
+        }
+        
+        .dimension-category {
+            background-color: #e8eaf6;
+            font-weight: 600;
+        }
+        
+        .dimension-name {
+            padding-left: 20px;
+        }
+        
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .view-toggle {
+            display: flex;
+            border: 1px solid #3f51b5;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .view-toggle-btn {
+            background-color: white;
+            color: #3f51b5;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .view-toggle-btn.active {
+            background-color: #3f51b5;
+            color: white;
+        }
+        
+        .participant-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .participant-form label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .participant-form input,
+        .participant-form select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .print-preview {
+            display: none;
+        }
+        
+        .instructions {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        
+        .instructions ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 5px;
+        }
+        
+        /* Fixed legend sidebar */
+        .priority-legend {
+            position: fixed;
+            right: 20px;
+            top: 150px;
+            width: 180px;
+            background: linear-gradient(135deg, #a8c5e6 0%, #b8a8d8 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 50;
+        }
+        
+        .priority-legend h4 {
+            margin: 0 0 12px 0;
+            font-size: 15px;
+            text-align: center;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 8px;
+        }
+        
+        .priority-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+        
+        .priority-badge {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+        
+        .priority-badge-1 {
+            background-color: #ffb74d;
+        }
+        
+        .priority-badge-2 {
+            background-color: #81c784;
+        }
+        
+        .priority-badge-3 {
+            background-color: #64b5f6;
+        }
+        
+        @media print {
+            .priority-legend {
+                display: none !important;
+            }
+        }
+        
+        @media (max-width: 1400px) {
+            .priority-legend {
+                position: relative;
+                right: auto;
+                top: auto;
+                width: 100%;
+                margin: 20px 0;
+            }
+        }
+        
+        /* Context field */
+        .context-field {
+            grid-column: 1 / -1;
+        }
+        
+        .context-field textarea {
+            width: 100%;
+            min-height: 60px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+        }
+        
+        /* Analyze button and results */
+        .analyze-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .analyze-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .analysis-results {
+            background-color: #f8f9fa;
+            border: 2px solid #90caf9;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .analysis-results h3 {
+            color: #1976d2;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        
+        .analysis-step {
+            background-color: white;
+            border-left: 4px solid #64b5f6;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .analysis-step h4 {
+            color: #1976d2;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .analysis-step ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .analysis-step li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .profile-badge {
+            display: inline-block;
+            background-color: #64b5f6;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print instructions">
+        <h3>📋 Guide d'utilisation de l'outil</h3>
+        <ul>
+            <li><strong>Gestion multi-participants :</strong> Ajoutez plusieurs participants avec le bouton "+ Nouveau participant"</li>
+            <li><strong>Remplir une fiche :</strong> 
+                <ol style="margin-top: 5px;">
+                    <li>Complétez les informations générales (nom, profil, date, contexte)</li>
+                    <li>Cochez les <strong>facteurs à prendre en compte</strong> dans chaque dimension</li>
+                    <li>Évaluez chaque facteur coché avec l'échelle (voir légende à droite) : 3 = Fort/Solide | 2 = Moyen/Partiel | 1 = Faible/Manquant (priorité)</li>
+                    <li><strong>Astuce :</strong> En cliquant sur un niveau (1, 2 ou 3), le facteur sera automatiquement coché. Pour décocher un niveau, cliquez à nouveau sur le bouton.</li>
+                </ol>
+            </li>
+            <li><strong>Interprétation :</strong> <span style="color: #e74c3c; font-weight: bold; background-color: #fff3cd; padding: 2px 8px; border-radius: 3px;">⚠️ Les éléments notés "1" (faible/manquant) sont les priorités à travailler en classe</span></li>
+            <li><strong>Analyse du profil :</strong> Cliquez sur "📊 Analyser ce profil" pour obtenir la détection automatique du profil et les pistes de différenciation (sauvegarde automatique avant analyse)</li>
+            <li><strong>Vue synthèse :</strong> Basculez vers la vue synthèse pour comparer tous les participants côte à côte</li>
+            <li><strong>Sauvegarde manuelle :</strong> Utilisez "Sauvegarder" pour enregistrer vos modifications en cours (sauvegarde locale dans votre navigateur)</li>
+            <li><strong>Impression :</strong> "Imprimer cette fiche" pour un participant | "Imprimer tout" pour toutes les fiches + synthèse</li>
+        </ul>
+    </div>
+    
+    <!-- Fixed Priority Legend -->
+    <div class="priority-legend no-print">
+        <h4>📊 Échelle d'évaluation</h4>
+        <div class="priority-item">
+            <div class="priority-badge priority-badge-3">3</div>
+            <div><strong>Fort / Solide</strong><br><small>Déjà maîtrisé/acquis</small></div>
+        </div>
+        <div class="priority-item">
+            <div class="priority-badge priority-badge-2">2</div>
+            <div><strong>Moyen / Partiel</strong><br><small>En cours d'acquisition</small></div>
+        </div>
+        <div class="priority-item">
+            <div class="priority-badge priority-badge-1">1</div>
+            <div><strong>Faible / Manquant</strong><br><small>⚠️ À travailler en priorité</small></div>
+        </div>
+    </div>
+    
+    <div class="app-header no-print">
+        <h1>Cartographie des besoins pour groupes mixtes</h1>
+        <div class="view-toggle">
+            <button class="view-toggle-btn active" id="individualViewBtn" onclick="switchView('individual')">Vue individuelle</button>
+            <button class="view-toggle-btn" id="synthesisViewBtn" onclick="switchView('synthesis')">Vue synthèse</button>
+        </div>
+    </div>
+    
+    <div class="participant-nav no-print">
+        <div class="participant-list" id="participantList"></div>
+        <div class="participant-actions">
+            <button class="btn-sm btn-primary" onclick="showNewParticipantModal()">+ Nouveau participant</button>
+            <button class="btn-sm btn-secondary" onclick="duplicateParticipant()">Dupliquer</button>
+            <button class="btn-sm btn-danger" onclick="deleteCurrentParticipant()">Supprimer</button>
+            <button class="btn-sm btn-success" onclick="saveCurrentParticipant()">Sauvegarder</button>
+            <button class="btn-sm btn-primary" onclick="printAll()">Imprimer tout</button>
+        </div>
+    </div>
+    
+    <!-- Vue individuelle -->
+    <div class="individual-container" id="individualView">
+        <div class="print-container">
+            <h1>Cartographie des besoins pour groupes mixtes</h1>
+            <p class="subtitle">Outil de diagnostic pour Alpha/FLS/FLI</p>
+            
+            <div class="learner-info">
+                <div>
+                    <label for="name">Nom du participant :</label>
+                    <input type="text" id="name" name="name">
+                </div>
+                <div>
+                    <label for="profile">Profil dominant :</label>
+                    <select id="profile" name="profile">
+                        <option value="">Sélectionner...</option>
+                        <option value="alpha">Alphabétisation</option>
+                        <option value="fls-fli">FLS/FLI</option>
+                        <option value="mixte">Mixte/Indéterminé</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="date">Date :</label>
+                    <input type="date" id="date" name="date">
+                </div>
+                <div class="context-field">
+                    <label for="context">Contexte / Description (âge, origine, langues, parcours scolaire, etc.) :</label>
+                    <textarea id="context" name="context" placeholder="Ex: 28 ans, Érythrée, tigrinya, jamais scolarisée, arrivée en Suisse il y a 6 mois..."></textarea>
+                </div>
+            </div>
+            
+            <!-- DIMENSION 1: ENVIRONNEMENT SOCIOCULTUREL -->
+            <div class="circle-container blue-circle">
+                <h2>1. Environnement socioculturel (Niveau de ressources)</h2>
+                <div class="dimension-items">
+                    <div class="dimension-item" data-dim="dim1-1" data-name="Exposition au français dans la vie quotidienne">
+                        <input type="checkbox" id="dim1-1" name="dim1-1">
+                        <label for="dim1-1">Exposition au français dans la vie quotidienne</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim1-1" id="priority-dim1-1-1" value="1">
+                                <label for="priority-dim1-1-1">1</label>
+                                <input type="radio" name="priority-dim1-1" id="priority-dim1-1-2" value="2">
+                                <label for="priority-dim1-1-2">2</label>
+                                <input type="radio" name="priority-dim1-1" id="priority-dim1-1-3" value="3">
+                                <label for="priority-dim1-1-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim1-2" data-name="Réseaux sociaux et soutien">
+                        <input type="checkbox" id="dim1-2" name="dim1-2">
+                        <label for="dim1-2">Réseaux sociaux et soutien</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim1-2" id="priority-dim1-2-1" value="1">
+                                <label for="priority-dim1-2-1">1</label>
+                                <input type="radio" name="priority-dim1-2" id="priority-dim1-2-2" value="2">
+                                <label for="priority-dim1-2-2">2</label>
+                                <input type="radio" name="priority-dim1-2" id="priority-dim1-2-3" value="3">
+                                <label for="priority-dim1-2-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim1-3" data-name="Stabilité résidentielle et administrative">
+                        <input type="checkbox" id="dim1-3" name="dim1-3">
+                        <label for="dim1-3">Stabilité résidentielle et administrative</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim1-3" id="priority-dim1-3-1" value="1">
+                                <label for="priority-dim1-3-1">1</label>
+                                <input type="radio" name="priority-dim1-3" id="priority-dim1-3-2" value="2">
+                                <label for="priority-dim1-3-2">2</label>
+                                <input type="radio" name="priority-dim1-3" id="priority-dim1-3-3" value="3">
+                                <label for="priority-dim1-3-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim1-4" data-name="Motivation et projet personnel">
+                        <input type="checkbox" id="dim1-4" name="dim1-4">
+                        <label for="dim1-4">Motivation et projet personnel</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim1-4" id="priority-dim1-4-1" value="1">
+                                <label for="priority-dim1-4-1">1</label>
+                                <input type="radio" name="priority-dim1-4" id="priority-dim1-4-2" value="2">
+                                <label for="priority-dim1-4-2">2</label>
+                                <input type="radio" name="priority-dim1-4" id="priority-dim1-4-3" value="3">
+                                <label for="priority-dim1-4-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DIMENSION 2: COMPÉTENCES D'APPRENTISSAGE -->
+            <div class="circle-container purple-circle">
+                <h2>2. Compétences d'apprentissage (Niveau d'impact)</h2>
+                <div class="dimension-items">
+                    <div class="dimension-item" data-dim="dim2-1" data-name="Parcours scolaire antérieur">
+                        <input type="checkbox" id="dim2-1" name="dim2-1">
+                        <label for="dim2-1">Parcours scolaire antérieur</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim2-1" id="priority-dim2-1-1" value="1">
+                                <label for="priority-dim2-1-1">1</label>
+                                <input type="radio" name="priority-dim2-1" id="priority-dim2-1-2" value="2">
+                                <label for="priority-dim2-1-2">2</label>
+                                <input type="radio" name="priority-dim2-1" id="priority-dim2-1-3" value="3">
+                                <label for="priority-dim2-1-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim2-2" data-name="Langues maîtrisées et stratégies de transfert interlangues">
+                        <input type="checkbox" id="dim2-2" name="dim2-2">
+                        <label for="dim2-2">Langues maîtrisées et stratégies de transfert interlangues</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim2-2" id="priority-dim2-2-1" value="1">
+                                <label for="priority-dim2-2-1">1</label>
+                                <input type="radio" name="priority-dim2-2" id="priority-dim2-2-2" value="2">
+                                <label for="priority-dim2-2-2">2</label>
+                                <input type="radio" name="priority-dim2-2" id="priority-dim2-2-3" value="3">
+                                <label for="priority-dim2-2-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim2-3" data-name="Stratégies de mémorisation">
+                        <input type="checkbox" id="dim2-3" name="dim2-3">
+                        <label for="dim2-3">Stratégies de mémorisation</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim2-3" id="priority-dim2-3-1" value="1">
+                                <label for="priority-dim2-3-1">1</label>
+                                <input type="radio" name="priority-dim2-3" id="priority-dim2-3-2" value="2">
+                                <label for="priority-dim2-3-2">2</label>
+                                <input type="radio" name="priority-dim2-3" id="priority-dim2-3-3" value="3">
+                                <label for="priority-dim2-3-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim2-4" data-name="Métalangage (connaissance des termes grammaticaux)">
+                        <input type="checkbox" id="dim2-4" name="dim2-4">
+                        <label for="dim2-4">Métalangage (connaissance des termes grammaticaux)</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim2-4" id="priority-dim2-4-1" value="1">
+                                <label for="priority-dim2-4-1">1</label>
+                                <input type="radio" name="priority-dim2-4" id="priority-dim2-4-2" value="2">
+                                <label for="priority-dim2-4-2">2</label>
+                                <input type="radio" name="priority-dim2-4" id="priority-dim2-4-3" value="3">
+                                <label for="priority-dim2-4-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DIMENSION 3: RAPPORT À L'ÉCRIT -->
+            <div class="circle-container green-circle">
+                <h2>3. Rapport à l'écrit (Niveau de maîtrise)</h2>
+                <div class="dimension-items">
+                    <div class="dimension-item" data-dim="dim3-1" data-name="Familiarité avec l'alphabet latin">
+                        <input type="checkbox" id="dim3-1" name="dim3-1">
+                        <label for="dim3-1">Familiarité avec l'alphabet latin</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim3-1" id="priority-dim3-1-1" value="1">
+                                <label for="priority-dim3-1-1">1</label>
+                                <input type="radio" name="priority-dim3-1" id="priority-dim3-1-2" value="2">
+                                <label for="priority-dim3-1-2">2</label>
+                                <input type="radio" name="priority-dim3-1" id="priority-dim3-1-3" value="3">
+                                <label for="priority-dim3-1-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim3-2" data-name="Capacité de décodage">
+                        <input type="checkbox" id="dim3-2" name="dim3-2">
+                        <label for="dim3-2">Capacité de décodage</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim3-2" id="priority-dim3-2-1" value="1">
+                                <label for="priority-dim3-2-1">1</label>
+                                <input type="radio" name="priority-dim3-2" id="priority-dim3-2-2" value="2">
+                                <label for="priority-dim3-2-2">2</label>
+                                <input type="radio" name="priority-dim3-2" id="priority-dim3-2-3" value="3">
+                                <label for="priority-dim3-2-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim3-3" data-name="Interférences avec la langue d'origine">
+                        <input type="checkbox" id="dim3-3" name="dim3-3">
+                        <label for="dim3-3">Interférences avec la langue d'origine</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim3-3" id="priority-dim3-3-1" value="1">
+                                <label for="priority-dim3-3-1">1</label>
+                                <input type="radio" name="priority-dim3-3" id="priority-dim3-3-2" value="2">
+                                <label for="priority-dim3-3-2">2</label>
+                                <input type="radio" name="priority-dim3-3" id="priority-dim3-3-3" value="3">
+                                <label for="priority-dim3-3-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DIMENSION 4: HABILETÉS LANGAGIÈRES ORALES -->
+            <div class="circle-container orange-circle">
+                <h2>4. Habiletés langagières orales (Habiletés)</h2>
+                <div class="dimension-items">
+                    <div class="dimension-item" data-dim="dim4-1" data-name="Compréhension orale">
+                        <input type="checkbox" id="dim4-1" name="dim4-1">
+                        <label for="dim4-1">Compréhension orale</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim4-1" id="priority-dim4-1-1" value="1">
+                                <label for="priority-dim4-1-1">1</label>
+                                <input type="radio" name="priority-dim4-1" id="priority-dim4-1-2" value="2">
+                                <label for="priority-dim4-1-2">2</label>
+                                <input type="radio" name="priority-dim4-1" id="priority-dim4-1-3" value="3">
+                                <label for="priority-dim4-1-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim4-2" data-name="Expression orale">
+                        <input type="checkbox" id="dim4-2" name="dim4-2">
+                        <label for="dim4-2">Expression orale</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim4-2" id="priority-dim4-2-1" value="1">
+                                <label for="priority-dim4-2-1">1</label>
+                                <input type="radio" name="priority-dim4-2" id="priority-dim4-2-2" value="2">
+                                <label for="priority-dim4-2-2">2</label>
+                                <input type="radio" name="priority-dim4-2" id="priority-dim4-2-3" value="3">
+                                <label for="priority-dim4-2-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim4-3" data-name="Communication non-verbale">
+                        <input type="checkbox" id="dim4-3" name="dim4-3">
+                        <label for="dim4-3">Communication non-verbale</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim4-3" id="priority-dim4-3-1" value="1">
+                                <label for="priority-dim4-3-1">1</label>
+                                <input type="radio" name="priority-dim4-3" id="priority-dim4-3-2" value="2">
+                                <label for="priority-dim4-3-2">2</label>
+                                <input type="radio" name="priority-dim4-3" id="priority-dim4-3-3" value="3">
+                                <label for="priority-dim4-3-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim4-4" data-name="Reformulation / clarification">
+                        <input type="checkbox" id="dim4-4" name="dim4-4">
+                        <label for="dim4-4">Reformulation / clarification</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim4-4" id="priority-dim4-4-1" value="1">
+                                <label for="priority-dim4-4-1">1</label>
+                                <input type="radio" name="priority-dim4-4" id="priority-dim4-4-2" value="2">
+                                <label for="priority-dim4-4-2">2</label>
+                                <input type="radio" name="priority-dim4-4" id="priority-dim4-4-3" value="3">
+                                <label for="priority-dim4-4-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DIMENSION 5: NUMÉRIQUE -->
+            <div class="circle-container pink-circle">
+                <h2>5. Numérique (Habiletés)</h2>
+                <div class="dimension-items">
+                    <div class="dimension-item" data-dim="dim5-1" data-name="Usage de base des technologies (téléphone)">
+                        <input type="checkbox" id="dim5-1" name="dim5-1">
+                        <label for="dim5-1">Usage de base des technologies (téléphone)</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim5-1" id="priority-dim5-1-1" value="1">
+                                <label for="priority-dim5-1-1">1</label>
+                                <input type="radio" name="priority-dim5-1" id="priority-dim5-1-2" value="2">
+                                <label for="priority-dim5-1-2">2</label>
+                                <input type="radio" name="priority-dim5-1" id="priority-dim5-1-3" value="3">
+                                <label for="priority-dim5-1-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim5-2" data-name="Communication numérique écrite">
+                        <input type="checkbox" id="dim5-2" name="dim5-2">
+                        <label for="dim5-2">Communication numérique écrite</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim5-2" id="priority-dim5-2-1" value="1">
+                                <label for="priority-dim5-2-1">1</label>
+                                <input type="radio" name="priority-dim5-2" id="priority-dim5-2-2" value="2">
+                                <label for="priority-dim5-2-2">2</label>
+                                <input type="radio" name="priority-dim5-2" id="priority-dim5-2-3" value="3">
+                                <label for="priority-dim5-2-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim5-3" data-name="Adaptation des compétences numériques au contexte francophone">
+                        <input type="checkbox" id="dim5-3" name="dim5-3">
+                        <label for="dim5-3">Adaptation des compétences numériques au contexte francophone</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim5-3" id="priority-dim5-3-1" value="1">
+                                <label for="priority-dim5-3-1">1</label>
+                                <input type="radio" name="priority-dim5-3" id="priority-dim5-3-2" value="2">
+                                <label for="priority-dim5-3-2">2</label>
+                                <input type="radio" name="priority-dim5-3" id="priority-dim5-3-3" value="3">
+                                <label for="priority-dim5-3-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim5-4" data-name="Navigation dans l'information numérique">
+                        <input type="checkbox" id="dim5-4" name="dim5-4">
+                        <label for="dim5-4">Navigation dans l'information numérique</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim5-4" id="priority-dim5-4-1" value="1">
+                                <label for="priority-dim5-4-1">1</label>
+                                <input type="radio" name="priority-dim5-4" id="priority-dim5-4-2" value="2">
+                                <label for="priority-dim5-4-2">2</label>
+                                <input type="radio" name="priority-dim5-4" id="priority-dim5-4-3" value="3">
+                                <label for="priority-dim5-4-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DIMENSION 6: COMPÉTENCES TRANSVERSALES -->
+            <div class="circle-container teal-circle">
+                <h2>6. Compétences transversales (Capacités)</h2>
+                <div class="dimension-items">
+                    <div class="dimension-item" data-dim="dim6-1" data-name="Collaboration et travail en groupe">
+                        <input type="checkbox" id="dim6-1" name="dim6-1">
+                        <label for="dim6-1">Collaboration et travail en groupe</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim6-1" id="priority-dim6-1-1" value="1">
+                                <label for="priority-dim6-1-1">1</label>
+                                <input type="radio" name="priority-dim6-1" id="priority-dim6-1-2" value="2">
+                                <label for="priority-dim6-1-2">2</label>
+                                <input type="radio" name="priority-dim6-1" id="priority-dim6-1-3" value="3">
+                                <label for="priority-dim6-1-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim6-2" data-name="Interculturalité">
+                        <input type="checkbox" id="dim6-2" name="dim6-2">
+                        <label for="dim6-2">Interculturalité</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim6-2" id="priority-dim6-2-1" value="1">
+                                <label for="priority-dim6-2-1">1</label>
+                                <input type="radio" name="priority-dim6-2" id="priority-dim6-2-2" value="2">
+                                <label for="priority-dim6-2-2">2</label>
+                                <input type="radio" name="priority-dim6-2" id="priority-dim6-2-3" value="3">
+                                <label for="priority-dim6-2-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dimension-item" data-dim="dim6-3" data-name="Résolution de problèmes">
+                        <input type="checkbox" id="dim6-3" name="dim6-3">
+                        <label for="dim6-3">Résolution de problèmes</label>
+                        <div class="priority-container">
+                            <span class="priority-label">Niveau:</span>
+                            <div class="priority-selection">
+                                <input type="radio" name="priority-dim6-3" id="priority-dim6-3-1" value="1">
+                                <label for="priority-dim6-3-1">1</label>
+                                <input type="radio" name="priority-dim6-3" id="priority-dim6-3-2" value="2">
+                                <label for="priority-dim6-3-2">2</label>
+                                <input type="radio" name="priority-dim6-3" id="priority-dim6-3-3" value="3">
+                                <label for="priority-dim6-3-3">3</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <!-- NOTES ADDITIONNELLES -->
+            <div class="additional-notes">
+                <h3>Notes complémentaires</h3>
+                <textarea id="notes" placeholder="Ajoutez ici vos observations, précisions ou commentaires spécifiques..."></textarea>
+            </div>
+            
+            <!-- BOUTON ANALYSER -->
+            <div class="analyze-section no-print">
+                <button class="analyze-btn" onclick="analyzeProfile()">📊 Analyser ce profil</button>
+            </div>
+            
+            <!-- ZONE DE RÉSULTATS D'ANALYSE -->
+            <div class="analysis-results" id="analysisResults" style="display: none;">
+                <h3>📋 Analyse du profil</h3>
+                <div class="analysis-content" id="analysisContent"></div>
+            </div>
+            
+            <!-- ACTIONS -->
+            <div class="actions no-print">
+                <button class="print-btn" onclick="printCurrent()">Imprimer cette fiche</button>
+                <button class="save-btn" onclick="saveCurrentParticipant()">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Vue synthèse -->
+    <div class="synthesis-container" id="synthesisView">
+        <div class="synthesis-view">
+            <h1>Synthèse comparative</h1>
+            <p class="subtitle">Tableau des facteurs identifiés pour tous les participants</p>
+            
+            <div id="synthesisTableContainer">
+                <!-- Tableau généré dynamiquement -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Print Preview Container (hidden) -->
+    <div id="printPreview" class="print-preview"></div>
+    
+    <!-- Modal pour ajouter un nouveau participant -->
+    <div class="modal" id="newParticipantModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nouveau participant</h3>
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form class="participant-form" id="newParticipantForm">
+                    <div>
+                        <label for="newName">Nom du participant :</label>
+                        <input type="text" id="newName" name="newName" required>
+                    </div>
+                    <div>
+                        <label for="newProfile">Profil dominant :</label>
+                        <select id="newProfile" name="newProfile">
+                            <option value="">Sélectionner...</option>
+                            <option value="alpha">Alphabétisation</option>
+                            <option value="fls-fli">FLS/FLI</option>
+                            <option value="mixte">Mixte/Indéterminé</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="newDate">Date :</label>
+                        <input type="date" id="newDate" name="newDate">
+                    </div>
+                    <div>
+                        <label for="newContext">Contexte / Description :</label>
+                        <textarea id="newContext" name="newContext" placeholder="Âge, origine, langues, parcours..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-sm btn-secondary" onclick="closeModal()">Annuler</button>
+                <button class="btn-sm btn-primary" onclick="createNewParticipant()">Créer</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Global variables
+        let participants = [];
+        let currentParticipantIndex = 0;
+        
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            loadParticipants();
+            if (participants.length === 0) {
+                addDefaultParticipant();
+            }
+            updateParticipantNav();
+            loadCurrentParticipant();
+            
+            // Handle radio button clicks with improved logic
+            let lastChecked = {};
+            document.querySelectorAll('.dimension-item input[type="radio"]').forEach(radio => {
+                radio.addEventListener('click', function(e) {
+                    const name = this.name;
+                    const item = this.closest('.dimension-item');
+                    const checkbox = item.querySelector('input[type="checkbox"]');
+                    
+                    // If clicking the same radio again, deselect it
+                    if (lastChecked[name] === this) {
+                        this.checked = false;
+                        lastChecked[name] = null;
+                        
+                        // If no radio is selected, optionally uncheck the checkbox
+                        // (commented out to keep checkbox checked even if no level selected)
+                        // checkbox.checked = false;
+                    } else {
+                        // New radio selected
+                        lastChecked[name] = this;
+                        
+                        // Auto-check the checkbox when a radio is selected
+                        if (!checkbox.checked) {
+                            checkbox.checked = true;
+                        }
+                    }
+                });
+            });
+        });
+        
+        // Load participants from localStorage
+        function loadParticipants() {
+            const saved = localStorage.getItem('cartographie_participants');
+            if (saved) {
+                participants = JSON.parse(saved);
+            }
+        }
+        
+        // Save participants to localStorage
+        function saveParticipants() {
+            localStorage.setItem('cartographie_participants', JSON.stringify(participants));
+        }
+        
+        // Add default participant
+        function addDefaultParticipant() {
+            participants.push({
+                name: 'Participant 1',
+                profile: '',
+                date: new Date().toISOString().split('T')[0],
+                context: '',
+                needs: [],
+                notes: ''
+            });
+            saveParticipants();
+        }
+        
+        // Update participant navigation
+        function updateParticipantNav() {
+            const list = document.getElementById('participantList');
+            list.innerHTML = '';
+            
+            participants.forEach((participant, index) => {
+                const item = document.createElement('div');
+                item.className = 'participant-item' + (index === currentParticipantIndex ? ' active' : '');
+                item.textContent = participant.name || `Participant ${index + 1}`;
+                item.onclick = () => switchParticipant(index);
+                list.appendChild(item);
+            });
+        }
+        
+        // Switch participant
+        function switchParticipant(index) {
+            saveCurrentParticipant();
+            currentParticipantIndex = index;
+            loadCurrentParticipant();
+            updateParticipantNav();
+        }
+        
+        // Load current participant data
+        function loadCurrentParticipant() {
+            const participant = participants[currentParticipantIndex];
+            
+            document.getElementById('name').value = participant.name || '';
+            document.getElementById('profile').value = participant.profile || '';
+            document.getElementById('date').value = participant.date || '';
+            document.getElementById('context').value = participant.context || '';
+            document.getElementById('notes').value = participant.notes || '';
+            
+            // Reset all checkboxes and radio buttons
+            document.querySelectorAll('.dimension-item input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.querySelectorAll('.dimension-item input[type="radio"]').forEach(rb => rb.checked = false);
+            
+            // Hide previous analysis when loading a participant
+            document.getElementById('analysisResults').style.display = 'none';
+            
+            // Load needs
+            participant.needs.forEach(need => {
+                const checkbox = document.getElementById(need.id);
+                if (checkbox) {
+                    checkbox.checked = true;
+                    
+                    // Set priority if exists
+                    if (need.priority) {
+                        const priorityRadio = document.getElementById(`priority-${need.id}-${need.priority}`);
+                        if (priorityRadio) {
+                            priorityRadio.checked = true;
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Save current participant data
+        function saveCurrentParticipant() {
+            const participant = participants[currentParticipantIndex];
+            
+            participant.name = document.getElementById('name').value;
+            participant.profile = document.getElementById('profile').value;
+            participant.date = document.getElementById('date').value;
+            participant.context = document.getElementById('context').value;
+            participant.notes = document.getElementById('notes').value;
+            participant.needs = [];
+            
+            // Save all checked items
+            document.querySelectorAll('.dimension-item input[type="checkbox"]:checked').forEach(checkbox => {
+                const item = checkbox.closest('.dimension-item');
+                const itemId = checkbox.id;
+                const itemName = item.getAttribute('data-name');
+                
+                // Get priority
+                let priority = null;
+                const priorityChecked = item.querySelector('input[type="radio"]:checked');
+                if (priorityChecked) {
+                    priority = priorityChecked.value;
+                }
+                
+                participant.needs.push({
+                    id: itemId,
+                    name: itemName,
+                    priority: priority
+                });
+            });
+            
+            saveParticipants();
+            updateParticipantNav();
+        }
+        
+        // Reset form
+        function resetForm() {
+            if (confirm('Êtes-vous sûr de vouloir réinitialiser ce formulaire ?')) {
+                document.getElementById('name').value = '';
+                document.getElementById('profile').value = '';
+                document.getElementById('date').value = new Date().toISOString().split('T')[0];
+                document.getElementById('context').value = '';
+                document.getElementById('notes').value = '';
+                
+                document.querySelectorAll('.dimension-item input[type="checkbox"]').forEach(cb => cb.checked = false);
+                document.querySelectorAll('.dimension-item input[type="radio"]').forEach(rb => rb.checked = false);
+            }
+        }
+        
+        // Show new participant modal
+        function showNewParticipantModal() {
+            document.getElementById('newParticipantModal').style.display = 'flex';
+            document.getElementById('newName').value = `Participant ${participants.length + 1}`;
+            document.getElementById('newProfile').value = '';
+            document.getElementById('newDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('newContext').value = '';
+        }
+        
+        // Close modal
+        function closeModal() {
+            document.getElementById('newParticipantModal').style.display = 'none';
+        }
+        
+        // Create new participant
+        function createNewParticipant() {
+            const name = document.getElementById('newName').value;
+            const profile = document.getElementById('newProfile').value;
+            const date = document.getElementById('newDate').value;
+            const context = document.getElementById('newContext').value;
+            
+            if (!name) {
+                alert('Veuillez entrer un nom pour le participant');
+                return;
+            }
+            
+            saveCurrentParticipant();
+            
+            participants.push({
+                name: name,
+                profile: profile,
+                date: date,
+                context: context,
+                needs: [],
+                notes: ''
+            });
+            
+            currentParticipantIndex = participants.length - 1;
+            saveParticipants();
+            updateParticipantNav();
+            loadCurrentParticipant();
+            closeModal();
+        }
+        
+        // Duplicate participant
+        function duplicateParticipant() {
+            saveCurrentParticipant();
+            
+            const current = participants[currentParticipantIndex];
+            const duplicate = JSON.parse(JSON.stringify(current));
+            duplicate.name = current.name + ' (copie)';
+            
+            participants.push(duplicate);
+            currentParticipantIndex = participants.length - 1;
+            saveParticipants();
+            updateParticipantNav();
+            loadCurrentParticipant();
+        }
+        
+        // Delete current participant
+        function deleteCurrentParticipant() {
+            if (participants.length <= 1) {
+                alert('Vous ne pouvez pas supprimer le dernier participant');
+                return;
+            }
+            
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce participant ?')) {
+                participants.splice(currentParticipantIndex, 1);
+                
+                if (currentParticipantIndex >= participants.length) {
+                    currentParticipantIndex = participants.length - 1;
+                }
+                
+                saveParticipants();
+                updateParticipantNav();
+                loadCurrentParticipant();
+            }
+        }
+        
+        // Switch view
+        function switchView(view) {
+            const individualView = document.getElementById('individualView');
+            const synthesisView = document.getElementById('synthesisView');
+            const individualViewBtn = document.getElementById('individualViewBtn');
+            const synthesisViewBtn = document.getElementById('synthesisViewBtn');
+            
+            if (view === 'individual') {
+                individualView.style.display = 'block';
+                synthesisView.style.display = 'none';
+                individualViewBtn.classList.add('active');
+                synthesisViewBtn.classList.remove('active');
+            } else {
+                saveCurrentParticipant();
+                individualView.style.display = 'none';
+                synthesisView.style.display = 'block';
+                individualViewBtn.classList.remove('active');
+                synthesisViewBtn.classList.add('active');
+                generateSynthesisView();
+            }
+        }
+        
+        // Generate synthesis view
+        function generateSynthesisView() {
+            const container = document.getElementById('synthesisTableContainer');
+            
+            if (participants.length === 0) {
+                container.innerHTML = '<p>Aucun participant enregistré.</p>';
+                return;
+            }
+            
+            // Count profiles for global summary
+            const profileCounts = {
+                'Alpha débutant': 0,
+                'Alpha intermédiaire': 0,
+                'FLS/FLI avec littératie': 0,
+                'Profil mixte/hétérogène': 0,
+                'Non analysé': 0
+            };
+            
+            participants.forEach(p => {
+                if (p.detectedProfile) {
+                    profileCounts[p.detectedProfile]++;
+                } else {
+                    profileCounts['Non analysé']++;
+                }
+            });
+            
+            // Generate global summary
+            let html = '<div class="global-summary" style="background-color: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">';
+            html += '<h3 style="margin-top: 0; color: #1976d2;">📊 Composition du groupe</h3>';
+            html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">';
+            
+            Object.entries(profileCounts).forEach(([profile, count]) => {
+                if (count > 0) {
+                    html += `<div style="background: white; padding: 10px; border-radius: 5px; text-align: center;">`;
+                    html += `<strong>${count}</strong> ${profile}${count > 1 ? 's' : ''}`;
+                    html += `</div>`;
+                }
+            });
+            
+            html += '</div></div>';
+            
+            // Start table
+            html += '<table class="synthesis-table"><thead><tr>';
+            html += '<th>Dimension / Besoin</th>';
+            
+            participants.forEach(p => {
+                html += `<th>${p.name || 'Participant'}</th>`;
+            });
+            
+            html += '</tr></thead><tbody>';
+            
+            // Add "Profil détecté" row
+            html += '<tr class="profile-row" style="background-color: #fff3e0; font-weight: 600;"><td>🎯 Profil détecté</td>';
+            participants.forEach(p => {
+                const profile = p.detectedProfile || 'Non analysé';
+                const profileColor = {
+                    'Alpha débutant': '#ffcdd2',
+                    'Alpha intermédiaire': '#fff9c4',
+                    'FLS/FLI avec littératie': '#c8e6c9',
+                    'Profil mixte/hétérogène': '#e1bee7',
+                    'Non analysé': '#f5f5f5'
+                };
+                html += `<td style="background-color: ${profileColor[profile]}; text-align: center;">${profile}</td>`;
+            });
+            html += '</tr>';
+            
+            // All dimensions
+            const dimensions = [
+                { id: 'dim1', name: 'Environnement socioculturel', items: 4 },
+                { id: 'dim2', name: 'Compétences d\'apprentissage', items: 4 },
+                { id: 'dim3', name: 'Rapport à l\'écrit', items: 3 },
+                { id: 'dim4', name: 'Habiletés langagières orales', items: 4 },
+                { id: 'dim5', name: 'Numérique', items: 4 },
+                { id: 'dim6', name: 'Compétences transversales', items: 3 }
+            ];
+            
+            dimensions.forEach(dim => {
+                html += `<tr class="dimension-category"><td colspan="${participants.length + 1}"><strong>${dim.name}</strong></td></tr>`;
+                
+                for (let i = 1; i <= dim.items; i++) {
+                    const itemId = `${dim.id}-${i}`;
+                    const itemElement = document.getElementById(itemId);
+                    if (itemElement) {
+                        const itemName = itemElement.closest('.dimension-item').getAttribute('data-name');
+                        
+                        html += `<tr><td class="dimension-name">${itemName}</td>`;
+                        
+                        participants.forEach(p => {
+                            const need = p.needs.find(n => n.id === itemId);
+                            if (need) {
+                                const priorityClass = need.priority ? `priority-${need.priority}` : '';
+                                html += `<td><div class="priority-cell ${priorityClass}">${need.priority || '✓'}</div></td>`;
+                            } else {
+                                html += '<td>-</td>';
+                            }
+                        });
+                        
+                        html += '</tr>';
+                    }
+                }
+            });
+            
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+        
+        // Analyze profile function
+        function analyzeProfile() {
+            // IMPORTANT: Save current participant data before analyzing
+            saveCurrentParticipant();
+            
+            const participant = participants[currentParticipantIndex];
+            
+            // Get parcours scolaire and capacité décodage values
+            const parcoursNeed = participant.needs.find(n => n.id === 'dim2-1');
+            const decodageNeed = participant.needs.find(n => n.id === 'dim3-2');
+            
+            const parcours = parcoursNeed ? parseInt(parcoursNeed.priority) : null;
+            const decodage = decodageNeed ? parseInt(decodageNeed.priority) : null;
+            
+            // Debug info (can be commented out in production)
+            console.log('Parcours scolaire (dim2-1):', parcours);
+            console.log('Capacité décodage (dim3-2):', decodage);
+            
+            // Check if both critical factors are evaluated
+            if (parcours === null || decodage === null) {
+                alert('⚠️ Pour analyser le profil, vous devez évaluer :\n\n• Parcours scolaire antérieur (Dimension 2)\n• Capacité de décodage (Dimension 3)\n\nCes deux facteurs sont essentiels pour la détection du profil.');
+                return;
+            }
+            
+            // Determine profile
+            let profileType = '';
+            let profileName = '';
+            let resources = [];
+            let adaptations = [];
+            
+            if (parcours === 1 && decodage === 1) {
+                // PROFIL 1 : Alpha débutant
+                profileType = 'alpha-debutant';
+                profileName = 'Alpha débutant';
+                resources = [
+                    'Compétences orales en compréhension',
+                    'Communication non-verbale (stratégies de communication)',
+                    'Stratégies de mémorisation',
+                    'Réseaux sociaux et soutien',
+                    'Motivation et projet personnel',
+                    'Usage du téléphone portable',
+                    'Collaboration et travail en groupe',
+                    'Résolution de problèmes'
+                ];
+                adaptations = [
+                    'Consignes des activités en visuel ET en audio',
+                    'Discrimination visuelle/auditive pour reconnaître les mots et phrases simples',
+                    'Recherche d\'informations dans des images ou textes simples',
+                    'Jeux de rôle avec dialogues préconstruits'
+                ];
+            } else if ((parcours === 1 || parcours === 2) && decodage === 2) {
+                // PROFIL 2 : Alpha intermédiaire
+                profileType = 'alpha-intermediaire';
+                profileName = 'Alpha intermédiaire';
+                resources = [
+                    'Environnement socioculturel (dimension 1)',
+                    'Compétences d\'apprentissage (dimension 2)',
+                    'Habiletés langagières orales (dimension 4)',
+                    'Compétences numériques (dimension 5)',
+                    'Compétences transversales (dimension 6)',
+                    'Cette personne a beaucoup d\'atouts sur lesquels s\'appuyer'
+                ];
+                adaptations = [
+                    'Consignes en visuel ET en texte (les deux formats)',
+                    'Correction phonologique en situation',
+                    'Progression spiralaire',
+                    'Reproduction systématique',
+                    'Production guidée'
+                ];
+            } else if (parcours === 3 && decodage === 3) {
+                // PROFIL 3 : FLS/FLI avec littératie
+                profileType = 'fls-fli';
+                profileName = 'FLS/FLI avec littératie';
+                resources = [
+                    'Toutes les dimensions (1 à 6)',
+                    'Personne bien scolarisée avec de nombreuses ressources',
+                    'Autonomie dans l\'apprentissage',
+                    'Capacité à transférer ses apprentissages'
+                ];
+                adaptations = [
+                    'Faciliter le transfert du processus d\'apprentissage',
+                    'Stabilisation de l\'expression orale en situation',
+                    'Production guidée puis autonome',
+                    'Peut être personne ressource (avec son consentement)'
+                ];
+            } else {
+                // PROFIL 4 : Profil mixte/hétérogène
+                profileType = 'mixte';
+                profileName = 'Profil mixte/hétérogène';
+                resources = [
+                    'Tous les éléments identifiés en niveau "3"',
+                    'Ce profil peut présenter diverses combinaisons : alpha sans oral développé, personne scolarisée mais besoin de passer par l\'écrit pour travailler l\'oral, peu de contact avec le français en dehors des cours, etc.'
+                ];
+                adaptations = [
+                    'Commencer par l\'oral (en compréhension puis en production) avec visuels ou textes comme supports',
+                    'Immersion dans un contexte français (travail en groupe sur supports audio)',
+                    'Alternance oral/écrit avec soutien collectif ou individuel du formateur/de la formatrice'
+                ];
+            }
+            
+            // Debug: show which profile was detected
+            console.log('Profil détecté:', profileName);
+            
+            // Generate HTML
+            let html = '';
+            
+            // ÉTAPE 1 : Profil
+            html += '<div class="analysis-step">';
+            html += '<h4>ÉTAPE 1 : Profil détecté</h4>';
+            html += `<p><span class="profile-badge">${profileName}</span></p>`;
+            html += '</div>';
+            
+            // ÉTAPE 2 : Ressources
+            html += '<div class="analysis-step">';
+            html += '<h4>ÉTAPE 2 : Ressources à exploiter</h4>';
+            html += '<ul>';
+            resources.forEach(r => {
+                html += `<li>${r}</li>`;
+            });
+            html += '</ul>';
+            html += '</div>';
+            
+            // ÉTAPE 3 : Adaptations
+            html += '<div class="analysis-step">';
+            html += '<h4>ÉTAPE 3 : Adaptations pédagogiques recommandées</h4>';
+            html += '<ul>';
+            adaptations.forEach(a => {
+                html += `<li>${a}</li>`;
+            });
+            html += '</ul>';
+            html += '</div>';
+            
+            // Display results
+            document.getElementById('analysisContent').innerHTML = html;
+            document.getElementById('analysisResults').style.display = 'block';
+            
+            // Store the detected profile in participant object
+            participant.detectedProfile = profileName;
+            saveToLocalStorage();
+            
+            // Scroll to results
+            document.getElementById('analysisResults').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
+        // Print functions
+        function printCurrent() {
+            window.print();
+        }
+        
+        function printAll() {
+            saveCurrentParticipant();
+            alert('La fonction "Imprimer tout" ouvrira la boîte de dialogue d\'impression avec toutes les fiches.');
+            switchView('synthesis');
+            setTimeout(() => {
+                window.print();
+            }, 500);
+        }
+    </script>
+</body>
+</html>

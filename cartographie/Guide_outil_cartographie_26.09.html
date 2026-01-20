@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide d'utilisation de l'outil de cartographie des profils d'apprenants</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --circle1-color: #3498db;
+            --circle2-color: #9b59b6;
+            --circle3-color: #2ecc71;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 40px;
+        }
+        
+        h1, h2, h3, h4 {
+            margin-top: 0;
+            color: var(--secondary-color);
+        }
+        
+        h1 {
+            font-size: 2.2em;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            border-bottom: 2px solid var(--light-bg);
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        
+        h3 {
+            font-size: 1.4em;
+            color: var(--primary-color);
+            margin-top: 30px;
+        }
+        
+        p {
+            margin-bottom: 20px;
+        }
+        
+        .intro {
+            font-size: 1.1em;
+            background-color: var(--light-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .circles-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .circle-description {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .circle-blue {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid var(--circle1-color);
+        }
+        
+        .circle-purple {
+            background-color: rgba(155, 89, 182, 0.1);
+            border-left: 4px solid var(--circle2-color);
+        }
+        
+        .circle-green {
+            background-color: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid var(--circle3-color);
+        }
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .tip {
+            background-color: rgba(243, 156, 18, 0.1);
+            border-left: 4px solid var(--warning-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .examples-container {
+            margin: 40px 0;
+        }
+        
+        .example-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .example-card {
+            border-radius: 8px;
+            overflow: hidden;
+            width: 300px;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .example-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            padding: 15px;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-initial {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            margin-right: 15px;
+        }
+        
+        .card-body {
+            padding: 15px;
+        }
+        
+        .fatou-card .card-header {
+            background-color: #e74c3c;
+        }
+        
+        .amir-card .card-header {
+            background-color: #3498db;
+        }
+        
+        .ahmed-card .card-header {
+            background-color: #9b59b6;
+        }
+        
+        .factor-section {
+            margin: 15px 0;
+        }
+        
+        .factors-circle {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .circle-1-factor {
+            background-color: var(--circle1-color);
+        }
+        
+        .circle-2-factor {
+            background-color: var(--circle2-color);
+        }
+        
+        .circle-3-factor {
+            background-color: var(--circle3-color);
+        }
+        
+        .recommendation {
+            background-color: rgba(46, 204, 113, 0.1);
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .attention {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            font-style: italic;
+        }
+        
+        .benefits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .benefit {
+            flex: 1;
+            min-width: 200px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .benefit-icon {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .tips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .tip-item {
+            flex: 1;
+            min-width: 200px;
+            background-color: var(--light-bg);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .implementation {
+            margin: 40px 0;
+        }
+        
+        .implementation-steps {
+            margin-top: 20px;
+        }
+        
+        .implementation-step {
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .tool-link {
+            display: block;
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+            text-align: center;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 0 0 8px 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .step {
+                flex-direction: column;
+            }
+            
+            .step-number {
+                margin-bottom: 15px;
+            }
+            
+            .circles-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Guide d'utilisation de l'outil de cartographie des profils d'apprenants</h1>
+            <p>Un guide visuel pour comprendre et exploiter l'outil de cartographie des apprenants</p>
+        </header>
+        
+        <section class="intro">
+            <h2>Introduction à l'outil</h2>
+            <p>Cet outil de cartographie a été conçu pour vous aider à analyser et à visualiser les profils d'apprenants selon une approche multidimensionnelle, allant au-delà des simples niveaux linguistiques (A1, A2, B1...). L'objectif est d'identifier précisément les besoins spécifiques de chaque apprenant pour créer des groupes d'apprentissage plus pertinents et efficaces.</p>
+        </section>
+        
+        <section>
+            <h2>Structure de l'outil</h2>
+            <p>L'outil s'articule autour de trois dimensions fondamentales représentées par des cercles concentriques :</p>
+            
+            <div class="circles-section">
+                <div class="circle-description circle-blue">
+                    <h3>Cercle extérieur (bleu) : Environnement socioculturel</h3>
+                    <p>Ce cercle concerne les facteurs externes qui influencent l'apprentissage :</p>
+                    <ul>
+                        <li>Utilisation du français au quotidien</li>
+                        <li>Intégration sociale</li>
+                        <li>Situation socio-économique</li>
+                        <li>Réseaux de soutien</li>
+                        <li>Stabilité du parcours migratoire</li>
+                    </ul>
+                </div>
+                
+                <div class="circle-description circle-purple">
+                    <h3>Cercle intermédiaire (violet) : Compétences d'apprentissage</h3>
+                    <p>Ce cercle concerne les capacités et stratégies d'apprentissage générales :</p>
+                    <ul>
+                        <li>Parcours scolaire antérieur</li>
+                        <li>Méthodes d'apprentissage familières</li>
+                        <li>Autonomie d'apprentissage</li>
+                        <li>Langues maîtrisées</li>
+                        <li>Capacité à se fixer des objectifs</li>
+                    </ul>
+                </div>
+                
+                <div class="circle-description circle-green">
+                    <h3>Cercle central (vert) : Rapport à l'écrit</h3>
+                    <p>Ce cercle concerne les compétences spécifiques liées à la littératie :</p>
+                    <ul>
+                        <li>Alphabétisation dans la langue d'origine</li>
+                        <li>Conscience phonologique</li>
+                        <li>Familiarité avec l'alphabet latin</li>
+                        <li>Capacité à produire de l'écrit</li>
+                        <li>Erreurs fossilisées spécifiques</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Comment utiliser l'outil</h2>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Recueillir les informations</h3>
+                    <p>Avant d'utiliser l'outil, rassemblez des informations sur l'apprenant :</p>
+                    <ul>
+                        <li>Informations de base (âge, pays d'origine, langues parlées, niveau d'éducation)</li>
+                        <li>Observations en classe</li>
+                        <li>Résultats aux évaluations</li>
+                        <li>Informations sur le contexte de vie et d'apprentissage</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Remplir les informations générales</h3>
+                    <ul>
+                        <li>Entrez le nom de l'apprenant</li>
+                        <li>Complétez la section "Contexte et observations" avec une description générale du profil</li>
+                    </ul>
+                    <div class="tip">
+                        <h4>Conseil</h4>
+                        <p>Soyez précis dans la description du contexte. Des informations comme "parle deux langues", "scolarisé jusqu'à l'âge de 10 ans" ou "travaille à plein temps" sont importantes pour comprendre la situation globale de l'apprenant.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Évaluer les facteurs dans chaque dimension</h3>
+                    <p>Pour chaque dimension (les trois cercles) :</p>
+                    <ul>
+                        <li>Examinez la liste des facteurs prédéfinis</li>
+                        <li>Cliquez sur le cercle de couleur correspondant pour les facteurs pertinents (ceux qui ont un impact significatif sur l'apprentissage)</li>
+                        <li>Pour ajouter des détails, cliquez sur l'icône "?" qui ouvrira un champ de notes</li>
+                        <li>Si nécessaire, ajoutez des facteurs personnalisés en utilisant les champs prévus à cet effet</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Analyser le profil</h3>
+                    <p>Une fois les facteurs identifiés :</p>
+                    <ul>
+                        <li>Observez la répartition des facteurs entre les trois cercles</li>
+                        <li>Identifiez les cercles où se concentrent les besoins les plus importants</li>
+                        <li>Déterminez les facteurs prioritaires à adresser</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3>Créer des groupes pertinents</h3>
+                    <p>En analysant plusieurs cartographies :</p>
+                    <ul>
+                        <li>Recherchez des besoins communs entre différents apprenants</li>
+                        <li>Créez des groupes thématiques ciblant ces besoins spécifiques</li>
+                        <li>Concevez un planning flexible permettant aux apprenants de participer aux groupes correspondant à leurs besoins</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section class="examples-container">
+            <h2>Exemples d'application</h2>
+            
+            <div class="example-cards">
+                <div class="example-card fatou-card">
+                    <div class="card-header">
+                        <div class="card-initial">F</div>
+                        <div>Fatou (profil alpha)</div>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Contexte:</strong> 37 ans, originaire du Sénégal, en Suisse depuis 14 mois. Parle wolof (langue première) et possède de bonnes compétences à l'oral en français. N'a jamais été scolarisée. Travaille comme aide de cuisine.</p>
+                        
+                        <div class="factor-section">
+                            <strong>Facteurs identifiés</strong>
+                            <p><span class="factors-circle circle-3-factor"></span>Cercle central (vert):</p>
+                            <ul>
+                                <li>Besoins majeurs en conscience phonologique (2/5)</li>
+                                <li>Alphabétisation inexistante (1/5)</li>
+                            </ul>
+                            
+                            <p><span class="factors-circle circle-2-factor"></span>Cercle intermédiaire (violet):</p>
+                            <ul>
+                                <li>Aucune scolarisation antérieure (1/5)</li>
+                                <li>Excellente mémorisation orale (5/5)</li>
+                            </ul>
+                            
+                            <p><span class="factors-circle circle-1-factor"></span>Cercle extérieur (bleu):</p>
+                            <ul>
+                                <li>Bonnes compétences en français oral (4/5)</li>
+                                <li>Contraintes de temps importantes (2/5)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="recommendation">
+                            <strong>Recommandation</strong>
+                            <p>Priorité: Groupe "Conscience phonologique et alphabétisation" (3x par semaine)<br>
+                            Complémentaire: Groupe "Écrit fonctionnel" centré sur les besoins immédiats</p>
+                        </div>
+                        
+                        <div class="attention">
+                            <strong>Point d'attention</strong>
+                            <p>Un simple placement en niveau A1 ne tiendrait pas compte de ses compétences orales déjà développées. Utiliser des approches multimodales pour compenser l'absence d'habitudes scolaires.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="example-card amir-card">
+                    <div class="card-header">
+                        <div class="card-initial">A</div>
+                        <div>Amir (profil avec erreurs fossilisées)</div>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Contexte:</strong> 38 ans, originaire du Kosovo, en Suisse depuis 12 ans. Formation professionnelle dans son pays d'origine. Travaille comme ouvrier dans le bâtiment.</p>
+                        
+                        <div class="factor-section">
+                            <strong>Facteurs identifiés</strong>
+                            <p><span class="factors-circle circle-3-factor"></span>Cercle central (vert):</p>
+                            <ul>
+                                <li>Structures grammaticales à l'écrit très problématiques (1/5)</li>
+                                <li>Orthographe: difficultés importantes (2/5)</li>
+                            </ul>
+                            
+                            <p><span class="factors-circle circle-2-factor"></span>Cercle intermédiaire (violet):</p>
+                            <ul>
+                                <li>Scolarité basique, pas d'études supérieures (2/5)</li>
+                                <li>Difficulté avec les règles grammaticales abstraites (2/5)</li>
+                            </ul>
+                            
+                            <p><span class="factors-circle circle-1-factor"></span>Cercle extérieur (bleu):</p>
+                            <ul>
+                                <li>Usage régulier du français à l'oral, rare à l'écrit (4/5)</li>
+                                <li>Cercle social principalement albanophone (3/5)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="recommendation">
+                            <strong>Recommandation</strong>
+                            <p>Priorité: Groupe "Remédiation des erreurs fossilisées" (1x par semaine)<br>
+                            Complémentaire: Groupe "Écrit fonctionnel" pour les besoins quotidiens</p>
+                        </div>
+                        
+                        <div class="attention">
+                            <strong>Point d'attention</strong>
+                            <p>Un simple passage au niveau B2 ne résoudrait pas ses erreurs fossilisées qui persistent depuis plusieurs années. Une approche ciblée sur la correction de ces erreurs est nécessaire.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="example-card ahmed-card">
+                    <div class="card-header">
+                        <div class="card-initial">A</div>
+                        <div>Ahmed (profil académique)</div>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Contexte:</strong> 42 ans, ingénieur syrien hautement qualifié, en Suisse depuis 8 mois avec statut de réfugié. Parle arabe (langue maternelle) et anglais (niveau C1). Son niveau en français est débutant (A1).</p>
+                        
+                        <div class="factor-section">
+                            <strong>Facteurs identifiés</strong>
+                            <p><span class="factors-circle circle-3-factor"></span>Cercle central (vert):</p>
+                            <ul>
+                                <li>Excellente familiarité avec les alphabets (5/5)</li>
+                                <li>Maîtrise des sons spécifiques français limitée (2/5)</li>
+                            </ul>
+                            
+                            <p><span class="factors-circle circle-2-factor"></span>Cercle intermédiaire (violet):</p>
+                            <ul>
+                                <li>Formation universitaire complète (5/5)</li>
+                                <li>Méthodologie d'apprentissage excellente (5/5)</li>
+                            </ul>
+                            
+                            <p><span class="factors-circle circle-1-factor"></span>Cercle extérieur (bleu):</p>
+                            <ul>
+                                <li>Exposition au français limitée (2/5)</li>
+                                <li>Réseau social francophone très restreint (1/5)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="recommendation">
+                            <strong>Recommandation</strong>
+                            <p>Priorité: Groupe "Français professionnel accéléré" (2x par semaine)<br>
+                            Complémentaire: Groupe "Phonétique et communication orale"</p>
+                        </div>
+                        
+                        <div class="attention">
+                            <strong>Point d'attention</strong>
+                            <p>Bien que débutant (A1), Ahmed a la capacité de progresser très rapidement avec une approche adaptée à son profil académique. L'association avec un mentor professionnel francophone serait particulièrement bénéfique.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Avantages de cette approche</h2>
+            
+            <div class="benefits">
+                <div class="benefit">
+                    <div class="benefit-icon">👁️</div>
+                    <h3>Vision holistique</h3>
+                    <p>Prend en compte l'ensemble des facteurs qui influencent l'apprentissage</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">🔍</div>
+                    <h3>Identification précise</h3>
+                    <p>Va au-delà du simple niveau linguistique global</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">🧩</div>
+                    <h3>Personnalisation</h3>
+                    <p>Permet d'adapter l'enseignement aux besoins spécifiques</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">🔄</div>
+                    <h3>Flexibilité</h3>
+                    <p>Les apprenants peuvent participer à différents groupes selon leurs besoins</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">⚡</div>
+                    <h3>Efficacité</h3>
+                    <p>Concentration des ressources sur les obstacles réels à la progression</p>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Conseils d'utilisation</h2>
+            
+            <div class="tips">
+                <div class="tip-item">
+                    <h3>Mettez à jour régulièrement les cartographies</h3>
+                    <p>(tous les 2-3 mois)</p>
+                </div>
+                
+                <div class="tip-item">
+                    <h3>Utilisez l'outil en complément</h3>
+                    <p>d'autres évaluations</p>
+                </div>
+                
+                <div class="tip-item">
+                    <h3>Impliquez l'apprenant</h3>
+                    <p>dans le processus quand c'est possible</p>
+                </div>
+                
+                <div class="tip-item">
+                    <h3>Partagez les cartographies</h3>
+                    <p>avec les autres formateurs pour assurer la cohérence</p>
+                </div>
+                
+                <div class="tip-item">
+                    <h3>Utilisez la fonction d'impression</h3>
+                    <p>pour conserver une trace des cartographies</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="implementation">
+            <h2>Mise en œuvre progressive</h2>
+            
+            <div class="implementation-steps">
+                <div class="implementation-step">
+                    <h3>Étape 1: Commencer petit</h3>
+                    <p>Cartographiez quelques apprenants aux profils typiques ou présentant des difficultés particulières.</p>
+                </div>
+                
+                <div class="implementation-step">
+                    <h3>Étape 2: Identifier les besoins communs</h3>
+                    <p>Repérez 1-2 besoins communs prioritaires qui apparaissent dans plusieurs cartographies.</p>
+                </div>
+                
+                <div class="implementation-step">
+                    <h3>Étape 3: Créer un premier groupe expérimental</h3>
+                    <p>Mettez en place un premier atelier thématique adressant un besoin spécifique identifié.</p>
+                </div>
+                
+                <div class="implementation-step">
+                    <h3>Étape 4: Documenter les progrès</h3>
+                    <p>Notez les progrès réalisés pour évaluer l'efficacité de l'approche et la communiquer.</p>
+                </div>
+                
+                <div class="implementation-step">
+                    <h3>Étape 5: Étendre progressivement</h3>
+                    <p>Élargissez l'approche à d'autres besoins et à plus d'apprenants en fonction des résultats.</p>
+                </div>
+            </div>
+        </section>
+        
+        <div class="tool-link">
+            <h2>Accéder à l'outil de cartographie</h2>
+            <a href="cartographie_VF.html" class="btn" onclick="openCartographieTool(); return false;">Ouvrir l'outil de cartographie</a>
+        </div>
+        
+        <footer>
+            <p>Guide développé pour accompagner l'outil de cartographie des profils d'apprenants</p>
+            <p>© Dao Mercier 2025 - Tous droits réservés</p>
+        </footer>
+    </div>
+    
+    <script>
+        function openCartographieTool() {
+            // Ouvrir l'outil dans une nouvelle fenêtre ou onglet
+            window.open('cartographie_VF.html', '_blank');
+        }
+    </script>
+</body>
+</html>
