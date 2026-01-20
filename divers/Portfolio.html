@@ -1,0 +1,3668 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio de Développement des Compétences - Brevet Fédéral de Formateur/trice</title>
+    <style>
+        :root {
+            --primary-color: #2a6496;
+            --secondary-color: #3498db;
+            --accent-color: #e67e22;
+            --light-bg: #f8f9fa;
+            --border-color: #dee2e6;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --text-color: #333;
+            --text-light: #6c757d;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 6px 6px 0 0;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2.2em;
+        }
+        
+        header p {
+            margin: 10px 0 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+      .attribution {
+    margin-top: 15px;
+    font-size: 0.85em;
+    opacity: 0.9;
+    text-align: center;
+}
+        
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 80px;
+            height: auto;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+        
+        .tab {
+            padding: 12px 25px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: none;
+            border-radius: 6px 6px 0 0;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-right: 5px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .tab:hover:not(.active) {
+            background-color: #e9ecef;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            animation: fadeIn 0.5s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+            margin-top: 25px;
+            padding-left: 10px;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--primary-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1e5185;
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #219653;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: #f0f7ff;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1em;
+            transition: border-color 0.2s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .competence-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .competence-card {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .competence-card:hover {
+            border-color: var(--secondary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .competence-card.selected {
+            border-color: var(--success-color);
+            background-color: rgba(39, 174, 96, 0.1);
+        }
+        
+        .competence-card h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+        
+        .competence-card p {
+            margin-bottom: 0;
+            font-size: 0.9em;
+            color: var(--text-light);
+        }
+        
+        .situation-wrapper {
+            background-color: var(--light-bg);
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .proof-card {
+            display: flex;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .proof-icon {
+            font-size: 1.5em;
+            color: var(--accent-color);
+            flex-shrink: 0;
+        }
+        
+        .proof-details {
+            flex: 1;
+        }
+        
+        .proof-title {
+            font-weight: 600;
+            margin: 0 0 5px 0;
+        }
+        
+        .proof-description {
+            color: var(--text-light);
+            margin: 0;
+            font-size: 0.9em;
+        }
+        
+        .proof-upload {
+            background-color: var(--light-bg);
+            border: 2px dashed var(--border-color);
+            border-radius: 6px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+            margin-bottom: 15px;
+        }
+        
+        .proof-upload:hover {
+            border-color: var(--accent-color);
+        }
+        
+        .proof-upload i {
+            font-size: 2.5em;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+        
+        .proof-upload p {
+            margin: 0;
+            color: var(--text-light);
+        }
+        
+        .progress-tracker {
+            margin: 30px 0;
+        }
+        
+        .progress-bar {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            height: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--success-color);
+            border-radius: 8px;
+            width: 0;
+            transition: width 1s ease;
+        }
+        
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: var(--text-light);
+        }
+        
+        .rating-scale {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+        }
+        
+        .rating-item {
+            text-align: center;
+            flex: 1;
+            max-width: 100px;
+            cursor: pointer;
+        }
+        
+        .rating-circle {
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            background-color: var(--light-bg);
+            margin: 0 auto 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .rating-item:hover .rating-circle {
+            background-color: #d4e9f7;
+        }
+        
+        .rating-item.selected .rating-circle {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .rating-label {
+            font-size: 0.85em;
+        }
+        
+        .timeline {
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+            width: 4px;
+            background-color: var(--secondary-color);
+            border-radius: 4px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 18px;
+            top: 15px;
+            width: 10px;
+            height: 10px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .timeline-item.milestone::before {
+            background-color: var(--accent-color);
+            border: 2px solid white;
+            width: 16px;
+            height: 16px;
+            left: 14px;
+            top: 12px;
+        }
+        
+        .timeline-date {
+            position: absolute;
+            left: 45px;
+            top: 0px;
+            font-size: 0.9em;
+            color: var(--text-light);
+        }
+        
+        .timeline-content {
+            background-color: white;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-title {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+        
+        .reflection-prompts {
+            margin: 30px 0;
+        }
+        
+        .reflection-prompt {
+            background-color: #fff3e0;
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        .reflection-prompt p {
+            margin: 0;
+            font-style: italic;
+            color: #775500;
+        }
+        
+        .theory-link {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #f0f7ff;
+            border-radius: 6px;
+        }
+        
+        .theory-icon {
+            margin-right: 15px;
+            color: var(--primary-color);
+            font-size: 1.3em;
+        }
+        
+        .theory-content {
+            flex: 1;
+        }
+        
+        .theory-content h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: var(--light-bg);
+            font-weight: 600;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .development-goals {
+            margin: 30px 0;
+        }
+        
+        .goal-card {
+            background-color: white;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .goal-title {
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .goal-date {
+            font-size: 0.85em;
+            color: var(--text-light);
+        }
+        
+        .goal-progress {
+            margin: 15px 0;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+        
+        .alert-info {
+            background-color: #e1f5fe;
+            border-color: #03a9f4;
+            color: #014361;
+        }
+        
+        .alert-warning {
+            background-color: #fff8e1;
+            border-color: #ffc107;
+            color: #856404;
+        }
+        
+        .alert-success {
+            background-color: #e8f5e9;
+            border-color: #4caf50;
+            color: #1b5e20;
+        }
+        
+        .alert-danger {
+            background-color: #ffebee;
+            border-color: #f44336;
+            color: #b71c1c;
+        }
+        
+        .alert-info h4, .alert-warning h4, .alert-success h4, .alert-danger h4 {
+            margin-top: 0;
+            color: inherit;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+            color: var(--text-light);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .help-section {
+            margin-bottom: 30px;
+        }
+        
+        .help-step {
+            background-color: white;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .help-step h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+        
+        .help-image {
+            max-width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        .note {
+            background-color: #fff8e1;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-style: italic;
+            border-left: 3px solid #ffc107;
+        }
+        
+        .shortcut {
+            display: inline-block;
+            background-color: #f1f1f1;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            margin: 0 2px;
+        }
+        
+        .accordion {
+            background-color: #f1f1f1;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            outline: none;
+            transition: 0.4s;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .accordion:hover {
+            background-color: #ddd;
+        }
+        
+        .accordion-panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            border-radius: 0 0 4px 4px;
+            border: 1px solid #f1f1f1;
+            border-top: none;
+        }
+        
+        .accordion:after {
+            content: '\02795'; /* Unicode character for "plus" sign (+) */
+            font-size: 13px;
+            color: var(--primary-color);
+            float: right;
+            margin-left: 5px;
+        }
+        
+        .accordion.active:after {
+            content: "\2796"; /* Unicode character for "minus" sign (-) */
+        }
+        
+        .active {
+            background-color: #e9ecef;
+        }
+        
+        .save-status {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 0.85em;
+            border-radius: 3px;
+            margin-left: 10px;
+            transition: opacity 0.3s ease;
+        }
+        
+        .save-success {
+            background-color: rgba(39, 174, 96, 0.2);
+            color: var(--success-color);
+        }
+        
+        .save-error {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: var(--danger-color);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .fade-out {
+            opacity: 0;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .modal-title {
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        .close-modal {
+            color: var(--text-light);
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close-modal:hover {
+            color: var(--text-color);
+        }
+        
+        .export-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .export-option {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .export-option:hover {
+            background-color: var(--light-bg);
+            border-color: var(--secondary-color);
+        }
+        
+        .export-option i {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .backup-reminder {
+            background-color: #e1f5fe;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .backup-reminder i {
+            color: #03a9f4;
+            font-size: 1.5em;
+        }
+        
+        /* Styles pour les critères de performance */
+        .critere-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: var(--light-bg);
+            border-radius: 4px;
+        }
+        
+        .critere-checkbox {
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+        
+        .critere-label {
+            margin: 0;
+            font-weight: normal;
+        }
+        
+        /* Styles pour la liste des domaines de compétence */
+        .domaine-heading {
+            background-color: var(--light-bg);
+            padding: 10px 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--primary-color);
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        @media print {
+            body {
+                background-color: white;
+                color: black;
+            }
+            
+            .container {
+                max-width: 100%;
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+            }
+            
+            header {
+                background-color: white;
+                color: black;
+                padding: 10px 0;
+                text-align: left;
+            }
+            
+            .tabs, .btn, .action-buttons, footer, .backup-reminder {
+                display: none !important;
+            }
+            
+            .tab-content {
+                display: block !important;
+                padding: 0;
+                border: none;
+            }
+            
+            .card {
+                border: 1px solid #ddd;
+                box-shadow: none;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                margin: 10px 0;
+            }
+            
+            .card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            h2 {
+                color: black;
+                border-bottom: 1px solid black;
+            }
+            
+            h3 {
+                color: black;
+                border-left: 2px solid black;
+            }
+            
+            a {
+                text-decoration: none;
+                color: black;
+            }
+            
+            .accordion-panel {
+                max-height: none !important;
+                display: block !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                border-radius: 0;
+                margin-right: 0;
+                margin-bottom: 2px;
+            }
+            
+            .competence-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            .rating-scale {
+                flex-wrap: wrap;
+            }
+            
+            .rating-item {
+                margin-bottom: 10px;
+                min-width: 60px;
+            }
+            
+            .timeline-item {
+                padding-left: 45px;
+            }
+            
+            .timeline-date {
+                position: relative;
+                left: 0;
+                top: 0;
+                margin-bottom: 5px;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .action-buttons {
+                margin-top: 10px;
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .export-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Portfolio de Développement des Compétences</h1>
+            <p>Brevet Fédéral de Formateur/trice d'Adultes</p>
+            <div class="attribution">Créé par Dao Mercier pour le CPNE-AS - Développement : Claude (Anthropic, 2025)</div>
+        </header>
+        
+        <div class="tabs">
+    <div class="tabs">
+    <button class="tab active" onclick="openTab(event, 'guide')" style="background: #D4EDDA; color: #155724;">📖 Guide d'utilisation</button>
+    <button class="tab" onclick="openTab(event, 'example')" style="background: #D4EDDA; color: #155724;">📝 Exemple</button>
+    <button class="tab" onclick="openTab(event, 'overview')">Tableau de bord</button>
+    <button class="tab" onclick="openTab(event, 'competences')">Compétences opérationnelles</button>
+    <button class="tab" onclick="openTab(event, 'situations')">Situations de travail</button>
+    <button class="tab" onclick="openTab(event, 'evidence')">Preuves et Justificatifs</button>
+    <button class="tab" onclick="openTab(event, 'reflection')">Réflexion et Évaluation</button>
+    <button class="tab" onclick="openTab(event, 'progress')">Progrès et Plans</button>
+</div>
+        
+        <!-- VUE D'ENSEMBLE -->
+       <!-- Guide Tab -->
+<div id="guide" class="tab-content active">
+    <div class="bg-white rounded-lg shadow-sm p-8 mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">📖 Comment utiliser ce portfolio ?</h2>
+        
+        <div class="bg-purple-50 border-l-4 border-purple-400 p-4 mb-6">
+            <p class="text-gray-700 italic">
+                Ce portfolio est votre <strong>outil de travail personnel</strong> pour développer vos compétences d'accompagnement. 
+                Il vous accompagne tout au long de votre formation et vous aide à préparer votre certification.
+            </p>
+        </div>
+
+        <div class="space-y-6">
+            <div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3 flex items-center">
+                    <span class="bg-purple-100 text-purple-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm font-bold">1</span>
+                    Découvrez l'outil
+                </h3>
+                <div class="ml-11 space-y-2 text-gray-700">
+                    <p>👉 <strong>Explorez les 5 onglets</strong> pour comprendre la structure du portfolio</p>
+                    <p>👉 <strong>Regardez l'exemple pré-rempli</strong> dans "Situations d'apprentissage" pour voir à quoi ressemble une situation documentée</p>
+                    <p>👉 <strong>Pas de panique !</strong> Vous n'avez pas besoin de tout remplir dès maintenant</p>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3 flex items-center">
+                    <span class="bg-purple-100 text-purple-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm font-bold">2</span>
+                    Documentez vos situations réelles
+                </h3>
+                <div class="ml-11 space-y-2 text-gray-700">
+                    <p>👉 Allez dans <strong>"Situations d'apprentissage"</strong> et cliquez sur "Ajouter une situation"</p>
+                    <p>👉 Choisissez une situation d'accompagnement que vous vivez actuellement (groupe OU individuel)</p>
+                    <p>👉 Remplissez progressivement : vous pouvez commencer par le contexte, puis ajouter le reste au fur et à mesure</p>
+                    <p class="text-sm italic text-gray-600">💡 Conseil : Écrivez comme si vous preniez des notes pour vous-même. Pas besoin de phrases parfaites !</p>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3 flex items-center">
+                    <span class="bg-purple-100 text-purple-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm font-bold">3</span>
+                    Expérimentez sur le terrain
+                </h3>
+                <div class="ml-11 space-y-2 text-gray-700">
+                    <p>👉 Dans chaque situation, une section <strong>"Expérimentations"</strong> vous permet de noter :</p>
+                    <ul class="list-disc list-inside ml-4 space-y-1">
+                        <li>Ce que vous avez testé concrètement</li>
+                        <li>Ce qui a fonctionné</li>
+                        <li>Ce qui a été difficile</li>
+                        <li>Ce que vous en apprenez</li>
+                    </ul>
+                    <p class="text-sm italic text-gray-600">💡 Conseil : Les "échecs" sont aussi précieux que les réussites. Documentez tout !</p>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3 flex items-center">
+                    <span class="bg-purple-100 text-purple-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm font-bold">4</span>
+                    Identifiez vos compétences
+                </h3>
+                <div class="ml-11 space-y-2 text-gray-700">
+                    <p>👉 Pour chaque situation, cochez les <strong>compétences</strong> que vous activez</p>
+                    <p>👉 Rendez-vous dans l'onglet <strong>"Compétences"</strong> pour voir votre progression globale</p>
+                    <p>👉 Cela vous aide à prendre conscience de vos forces et axes de développement</p>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3 flex items-center">
+                    <span class="bg-purple-100 text-purple-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm font-bold">5</span>
+                    Préparez votre certification
+                </h3>
+                <div class="ml-11 space-y-2 text-gray-700">
+                    <p>👉 Le portfolio vous aide à collecter <strong>progressivement</strong> les matériaux pour votre dossier final</p>
+                    <p>👉 Collectez des <strong>preuves/artefacts</strong> au fur et à mesure (photos, documents, témoignages...)</p>
+                    <p>👉 À la fin du module, vous aurez déjà une bonne base pour votre certification</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mt-8">
+            <h4 class="font-semibold text-gray-800 mb-2">❓ Questions fréquentes</h4>
+            <div class="space-y-3 text-gray-700 text-sm">
+                <div>
+                    <p class="font-medium">« Je n'ai pas encore de situation à documenter »</p>
+                    <p class="ml-4">→ Pas de souci ! Vous pouvez documenter une situation passée récente et réfléchir à ce que vous auriez pu faire différemment.</p>
+                </div>
+                <div>
+                    <p class="font-medium">« Le portfolio est complexe, par où commencer ? »</p>
+                    <p class="ml-4">→ Commencez UNIQUEMENT par l'onglet "Situations d'apprentissage". Ajoutez UNE situation. Le reste viendra progressivement.</p>
+                </div>
+                <div>
+                    <p class="font-medium">« Combien de temps ça prend ? »</p>
+                    <p class="ml-4">→ 30-45 minutes pour documenter une première situation. Ensuite, 10-15 minutes après chaque expérimentation terrain.</p>
+                </div>
+                <div>
+                    <p class="font-medium">« Est-ce que mes données sont sauvegardées ? »</p>
+                    <p class="ml-4">→ Oui ! Tout est enregistré localement dans votre navigateur. Pensez à exporter régulièrement (bouton en haut à droite).</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center">
+            <button onclick="showTab('situations')" class="bg-purple-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
+                🚀 Commencer : Ajouter ma première situation
+            </button>
+        </div>
+    </div>
+</div> 
+<!-- EXEMPLE DE PORTFOLIO -->
+<div id="example" class="tab-content">
+    <div class="bg-white rounded-lg shadow-sm p-8 mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">📝 Exemple : Portfolio en construction</h2>
+        
+        <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
+            <p class="text-gray-700">
+                <strong>Ceci est un exemple fictif</strong> pour vous montrer à quoi ressemble un portfolio en cours de développement. 
+                Vous pouvez vous en inspirer pour remplir le vôtre ! 😊
+            </p>
+        </div>
+
+        <!-- Profil -->
+        <div class="mb-8">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">👤 Profil personnel</h3>
+            
+            <div class="space-y-3 text-gray-700">
+                <div>
+                    <p class="font-medium text-gray-800">Nom :</p>
+                    <p>Marie Dupont</p>
+                </div>
+                
+                <div>
+                    <p class="font-medium text-gray-800">Institution :</p>
+                    <p>Centre de formation professionnelle GenèveForm</p>
+                </div>
+                
+                <div>
+                    <p class="font-medium text-gray-800">Expérience :</p>
+                    <p>Formatrice depuis 3 ans dans le domaine de la gestion de projet. J'anime principalement des formations pour adultes en reconversion professionnelle. Mon parcours antérieur en tant que cheffe de projet m'a donné une expérience terrain que j'essaie de transmettre à mes apprenants.</p>
+                </div>
+                
+                <div>
+                    <p class="font-medium text-gray-800">Domaines de spécialisation :</p>
+                    <p>Gestion de projet, méthodologies agiles, accompagnement de la transition professionnelle</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Une situation d'apprentissage -->
+        <div class="mb-8">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">📚 Situation d'apprentissage #1</h3>
+            
+            <div class="bg-gray-50 p-6 rounded-lg space-y-4">
+                <div>
+                    <p class="font-medium text-gray-800 mb-2">Titre de la situation :</p>
+                    <p class="text-gray-700">Formation "Introduction à la méthode Scrum" - Groupe de 12 personnes</p>
+                </div>
+                
+                <div>
+                    <p class="font-medium text-gray-800 mb-2">Contexte :</p>
+                    <p class="text-gray-700">Groupe hétérogène : 8 personnes en reconversion (peu d'expérience en gestion de projet) + 4 professionnels cherchant à actualiser leurs compétences. Durée : 2 jours. Objectif : Comprendre les principes de Scrum et être capable de participer à un projet agile.</p>
+                </div>
+                
+                <div>
+                    <p class="font-medium text-gray-800 mb-2">Défis rencontrés :</p>
+                    <p class="text-gray-700">Écart de niveau important entre les participants. Les personnes expérimentées s'ennuyaient pendant les bases, tandis que les débutants avaient du mal à suivre lors des cas pratiques complexes.</p>
+                </div>
+                
+                <div>
+                    <p class="font-medium text-gray-800 mb-2">Compétences mobilisées :</p>
+                    <div class="flex flex-wrap gap-2 mt-2">
+                        <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">Analyser les besoins</span>
+                        <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">Différencier</span>
+                        <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">Gérer la dynamique de groupe</span>
+                    </div>
+                </div>
+                
+                <div class="bg-blue-50 p-4 rounded border-l-4 border-blue-400 mt-4">
+                    <p class="font-medium text-gray-800 mb-2">💡 Expérimentation testée :</p>
+                    <p class="text-gray-700 mb-3">J'ai créé deux parcours parallèles : un "track débutant" avec plus de guidage et un "track avancé" avec des défis complexes. Les participants pouvaient basculer entre les deux selon leur confort.</p>
+                    
+                    <p class="font-medium text-gray-800 mb-2">✅ Ce qui a fonctionné :</p>
+                    <p class="text-gray-700 mb-3">Les participants se sont sentis respectés dans leur niveau. Les débutants ont pu progresser sans se sentir perdus, et les avancés ont apprécié d'être challengés.</p>
+                    
+                    <p class="font-medium text-gray-800 mb-2">⚠️ Difficultés rencontrées :</p>
+                    <p class="text-gray-700 mb-3">Chronophage ! J'ai dû préparer deux fois plus de matériel. Aussi, certains débutants hésitaient à "oser" passer au track avancé même quand ils étaient prêts.</p>
+                    
+                    <p class="font-medium text-gray-800 mb-2">📝 Apprentissages :</p>
+                    <p class="text-gray-700">La différenciation fonctionne mais demande une préparation rigoureuse. Pour la prochaine fois : créer des "paliers de passage" clairs avec des auto-évaluations pour encourager la mobilité entre les tracks.</p>
+                </div>
+                
+                <div class="mt-4">
+                    <p class="font-medium text-gray-800 mb-2">📎 Preuves collectées :</p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 ml-4">
+                        <li>Photos des deux espaces de travail différenciés</li>
+                        <li>Supports des deux parcours (en annexe)</li>
+                        <li>Feedback des participants (questionnaire de fin)</li>
+                        <li>Grille d'auto-évaluation utilisée</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vue sur les compétences -->
+        <div class="mb-8">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">🎯 Progression des compétences</h3>
+            
+            <div class="space-y-3">
+                <div class="bg-gray-50 p-4 rounded">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-medium text-gray-800">Analyser les besoins d'apprentissage</span>
+                        <span class="text-sm text-purple-600 font-medium">Pratiqué 3 fois</span>
+                    </div>
+                    <div class="bg-gray-200 rounded-full h-2">
+                        <div class="bg-purple-600 h-2 rounded-full" style="width: 60%"></div>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">En développement - J'identifie les besoins mais je travaille encore sur les méthodes de diagnostic approfondies</p>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-medium text-gray-800">Différencier les approches pédagogiques</span>
+                        <span class="text-sm text-purple-600 font-medium">Pratiqué 2 fois</span>
+                    </div>
+                    <div class="bg-gray-200 rounded-full h-2">
+                        <div class="bg-purple-600 h-2 rounded-full" style="width: 40%"></div>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">Débutant - Première expérience concluante mais je dois encore affiner mes stratégies</p>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-medium text-gray-800">Gérer la dynamique de groupe</span>
+                        <span class="text-sm text-purple-600 font-medium">Pratiqué 5 fois</span>
+                    </div>
+                    <div class="bg-gray-200 rounded-full h-2">
+                        <div class="bg-purple-600 h-2 rounded-full" style="width: 75%"></div>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">Avancé - Je me sens à l'aise avec différents profils de groupes</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Réflexions -->
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6">
+            <h4 class="font-semibold text-gray-800 mb-3">💭 Réflexions en cours</h4>
+            <div class="space-y-3 text-gray-700 text-sm">
+                <p><strong>Question que je me pose :</strong> Comment équilibrer le temps de préparation pour la différenciation avec la charge de travail réelle ? Je ne peux pas doubler ma préparation pour chaque formation...</p>
+                <p><strong>Piste à explorer :</strong> Créer une "banque" de ressources modulaires réutilisables plutôt que de tout créer à chaque fois.</p>
+                <p><strong>Prochaine expérimentation :</strong> Tester la co-création avec les participants avancés (les faire contribuer au contenu pour les débutants).</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="overview" class="tab-content active">
+            <h2>Vue d'ensemble de votre développement professionnel</h2>
+            
+            <div class="alert alert-info">
+                <h4>Bienvenue dans votre portfolio de développement des compétences</h4>
+                <p>Ce portfolio est conçu pour vous accompagner tout au long de votre parcours vers le Brevet Fédéral de Formateur/trice. Il vous permettra de documenter vos compétences opérationnelles, de collecter des preuves de votre pratique professionnelle et de préparer votre dossier de développement des compétences pour l'examen final.</p>
+                <p><strong>Nouveau sur cet outil ?</strong> Consultez l'onglet "<strong>Guide d'utilisation</strong>" pour des instructions détaillées sur l'utilisation de ce portfolio.</p>
+            </div>
+            
+            <div class="backup-reminder">
+                <i>💾</i>
+                <div>
+                    <strong>Important :</strong> Vos données sont sauvegardées automatiquement sur cet appareil uniquement. Pour éviter toute perte, exportez régulièrement votre portfolio. <a href="#" onclick="openExportModal()">Exporter maintenant</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Gestion des données</h3>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="openExportModal()">Exporter</button>
+                        <button class="btn btn-outline" onclick="document.getElementById('import-file').click()">Importer</button>
+                        <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importData(this.files[0])">
+                        <button class="btn btn-outline" onclick="printPortfolio()">Imprimer</button>
+                    </div>
+                </div>
+                
+                <p>Votre portfolio est automatiquement sauvegardé sur cet appareil. Pour le conserver ou le transférer:</p>
+                <ul>
+                    <li><strong>Exportation :</strong> Téléchargez votre portfolio au format JSON (pour le sauvegarder) ou PDF (pour l'imprimer)</li>
+                    <li><strong>Importation :</strong> Chargez un portfolio précédemment exporté au format JSON</li>
+                    <li><strong>Impression :</strong> Imprimez votre portfolio ou sauvegardez-le en PDF</li>
+                </ul>
+                
+                <div class="alert alert-warning">
+                    <p><strong>Attention :</strong> Vos données sont stockées uniquement sur cet appareil (stockage local du navigateur). En cas de nettoyage des données de navigation ou de changement d'appareil, vos informations pourraient être perdues.</p>
+                </div>
+                
+                <div id="save-status" class="save-status hidden"></div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Profil personnel</h3>
+                    <div class="action-buttons">
+                        <button class="btn btn-outline" onclick="saveProfile()">Enregistrer</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="name">Nom complet:</label>
+                    <input type="text" id="name" class="form-control" placeholder="Votre nom et prénom complet">
+                </div>
+                
+                <div class="form-group">
+                    <label for="institution">Institution/Entreprise:</label>
+                    <input type="text" id="institution" class="form-control" placeholder="Votre lieu de travail actuel">
+                </div>
+                
+                <div class="form-group">
+                    <label for="experience">Expérience dans la formation d'adultes:</label>
+                    <textarea id="experience" class="form-control" placeholder="Décrivez brièvement votre parcours et votre expérience dans la formation d'adultes"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="specialties">Domaines de spécialisation:</label>
+                    <textarea id="specialties" class="form-control" placeholder="Vos domaines d'expertise ou de spécialisation en tant que formateur/trice"></textarea>
+                </div>
+            </div>
+            
+            <div class="progress-tracker">
+                <h3>Progression globale</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 35%;"></div>
+                </div>
+                <div class="progress-stats">
+                    <span>Débutant</span>
+                    <span>En progression</span>
+                    <span>Avancé</span>
+                    <span>Expert</span>
+                </div>
+            </div>
+            
+            <h3>Résumé des compétences documentées</h3>
+            <div id="competences-overview" class="competence-selector">
+                <!-- Les compétences seront affichées ici dynamiquement -->
+            </div>
+            
+            <div class="timeline">
+                <h3>Chronologie de votre développement</h3>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">12 février 2025</div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-title">Début du module "Concevoir des sessions de formation"</h4>
+                        <p>Objectifs établis pour le développement de la conception didactique</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item milestone">
+                    <div class="timeline-date">24 mars 2025</div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-title">Validation du Module BF-MDD</h4>
+                        <p>Certification réussie avec un retour positif sur l'élaboration didactique</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">5 avril 2025</div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-title">Mise en pratique: Formation sur la gestion de l'innovation</h4>
+                        <p>Application des principes de conception didactique dans un contexte professionnel réel</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- GUIDE D'UTILISATION -->
+        <div id="help" class="tab-content">
+            <h2>Guide d'utilisation détaillé du portfolio</h2>
+            
+            <div class="alert alert-success">
+                <h4>Pourquoi utiliser ce portfolio ?</h4>
+                <p>Ce portfolio vous aidera à documenter et à réfléchir sur vos compétences en tant que formateur/trice d'adultes. Il vous permettra de préparer efficacement votre dossier de développement des compétences pour l'examen final du Brevet Fédéral.</p>
+            </div>
+            
+            <button class="accordion">1. Comment naviguer dans le portfolio</button>
+            <div class="accordion-panel">
+                <div class="help-step">
+                    <h4>Navigation par onglets</h4>
+                    <p>Le portfolio est organisé en plusieurs onglets, accessibles en haut de la page :</p>
+                    <ul>
+                        <li><strong>Vue d'ensemble</strong> : résumé de votre progression et profil personnel</li>
+                        <li><strong>Guide d'utilisation</strong> : instructions détaillées (vous êtes ici)</li>
+                        <li><strong>Compétences opérationnelles</strong> : pour documenter les compétences que vous souhaitez développer</li>
+                        <li><strong>Situations de travail</strong> : pour décrire des situations concrètes où vous avez mobilisé ces compétences</li>
+                        <li><strong>Preuves et justificatifs</strong> : pour collecter des preuves de votre pratique professionnelle</li>
+                        <li><strong>Réflexion et évaluation</strong> : pour analyser et évaluer votre niveau de maîtrise</li>
+                        <li><strong>Progrès et plans</strong> : pour suivre votre progression et planifier votre développement</li>
+                    </ul>
+                    <p>Pour passer d'un onglet à l'autre, cliquez simplement sur l'onglet souhaité.</p>
+                </div>
+            </div>
+            
+            <button class="accordion">2. Sauvegarde de vos données</button>
+            <div class="accordion-panel">
+                <div class="help-step">
+                    <h4>Comment vos données sont-elles sauvegardées?</h4>
+                    <p>Ce portfolio utilise le stockage local (localStorage) de votre navigateur, ce qui signifie que:</p>
+                    <ul>
+                        <li>Vos données sont sauvegardées <strong>automatiquement</strong> sur l'appareil que vous utilisez actuellement</li>
+                        <li>Les données restent disponibles même après la fermeture du navigateur ou l'extinction de l'ordinateur</li>
+                        <li>Vos informations restent <strong>privées</strong> et ne sont pas transmises à un serveur externe</li>
+                        <li>Les données sont liées à ce navigateur et à cet appareil spécifique - elles ne sont pas synchronisées automatiquement avec d'autres appareils</li>
+                    </ul>
+                    
+                    <h4>Limites importantes à connaître:</h4>
+                    <ul>
+                        <li>Si vous <strong>effacez les données de navigation</strong> ou les cookies, vos données seront perdues</li>
+                        <li>Si vous <strong>changez d'appareil ou de navigateur</strong>, vous ne retrouverez pas vos données</li>
+                        <li>Si vous utilisez une <strong>navigation privée</strong>, les données ne seront pas conservées après la fermeture de la fenêtre</li>
+                        <li>Le stockage local a une <strong>capacité limitée</strong> (généralement 5-10 Mo)</li>
+                    </ul>
+                    
+                    <div class="alert alert-warning">
+                        <p><strong>Important:</strong> Pour éviter toute perte de données, exportez régulièrement votre portfolio au format JSON et conservez ce fichier en lieu sûr.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="accordion">3. Comment exporter, importer et imprimer</button>
+            <div class="accordion-panel">
+                <div class="help-step">
+                    <h4>Exportation de votre portfolio</h4>
+                    <p>Pour sauvegarder ou partager votre portfolio:</p>
+                    <ol>
+                        <li>Cliquez sur l'onglet "Vue d'ensemble"</li>
+                        <li>Dans la section "Gestion des données", cliquez sur le bouton "Exporter"</li>
+                        <li>Choisissez l'un des formats suivants:
+                            <ul>
+                                <li><strong>JSON</strong> - Format le plus complet pour sauvegarder toutes vos données</li>
+                                <li><strong>PDF</strong> - Format recommandé pour l'impression ou le partage</li>
+                            </ul>
+                        </li>
+                        <li>Enregistrez le fichier exporté sur votre ordinateur ou votre espace de stockage</li>
+                    </ol>
+                    <div class="note">
+                        <p><strong>Conseil:</strong> Créez des sauvegardes régulières (par exemple, une fois par mois) et après chaque ajout important de contenu.</p>
+                    </div>
+                    
+                    <h4>Importation de votre portfolio</h4>
+                    <p>Pour restaurer un portfolio précédemment exporté:</p>
+                    <ol>
+                        <li>Cliquez sur l'onglet "Vue d'ensemble"</li>
+                        <li>Dans la section "Gestion des données", cliquez sur le bouton "Importer"</li>
+                        <li>Sélectionnez le fichier JSON que vous avez précédemment exporté</li>
+                        <li>Confirmez l'importation lorsque demandé</li>
+                    </ol>
+                    <div class="alert alert-warning">
+                        <p><strong>Attention:</strong> L'importation remplacera toutes les données actuellement présentes dans votre portfolio. Exportez vos données actuelles avant d'importer si vous souhaitez les conserver.</p>
+                    </div>
+                    
+                    <h4>Impression de votre portfolio</h4>
+                    <p>Pour imprimer votre portfolio ou le sauvegarder en PDF:</p>
+                    <ol>
+                        <li>Cliquez sur l'onglet "Vue d'ensemble"</li>
+                        <li>Dans la section "Gestion des données", cliquez sur le bouton "Imprimer"</li>
+                        <li>Une mise en page optimisée pour l'impression s'affichera</li>
+                        <li>Utilisez la fonction d'impression de votre navigateur (généralement Ctrl+P ou Cmd+P)</li>
+                        <li>Pour créer un PDF, sélectionnez "Enregistrer au format PDF" ou "Imprimer en PDF" dans les options d'impression</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <button class="accordion">4. Documenter vos compétences opérationnelles</button>
+            <div class="accordion-panel">
+                <div class="help-step">
+                    <h4>Ajouter une compétence opérationnelle</h4>
+                    <p>Pour ajouter une nouvelle compétence en utilisant le profil de qualification du Brevet Fédéral:</p>
+                    <ol>
+                        <li>Cliquez sur l'onglet "Compétences opérationnelles"</li>
+                        <li>Trouvez la section "Ajouter une nouvelle compétence opérationnelle"</li>
+                        <li>Sélectionnez un domaine de compétence dans le premier menu déroulant (A à I)</li>
+                        <li>Choisissez une compétence opérationnelle spécifique dans le second menu déroulant</li>
+                        <li>Les critères de performance associés s'afficheront automatiquement - vous pouvez sélectionner ceux qui sont pertinents pour votre pratique</li>
+                        <li>Ajoutez une description de l'importance de cette compétence dans votre pratique professionnelle</li>
+                        <li>Cliquez sur le bouton "Enregistrer cette compétence" pour l'ajouter à votre portfolio</li>
+                    </ol>
+                    <div class="note">
+                        <p><strong>Important :</strong> Pour le Brevet Fédéral, vous devrez choisir 3 compétences opérationnelles parmi les 4 qui vous seront proposées à l'examen. Il est conseillé de documenter plus de compétences pendant votre formation pour vous entraîner.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="accordion">5. Nouveau! Utiliser le profil de qualification</button>
+            <div class="accordion-panel">
+                <div class="help-step">
+                    <h4>Profil de qualification intégré</h4>
+                    <p>Cette version du portfolio intègre le profil de qualification officiel du Brevet Fédéral de Formateur/trice d'Adultes :</p>
+                    <ul>
+                        <li>Tous les <strong>domaines de compétences</strong> (A à I) sont disponibles dans le menu déroulant</li>
+                        <li>Chaque <strong>compétence opérationnelle</strong> (A1, B2, C3, etc.) est associée à son domaine</li>
+                        <li>Les <strong>critères de performance</strong> officiels s'affichent automatiquement pour chaque compétence</li>
+                    </ul>
+                    
+                    <h4>Avantages de cette intégration :</h4>
+                    <ul>
+                        <li><strong>Gain de temps</strong> - plus besoin de recopier les compétences et critères</li>
+                        <li><strong>Conformité garantie</strong> avec le référentiel officiel</li>
+                        <li><strong>Sélection facile</strong> des compétences pertinentes pour votre pratique</li>
+                        <li><strong>Documentation structurée</strong> selon les exigences du brevet fédéral</li>
+                    </ul>
+                    
+                    <div class="note">
+                        <p><strong>Astuce :</strong> Vous pouvez sélectionner ou désélectionner certains critères de performance pour vous concentrer sur ceux qui sont les plus pertinents pour votre pratique professionnelle.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-info" style="margin-top: 30px;">
+                <h4>Besoin d'aide supplémentaire ?</h4>
+                <p>Si vous rencontrez des difficultés avec l'utilisation de ce portfolio, n'hésitez pas à contacter votre formateur/trice ou à poser vos questions lors des sessions de formation.</p>
+            </div>
+        </div>
+        
+        <!-- COMPÉTENCES OPÉRATIONNELLES -->
+        <div id="competences" class="tab-content">
+            <h2>Compétences opérationnelles</h2>
+            
+            <div class="alert alert-info">
+                <p>Pour l'examen final du Brevet Fédéral, vous devrez sélectionner et travailler sur 3 compétences opérationnelles parmi les 4 qui vous seront proposées. Utilisez cet espace pour explorer et documenter les compétences que vous souhaitez développer.</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Ajouter une nouvelle compétence opérationnelle</h3>
+                </div>
+                
+                <div class="alert alert-info">
+                    <p>Sélectionnez une compétence dans le profil de qualification du Brevet Fédéral de Formateur/trice d'Adultes. Les critères de performance associés s'afficheront automatiquement.</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="domain-select">Domaine de compétence:</label>
+                    <select id="domain-select" class="form-control" onchange="loadCompetences(this.value)">
+                        <option value="">Sélectionnez un domaine de compétence</option>
+                        <!-- Options des domaines A à I ajoutées dynamiquement -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="competence-select">Compétence opérationnelle:</label>
+                    <select id="competence-select" class="form-control" onchange="loadCriteres(this.value)" disabled>
+                        <option value="">Sélectionnez d'abord un domaine</option>
+                        <!-- Options des compétences ajoutées dynamiquement -->
+                    </select>
+                </div>
+                
+                <div id="competence-details" class="hidden">
+                    <div class="form-group">
+                        <label for="competence-description">Description de la compétence:</label>
+                        <textarea id="competence-description" class="form-control" readonly></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Critères de performance associés:</label>
+                        <div id="criteres-container">
+                            <!-- Critères de performance ajoutés dynamiquement -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="competence-importance">Importance dans votre pratique:</label>
+                        <textarea id="competence-importance" class="form-control" placeholder="Pourquoi cette compétence est-elle importante dans votre pratique professionnelle?"></textarea>
+                    </div>
+                    
+                    <button class="btn btn-success" onclick="saveCompetence()">Enregistrer cette compétence</button>
+                </div>
+            </div>
+            
+            <h3>Mes compétences documentées</h3>
+            <div id="competences-list">
+                <!-- Les compétences enregistrées seront affichées ici -->
+            </div>
+        </div>
+        
+        <!-- SITUATIONS DE TRAVAIL -->
+        <div id="situations" class="tab-content">
+            <h2>Situations de travail</h2>
+            
+            <div class="alert alert-info">
+                <p>Pour chaque compétence opérationnelle choisie, vous devez décrire une situation de travail concrète dans laquelle cette compétence a été mobilisée. Utilisez cette section pour documenter ces situations.</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Ajouter une nouvelle situation de travail</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label for="situation-title">Titre de la situation:</label>
+                    <input type="text" id="situation-title" class="form-control" placeholder="Ex: Animation d'une formation sur...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="competence-linked">Compétence opérationnelle liée:</label>
+                    <select id="competence-linked" class="form-control">
+                        <option value="">Sélectionner une compétence</option>
+                        <!-- Ajouté dynamiquement en fonction des compétences enregistrées -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="situation-date">Date de la situation:</label>
+                    <input type="date" id="situation-date" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="situation-context">Contexte de la situation:</label>
+                    <textarea id="situation-context" class="form-control" placeholder="Décrivez le contexte: public, lieu, durée, cadre institutionnel..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="situation-description">Description détaillée de la situation:</label>
+                    <textarea id="situation-description" class="form-control" placeholder="Décrivez la situation de travail en détail: ce qui s'est passé, vos actions, les défis rencontrés..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="competence-relevance">Pertinence pour la compétence choisie:</label>
+                    <textarea id="competence-relevance" class="form-control" placeholder="Expliquez en quoi cette situation illustre la compétence opérationnelle choisie"></textarea>
+                </div>
+                <!-- Section Expérimentations -->
+<div class="form-group" style="border-left: 4px solid #E6E6FA; padding-left: 1rem; background-color: #F9F9FF;">
+    <h4 style="color: #6B46C1; margin-bottom: 1rem; display: flex; align-items: center;">
+        🧪 Expérimentations
+        <span style="font-size: 0.875rem; font-weight: normal; color: #666; margin-left: 0.5rem;">(Facultatif)</span>
+    </h4>
+    
+    <div class="form-group">
+        <label for="experimentation-tested">Ce que j'ai testé:</label>
+        <small style="display: block; color: #666; margin-bottom: 0.5rem;">
+            Ex: J'ai essayé de poser des questions ouvertes pour favoriser l'échange...
+        </small>
+        <textarea id="experimentation-tested" class="form-control" rows="3"></textarea>
+    </div>
+    
+    <div class="form-group">
+        <label for="experimentation-positive">Ce qui s'est passé (positif):</label>
+        <small style="display: block; color: #666; margin-bottom: 0.5rem;">
+            Ex: Les participants ont davantage pris la parole, ambiance plus vivante...
+        </small>
+        <textarea id="experimentation-positive" class="form-control" rows="3"></textarea>
+    </div>
+    
+    <div class="form-group">
+        <label for="experimentation-difficult">Ce qui a été difficile:</label>
+        <small style="display: block; color: #666; margin-bottom: 0.5rem;">
+            Ex: Gérer le temps, certains monopolisaient la parole...
+        </small>
+        <textarea id="experimentation-difficult" class="form-control" rows="3"></textarea>
+    </div>
+    
+    <div class="form-group">
+        <label for="experimentation-learning">Ce que j'en apprends:</label>
+        <small style="display: block; color: #666; margin-bottom: 0.5rem;">
+            Ex: Je vois que je dois travailler sur la gestion du temps de parole équitable...
+        </small>
+        <textarea id="experimentation-learning" class="form-control" rows="3"></textarea>
+    </div>
+    
+    <div class="form-group">
+        <label for="experimentation-next">Prochaines étapes:</label>
+        <small style="display: block; color: #666; margin-bottom: 0.5rem;">
+            Ex: Tester un tour de table structuré pour équilibrer les prises de parole...
+        </small>
+        <textarea id="experimentation-next" class="form-control" rows="3"></textarea>
+    </div>
+</div>
+                <button class="btn btn-success" onclick="saveSituation()">Enregistrer cette situation</button>
+            </div>
+            
+            <h3>Mes situations de travail documentées</h3>
+            <div id="situations-list">
+                <!-- Les situations de travail seront affichées ici -->
+            </div>
+        </div>
+        
+        <!-- PREUVES ET JUSTIFICATIFS -->
+        <div id="evidence" class="tab-content">
+            <h2>Preuves et Justificatifs</h2>
+            
+            <div class="alert alert-info">
+                <p>Cette section vous permet de collecter et d'organiser les preuves et justificatifs qui démontrent votre maîtrise des compétences opérationnelles. Pour l'examen final, vous devrez fournir au moins un exemple concret par compétence.</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Ajouter une nouvelle preuve</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label for="proof-title">Titre du document/preuve:</label>
+                    <input type="text" id="proof-title" class="form-control" placeholder="Ex: Plan de formation, Évaluation des participants...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="proof-type">Type de document:</label>
+                    <select id="proof-type" class="form-control">
+                        <option value="">Sélectionner un type</option>
+                        <option value="plan">Plan/Conception de formation</option>
+                        <option value="material">Matériel pédagogique</option>
+                        <option value="evaluation">Évaluation/Feedback</option>
+                        <option value="photo">Document photographique</option>
+                        <option value="video">Enregistrement vidéo</option>
+                        <option value="certificate">Attestation/Certificat</option>
+                        <option value="other">Autre</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="proof-situation">Situation de travail liée:</label>
+                    <select id="proof-situation" class="form-control">
+                        <option value="">Sélectionner une situation</option>
+                        <!-- Ajouté dynamiquement en fonction des situations enregistrées -->
+                    </select>
+                </div>
+                
+                <div class="proof-upload">
+                    <i>📁</i>
+                    <p>Cliquez ou glissez-déposez vos fichiers ici</p>
+                    <p><small>Formats acceptés: PDF, JPG, PNG, DOC, DOCX, MP4 (max 10 Mo)</small></p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="proof-description">Description et importance de cette preuve:</label>
+                    <textarea id="proof-description" class="form-control" placeholder="Décrivez ce document et expliquez en quoi il démontre votre maîtrise de la compétence opérationnelle"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="proof-theory">Lien avec des modèles ou théories:</label>
+                    <textarea id="proof-theory" class="form-control" placeholder="Établissez un lien entre cette preuve et des modèles/théories/concepts pédagogiques"></textarea>
+                </div>
+                
+                <button class="btn btn-success" onclick="saveProof()">Enregistrer cette preuve</button>
+            </div>
+            
+            <h3>Mes preuves et justificatifs</h3>
+            <div id="proofs-list">
+                <!-- Les preuves seront affichées ici -->
+            </div>
+        </div>
+        
+        <!-- RÉFLEXION ET ÉVALUATION -->
+        <div id="reflection" class="tab-content">
+            <h2>Réflexion et Évaluation</h2>
+            
+            <div class="alert alert-info">
+                <p>Cette section vous aide à analyser vos pratiques, à évaluer votre niveau de maîtrise des compétences et à identifier vos points forts et vos axes de développement.</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Ajouter une nouvelle réflexion</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reflection-competence">Compétence concernée:</label>
+                    <select id="reflection-competence" class="form-control">
+                        <option value="">Sélectionner une compétence</option>
+                        <!-- Ajouté dynamiquement en fonction des compétences enregistrées -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Évaluation de votre niveau actuel:</label>
+                    <div class="rating-scale">
+                        <div class="rating-item" onclick="selectRating(this, 1)">
+                            <div class="rating-circle">1</div>
+                            <div class="rating-label">Novice</div>
+                        </div>
+                        <div class="rating-item" onclick="selectRating(this, 2)">
+                            <div class="rating-circle">2</div>
+                            <div class="rating-label">Débutant</div>
+                        </div>
+                        <div class="rating-item" onclick="selectRating(this, 3)">
+                            <div class="rating-circle">3</div>
+                            <div class="rating-label">Compétent</div>
+                        </div>
+                        <div class="rating-item" onclick="selectRating(this, 4)">
+                            <div class="rating-circle">4</div>
+                            <div class="rating-label">Avancé</div>
+                        </div>
+                        <div class="rating-item" onclick="selectRating(this, 5)">
+                            <div class="rating-circle">5</div>
+                            <div class="rating-label">Expert</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="reflection-criteria" class="hidden">
+                    <h4>Analyse par critères de performance</h4>
+                    <div id="criteria-evaluation-container">
+                        <!-- Généré dynamiquement en fonction de la compétence sélectionnée -->
+                    </div>
+                </div>
+                
+                <div class="reflection-prompts">
+                    <h4>Questions de réflexion</h4>
+                    
+                    <div class="reflection-prompt">
+                        <p>Comment votre conception de cette compétence a-t-elle évolué au cours de votre parcours professionnel?</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea id="reflection-evolution" class="form-control" rows="5" placeholder="Décrivez l'évolution de votre conception de cette compétence..."></textarea>
+                    </div>
+                    
+                    <div class="reflection-prompt">
+                        <p>Quelles situations vous ont permis de développer significativement cette compétence?</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea id="reflection-situations" class="form-control" rows="5" placeholder="Décrivez les situations qui vous ont permis de développer cette compétence..."></textarea>
+                    </div>
+                    
+                    <div class="reflection-prompt">
+                        <p>Comment cette compétence s'articule-t-elle avec d'autres compétences du profil de qualification?</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea id="reflection-articulation" class="form-control" rows="5" placeholder="Décrivez les liens entre cette compétence et d'autres compétences..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reflection-theory">Modèle théorique lié à cette compétence:</label>
+                    <textarea id="reflection-theory" class="form-control" rows="5" placeholder="Décrivez un modèle ou une théorie qui éclaire votre compréhension de cette compétence..."></textarea>
+                </div>
+                
+                <button class="btn btn-success" onclick="saveReflection()">Enregistrer cette réflexion</button>
+            </div>
+            
+            <h3>Mes réflexions documentées</h3>
+            <div id="reflections-list">
+                <!-- Les réflexions seront affichées ici -->
+            </div>
+        </div>
+        
+        <!-- PROGRÈS ET PLANS -->
+        <div id="progress" class="tab-content">
+            <h2>Progrès et Plans de développement</h2>
+            
+            <div class="alert alert-info">
+                <p>Cette section vous permet de suivre votre progression et de planifier votre développement professionnel futur.</p>
+            </div>
+            
+            <div class="progress-tracker">
+                <h3>Progression par compétence</h3>
+                <div id="competences-progress">
+                    <!-- Généré dynamiquement en fonction des compétences et réflexions -->
+                </div>
+            </div>
+            
+            <div class="development-goals">
+                <h3>Objectifs de développement</h3>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Ajouter un nouvel objectif</h3>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="goal-title">Titre de l'objectif:</label>
+                        <input type="text" id="goal-title" class="form-control" placeholder="Ex: Approfondir mes compétences en...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="goal-competence">Compétence concernée:</label>
+                        <select id="goal-competence" class="form-control">
+                            <option value="">Sélectionner une compétence</option>
+                            <!-- Ajouté dynamiquement en fonction des compétences enregistrées -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="goal-description">Description détaillée:</label>
+                        <textarea id="goal-description" class="form-control" placeholder="Décrivez précisément ce que vous souhaitez développer"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="goal-actions">Actions à entreprendre:</label>
+                        <textarea id="goal-actions" class="form-control" placeholder="Quelles actions concrètes allez-vous mettre en place?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="goal-deadline">Échéance:</label>
+                        <input type="date" id="goal-deadline" class="form-control">
+                    </div>
+                    
+                    <button class="btn btn-success" onclick="saveGoal()">Enregistrer cet objectif</button>
+                </div>
+                
+                <div id="goals-list">
+                    <!-- Les objectifs seront affichés ici -->
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Préparer mon dossier pour l'examen final</h3>
+                </div>
+                
+                <div class="alert alert-warning">
+                    <h4>Rappel des exigences pour l'examen final</h4>
+                    <p>Pour l'examen final du Brevet fédéral, vous devrez:</p>
+                    <ul>
+                        <li>Sélectionner 3 compétences opérationnelles parmi les 4 proposées</li>
+                        <li>Documenter une situation de travail concrète pour chaque compétence</li>
+                        <li>Fournir au moins un exemple/preuve par compétence</li>
+                        <li>Présenter une réflexion approfondie sur votre pratique</li>
+                        <li>Établir des liens avec des modèles et concepts théoriques</li>
+                    </ul>
+                </div>
+                
+                <h4>État de préparation actuel</h4>
+                <div id="exam-preparation">
+                    <!-- Généré dynamiquement en fonction du contenu du portfolio -->
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-warning" onclick="openExportModal()">Générer un aperçu du dossier final</button>
+                    <button class="btn btn-outline" onclick="printPortfolio()">Imprimer le dossier</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal d'exportation -->
+        <div id="export-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Exporter votre portfolio</h3>
+                    <span class="close-modal" onclick="closeExportModal()">&times;</span>
+                </div>
+                
+                <p>Choisissez le format d'exportation souhaité:</p>
+                
+                <div class="export-options">
+                    <div class="export-option" onclick="exportJSON()">
+                        <i>📄</i>
+                        <h4>JSON</h4>
+                        <p>Format complet pour sauvegarder toutes vos données</p>
+                        <small>Recommandé pour les sauvegardes régulières</small>
+                    </div>
+                    
+                    <div class="export-option" onclick="printPortfolio()">
+                        <i>📑</i>
+                        <h4>PDF</h4>
+                        <p>Format optimisé pour l'impression et le partage</p>
+                        <small>Idéal pour l'examen final</small>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info" style="margin-top: 20px;">
+                    <p><strong>Conseil :</strong> Créez des sauvegardes régulières au format JSON et conservez-les en lieu sûr. Utilisez le format PDF pour partager votre travail ou pour l'impression.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Portfolio de Développement des Compétences - Brevet Fédéral de Formateur/trice d'Adultes © 2025 | Créé par Dao Mercier</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Structure JSON du profil de qualification
+        const qualificationProfile = {
+            "domaines": [
+                {
+                    "id": "A",
+                    "titre": "Planifier des activités de formation et d'apprentissage",
+                    "description": "Les formateurs sont conscients de la nécessité de planifier soigneusement les différentes activités d'enseignement et d'apprentissage.",
+                    "competences": [
+                        {
+                            "id": "A1",
+                            "titre": "Planifier sommairement une session d'enseignement/d'apprentissage ou d'un encadrement de formation en tenant compte des directives institutionnelles et du curriculum",
+                            "criteres_performance": [
+                                "analyse les conditions générales prescrites ainsi que les destinataires.",
+                                "saisit les caractéristiques et les potentiels de groupes d'apprentissage spécifiques ou de certains participants.",
+                                "identifie, décrit et représente les situations importantes.",
+                                "établit une analyse de la matière et la réduit ou l'ajuste de manière compréhensible."
+                            ]
+                        },
+                        {
+                            "id": "A2",
+                            "titre": "Construire et documenter, sous forme de planification détaillée axée sur les processus d'apprentissage, les contenus et la forme de l'enseignement et de l'apprentissage",
+                            "criteres_performance": [
+                                "établit, en utilisant un modèle de processus d'apprentissage, une planification du déroulement logique et claire, détaillée dans une mesure judicieuse.",
+                                "tient compte des ressources des participants dans le développement des compétences.",
+                                "établit activement des liens avec la réalité et la situation des participants.",
+                                "planifie les activités d'enseignement/d'apprentissage relevant de l'environnement, du groupe, du thème et de ses propres ressources."
+                            ]
+                        },
+                        {
+                            "id": "A3",
+                            "titre": "Formuler des objectifs d'apprentissage opérationnalisés selon les compétences prescrites",
+                            "criteres_performance": [
+                                "formule les objectifs d'apprentissage de manière réaliste et adaptée aux prescriptions, aux exigences de la situation de référence et du groupe d'apprentissage, de manière à ce qu'ils puissent être vérifiés.",
+                                "avec les participants, atteint dans l'ensemble les objectifs d'apprentissage par le développement souhaité des compétences et des ressources."
+                            ]
+                        },
+                        {
+                            "id": "A4",
+                            "titre": "Planifier l'utilisation des médias d'enseignement et d'apprentissage",
+                            "criteres_performance": [
+                                "sélectionne et planifie le médium adéquat sur la base de l'étape du processus d'apprentissage, du développement des compétences et du contenu",
+                                "sélectionne et planifie de manière judicieuse les médias numériques en lien avec le besoin de formation, le mandat de l'institution et les besoins des participants.",
+                                "identifie les potentiels TIC grâce à une utilisation basée sur la technologie"
+                            ]
+                        },
+                        {
+                            "id": "A5",
+                            "titre": "Développer des tâches d'apprentissage axées sur les compétences et les objectifs",
+                            "criteres_performance": [
+                                "procède à un choix ciblé des tâches d'apprentissage, des mandats et des documents d'apprentissage, selon le degré de compétence des participants, ou création et mise à disposition de ses propres versions",
+                                "définit les tâches d'apprentissage en lien avec le monde du travail et la vie quotidienne.",
+                                "situe clairement les tâches d'apprentissage dans le processus d'apprentissage.",
+                                "propose un potentiel suffisant en matière de différenciation interne.",
+                                "les tâches d'apprentissage sont développées de manière à ce que leur forme et leur fonction soient correctes."
+                            ]
+                        },
+                        {
+                            "id": "A6",
+                            "titre": "Planifier le transfert avec des conceptions et des méthodes adéquates",
+                            "criteres_performance": [
+                                "planifie le transfert avant, pendant et après la session d'apprentissage.",
+                                "tient compte du transfert à titre de principe subordonné.",
+                                "planifie et contrôle un transfert direct et proche."
+                            ]
+                        },
+                        {
+                            "id": "A7",
+                            "titre": "Planifier des procédures d'examen valides",
+                            "criteres_performance": [
+                                "intègre les mesures d'évaluation de manière organique à la planification didactique.",
+                                "choisit des instruments d'évaluation appropriés compte tenu des contenus, des compétences, des objectifs d'apprentissage et des participants.",
+                                "élabore des critères, des indicateurs et des procédés de mesure pour évaluer les prestations d'apprentissage.",
+                                "formule des tâches de contrôle valides, axées sur les compétences et adaptées au niveau traité."
+                            ]
+                        },
+                        {
+                            "id": "A8",
+                            "titre": "Planifier des formes de communication basées sur les technologies pour soutenir l'apprentissage",
+                            "criteres_performance": [
+                                "évalue les chances et les limites des formes de communication basées sur la technologie.",
+                                "planifie consciemment et de manière ciblée l'échange social et la collaboration au sein des environnements d'apprentissage numériques."
+                            ]
+                        },
+                        {
+                            "id": "A9",
+                            "titre": "Planifier des contextes d'apprentissage de type « blended learning »",
+                            "criteres_performance": [
+                                "planifie et met en œuvre des formats de blended learning en tenant compte de l'infrastructure, des réformes didactiques, du développement du personnel et de l'organisation et des médias.",
+                                "étend les environnements d'apprentissage au moyen d'outils numériques adéquats et les intègre aux processus d'apprentissage."
+                            ]
+                        },
+                        {
+                            "id": "A10",
+                            "titre": "Adapter et utiliser des médias simples, basés sur la technologie, à différents processus d'apprentissage",
+                            "criteres_performance": [
+                                "utilise les techniques de base du traitement numérique au moyen de programmes largement répandus et d'outils destinés aux auteurs.",
+                                "soutient les participants de façon ciblée dans l'utilisation des médias numériques et conçoit des environnements d'apprentissage numériques."
+                            ]
+                        },
+                        {
+                            "id": "A11",
+                            "titre": "Intégrer la réflexion relative à la didactique professionnelle dans la planification des sessions d'apprentissage",
+                            "criteres_performance": [
+                                "tient compte des directives dans leur propre branche.",
+                                "intègre les situations et activités professionnelles de référence.",
+                                "développe des environnements d'enseignement et d'apprentissage spécifiques au champ professionnel."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "B",
+                    "titre": "Mener des activités de formation et d'apprentissage",
+                    "description": "Les formateurs conduisent les activités de formation planifiées en tenant compte des conditions de travail et des ressources disponibles.",
+                    "competences": [
+                        {
+                            "id": "B1",
+                            "titre": "Utiliser différentes formes d'enseignement et d'apprentissage dans le cadre d'un processus d'apprentissage et en fonction des objectifs fixés",
+                            "criteres_performance": [
+                                "utilise efficacement et de façon ciblée les formes d'enseignement et d'apprentissage prévues.",
+                                "suit un modèle de processus d'apprentissage et utilise les méthodes correctement d'un point de vue professionnel.",
+                                "utilise des méthodes participatives, qui motivent et encouragent l'apprentissage."
+                            ]
+                        },
+                        {
+                            "id": "B2",
+                            "titre": "Guider les processus de travail et les étapes d'apprentissage",
+                            "criteres_performance": [
+                                "met en œuvre un modèle d'instruction adéquat.",
+                                "pose des questions axées sur le développement.",
+                                "permet l'exploration par les participants.",
+                                "incite les participants à mener une réflexion."
+                            ]
+                        },
+                        {
+                            "id": "B3",
+                            "titre": "Utiliser les médias basés sur la technologie durant le processus d'enseignement/d'apprentissage",
+                            "criteres_performance": [
+                                "sélectionne et/ou crée du matériel d'enseignement analogue ou numérique.",
+                                "utilise des médias d'enseignement et d'apprentissage variés de manière axée sur les objectifs.",
+                                "se sert correctement des applications, auxiliaires et appareils."
+                            ]
+                        },
+                        {
+                            "id": "B4",
+                            "titre": "Mettre en œuvre la planification détaillée en fonction des circonstances et des processus",
+                            "criteres_performance": [
+                                "observe ce qui se produit dans les sessions d'enseignement/d'apprentissage de manière attentive, perçoit les divergences par rapport à la planification et procède immédiatement à des adaptations du déroulement et des formes de travail social.",
+                                "atteint des compétences et objectifs d'apprentissage essentiels de la planification détaillée avec les participants."
+                            ]
+                        },
+                        {
+                            "id": "B5",
+                            "titre": "Assurer les résultats d'apprentissage dans le processus d'apprentissage, individuellement et collectivement",
+                            "criteres_performance": [
+                                "assure ou fait assurer les résultats concernant le produit et le processus.",
+                                "met en réseau et visualise les résultats de l'enseignement et de l'apprentissage."
+                            ]
+                        },
+                        {
+                            "id": "B6",
+                            "titre": "Évaluer les performances et le comportement d'apprentissage",
+                            "criteres_performance": [
+                                "compose les situations d'évaluation de la forme de manière adéquate.",
+                                "organise et réalise les formes d'examen sommatives de manière complète.",
+                                "évalue les prestations à l'examen sur la base des critères prévus et représente les résultats correspondants de manière adaptée.",
+                                "donne aux participants des retours individuels utiles."
+                            ]
+                        },
+                        {
+                            "id": "B7",
+                            "titre": "Utiliser les méthodes et procédés adéquats pour le transfert et la vérification des résultats de l'apprentissage",
+                            "criteres_performance": [
+                                "utilise des méthodes et des tâches adéquates pour le transfert d'apprentissage.",
+                                "assure le transfert de l'apprentissage grâce à des tâches concrètes.",
+                                "permet aux participants de réfléchir aux résultats du transfert."
+                            ]
+                        },
+                        {
+                            "id": "B8",
+                            "titre": "Concevoir des activités d'apprentissage et d'interaction sociale pour favoriser l'apprentissage",
+                            "criteres_performance": [
+                                "formule des mandats qui décrivent de manière claire la situation, la tâche détaillée, l'organisation et l'évaluation.",
+                                "maximise le temps à disposition pour l'apprentissage actif et minimise les activités qui n'ont pas d'influence sur l'apprentissage.",
+                                "permet l'apprentissage entre les participants."
+                            ]
+                        },
+                        {
+                            "id": "B9",
+                            "titre": "Réaliser méthodiquement la différenciation au sein de groupes hétérogènes",
+                            "criteres_performance": [
+                                "tient compte de l'hétérogénéité dans la formation des groupes.",
+                                "permet des trajectoires d'apprentissage individuelles."
+                            ]
+                        },
+                        {
+                            "id": "B10",
+                            "titre": "Utiliser des méthodes orientées pratiques dans des situations d'enseignement/d'apprentissage complexes",
+                            "criteres_performance": [
+                                "analyse et évalue les formes élargies d'enseignement et d'apprentissage au regard des caractéristiques qualitatives de l'orientation vers l'action.",
+                                "utilise des concepts didactiques orientés vers l'action pour ses propres sessions d'enseignement et d'apprentissage.",
+                                "utilise des méthodes orientées vers l'action en tenant compte des domaines fonctionnels des participants."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "C",
+                    "titre": "Évaluer les activités de formation et d'apprentissage",
+                    "description": "Dans leur travail, les formateurs se mettent régulièrement en quête du feedback des participants et développent continuellement leur propre activité d'enseignement.",
+                    "competences": [
+                        {
+                            "id": "C1",
+                            "titre": "Réaliser des feedbacks complets en exploitant des moyens pédagogiques appropriés",
+                            "criteres_performance": [
+                                "accepte, dans une approche constructive, les retours de différentes formes d'évaluation, les interprète et les intègre à sa propre pratique ainsi qu'au processus de développement et d'apprentissage personnel.",
+                                "demande continuellement le feedback des participants et mène une réflexion sur celui-ci.",
+                                "informe le groupe de manière adéquate des conclusions tirées du feedback."
+                            ]
+                        },
+                        {
+                            "id": "C2",
+                            "titre": "Mettre en œuvre les mesures d'assurance qualité prescrites",
+                            "criteres_performance": [
+                                "utilise les concepts de développement et d'assurance de la qualité prescrits pour sa propre activité de formation.",
+                                "assure les standards lors de la réalisation des sessions d'enseignement et d'apprentissage.",
+                                "met en œuvre et évalue les évaluations prescrites dans son propre domaine spécifique."
+                            ]
+                        },
+                        {
+                            "id": "C3",
+                            "titre": "Réfléchir à sa propre qualité d'enseignement/d'apprentissage et la développer",
+                            "criteres_performance": [
+                                "planifie des évaluations axées sur les résultats pour ses propres sessions d'enseignement et d'apprentissage.",
+                                "formule des critères et indicateurs de qualité.",
+                                "développe ses propres instruments de mesure pour son propre domaine spécifique.",
+                                "planifie, réalise et apprécie ses propres évaluations dans son propre domaine et champ professionnel."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "D",
+                    "titre": "Interagir avec les participants dans le processus d'apprentissage",
+                    "description": "Les formateurs créent une atmosphère d'apprentissage constructive et pratiquent un style d'interaction et de communication positif.",
+                    "competences": [
+                        {
+                            "id": "D1",
+                            "titre": "Entretenir des relations empreintes de respect avec les participants",
+                            "criteres_performance": [
+                                "écoute les objections en restant objectif.",
+                                "tient compte des besoins spécifiques dans les phases individuelles.",
+                                "traite les participants sans jugement, d'égal à égal, en s'efforçant de les encourager et communique avec eux dans cette optique.",
+                                "accorde de l'importance à l'estime des autres dans son attitude fondamentale.",
+                                "permet aux participants de faire l'expérience de «l'apprentissage par l'enseignement»."
+                            ]
+                        },
+                        {
+                            "id": "D2",
+                            "titre": "Permettre l'interactions et la communication respectueuses entre les participants dans le processus d'apprentissage",
+                            "criteres_performance": [
+                                "laisse du temps à la réflexion et à la recherche de réponses aux questions.",
+                                "donne des impulsions et pose des questions ouvertes.",
+                                "structure et anime le dialogue avec l'assemblée.",
+                                "autorise la contradiction, la divergence et anime la discussion ouverte.",
+                                "favorise la tolérance à l'ambiguïté."
+                            ]
+                        },
+                        {
+                            "id": "D3",
+                            "titre": "Favoriser un environnement propice à l'apprentissage",
+                            "criteres_performance": [
+                                "met en œuvre des stratégies adéquates pour aménager un climat favorable à l'apprentissage.",
+                                "guide les individus et les groupes avec clarté et calme.",
+                                "veille au respect des règles avec le concours des participants."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "E",
+                    "titre": "Accompagner les apprenants individuellement, en mettant l'accent sur le soutien et les processus d'apprentissage",
+                    "description": "Les formateurs accompagnent les participants dans leur processus d'apprentissage, depuis la perception de la situation d'apprentissage jusqu'à la réalisation des objectifs d'apprentissage, et les soutiennent avec des méthodes adéquates.",
+                    "competences": [
+                        {
+                            "id": "E1",
+                            "titre": "Fournir aux participants des retours sur les compétences et les progrès d'apprentissage",
+                            "criteres_performance": [
+                                "communique et donne un feedback en témoignant de l'estime à l'autre et en s'exprimant clairement.",
+                                "reconnaît et nomme les ressources de la personne qu'elle accompagne."
+                            ]
+                        },
+                        {
+                            "id": "E2",
+                            "titre": "Déterminer les objectifs d'apprentissage dérivés des compétences du point de vue du formateur ou conjointement avec les participants et vérifier leur réalisation",
+                            "criteres_performance": [
+                                "analyse les objectifs et contenus prescrits et les harmonise avec les conditions-cadres et les besoins de la personne à encadrer.",
+                                "incite les participants à formuler leurs propres objectifs d'apprentissage.",
+                                "évalue les ressources permettant d'atteindre les objectifs et crée des conditions pour pouvoir les utiliser.",
+                                "recherche des propositions de solutions avec la personne à accompagner, les évalue et les choisit.",
+                                "agende et vérifie la réalisation des objectifs avec les participants."
+                            ]
+                        },
+                        {
+                            "id": "E3",
+                            "titre": "Concevoir des processus d'accompagnement en tenant compte de l'auto-organisation et de l'auto-efficacité",
+                            "criteres_performance": [
+                                "identifie des situations dans lesquelles l'auto-efficacité des participants est encouragée.",
+                                "formule les tâches de telle manière que les participants puissent les réaliser de manière autonome.",
+                                "crée ou modifie les documents d'apprentissage pour l'encadrement individuel."
+                            ]
+                        },
+                        {
+                            "id": "E4",
+                            "titre": "Mener des entretiens individuels en ayant conscience de son attitude et des rôles dans l'entretien",
+                            "criteres_performance": [
+                                "analyse et réfléchit au contact et à la relation avec la personne à accompagner.",
+                                "vérifie, sous un angle critique, sa propre perception et ses préjugés possibles.",
+                                "aborde de manière adéquate les demandes de son partenaire de discussion.",
+                                "conçoit de manière reconnaissable les phases essentielles du déroulement de la conversation.",
+                                "catégorise la situation et le rôle dans différentes constellations de la discussion et les représente de manière adéquate.",
+                                "crée des liens avec les concepts et les modèles de la communication et de la conduite de discussions."
+                            ]
+                        },
+                        {
+                            "id": "E5",
+                            "titre": "Saisir les comportements d'apprentissage, identifier les problèmes d'apprentissage et aider la personne accompagnée dans la résolution des problèmes",
+                            "criteres_performance": [
+                                "perçoit le comportement d'apprentissage des participants et les difficultés liées à celui-ci et réfléchit à leurs causes possibles avec les participants.",
+                                "évalue les ressources permettant d'atteindre les objectifs et en tient compte comme point de départ chez les participantes et les participants.",
+                                "soutient les participantes et les participants dans la mise en œuvre de stratégies de travail et d'apprentissage."
+                            ]
+                        },
+                        {
+                            "id": "E6",
+                            "titre": "Choisir avec justification les méthodes d'accompagnement de l'apprentissage",
+                            "criteres_performance": [
+                                "sélectionne des méthodes adéquates pour le processus d'apprentissage.",
+                                "planifie correctement l'utilisation des méthodes."
+                            ]
+                        },
+                        {
+                            "id": "E7",
+                            "titre": "Renseigner une personne intéressée sur les possibilités de formation continue et de certification dans son domaine spécifique",
+                            "criteres_performance": [
+                                "situe correctement sa propre activité de formation dans le paysage de la formation.",
+                                "décrit les possibilités de formation continue pour son propre champ professionnel.",
+                                "donne des renseignements différenciés sur les possibilités de formation et de formation continue dans son propre domaine spécialisé et champ professionnel."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "F",
+                    "titre": "Diriger et modérer des groupes",
+                    "description": "L'apprentissage en groupes se déroule dans un échange vivant, que les différents membres du groupe perçoivent objectivement et subjectivement de différentes manières.",
+                    "competences": [
+                        {
+                            "id": "F1",
+                            "titre": "Percevoir et comprendre les dynamiques de groupe",
+                            "criteres_performance": [
+                                "décrit ou visualise les caractéristiques d'un groupe d'apprentissage.",
+                                "reconnaît et nomme les processus de groupe essentiels dans une situation particulière."
+                            ]
+                        },
+                        {
+                            "id": "F2",
+                            "titre": "Percevoir le comportement relationnel d'un groupe (communication) et l'influencer activement",
+                            "criteres_performance": [
+                                "perçoit et analyse de manière différenciée le comportement en matière de communication dans le groupe et ses propres réactions",
+                                "développe et utilise des stratégies de manière proactive.",
+                                "intervient de manière à soutenir la communication, en fonction de la situation."
+                            ]
+                        },
+                        {
+                            "id": "F3",
+                            "titre": "Intervenir dans les processus de groupes de manière appropriée en regard de la situation",
+                            "criteres_performance": [
+                                "génère des hypothèses et formule des options d'interventions possibles en fonction de la situation.",
+                                "justifie le choix de l'intervention ou des interventions effectuées.",
+                                "vise le développement de la situation du groupe."
+                            ]
+                        },
+                        {
+                            "id": "F4",
+                            "titre": "Clarifier les rôles dans les groupes",
+                            "criteres_performance": [
+                                "perçoit et analyse de manière différenciée la situation ainsi que son ou ses propres rôles et réactions.",
+                                "reconnaît et identifie un conflit de rôle dans une situation particulière.",
+                                "aborde et clarifie un conflit de rôles lorsqu'il surgit."
+                            ]
+                        },
+                        {
+                            "id": "F5",
+                            "titre": "Développer des conventions d'apprentissage avec les groupes",
+                            "criteres_performance": [
+                                "a conscience de ses propres valeurs et attitudes en lien avec la conduite de groupes.",
+                                "rédige des conventions d'apprentissage ou les développe avec les groupes."
+                            ]
+                        },
+                        {
+                            "id": "F6",
+                            "titre": "Animer le contenu selon les questions à traiter",
+                            "criteres_performance": [
+                                "planifie une modération de manière anticipée.",
+                                "adapte la modération de manière axée sur le processus.",
+                                "conçoit les phases de modération de manière ciblée sur les objectifs, avec des méthodes appropriées.",
+                                "prend un rôle de conseiller et d'accompagnateur du processus, perçoit et réfléchit consciemment aux points divergents.",
+                                "veille au respect des règles de communication et de comportement.",
+                                "assure les résultats avec le groupe.",
+                                "vise à atteindre un consensus avec le groupe pendant toute la durée du processus."
+                            ]
+                        },
+                        {
+                            "id": "F7",
+                            "titre": "Animer des processus d'interaction",
+                            "criteres_performance": [
+                                "examine les processus de groupe et les rend visibles par la métacommunication.",
+                                "guide le groupe dans son développement autonome."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "G",
+                    "titre": "Concevoir des activités de formation et d'apprentissage axées sur les compétences et le transfert",
+                    "description": "Les formateurs développent, dans leur domaine de spécialisation, des concepts didactiques visant à obtenir les compétences spécifiques et générales et développent des concepts de transfert réalisables.",
+                    "competences": [
+                        {
+                            "id": "G1",
+                            "titre": "Clarifier, dans son propre domaine d'expertise, le besoin de formation ainsi que les intérêts et les prérequis du public cible pour une unité de formation",
+                            "criteres_performance": [
+                                "clarifie les prérequis des destinataires et en tient compte dans la planification.",
+                                "clarifie et prend en compte les conditions aussi pendant le processus d'enseignement/d'apprentissage."
+                            ]
+                        },
+                        {
+                            "id": "G2",
+                            "titre": "Formuler des compétences spécifiques et interdisciplinaires",
+                            "criteres_performance": [
+                                "formule un profil de compétences pour une session d'apprentissage dans son propre domaine spécifique.",
+                                "extrait des ressources des compétences.",
+                                "identifie et formule les situations de travail pertinentes pour les compétences."
+                            ]
+                        },
+                        {
+                            "id": "G3",
+                            "titre": "Développer un concept didactique pour une unité de formation spécifique",
+                            "criteres_performance": [
+                                "développe ses propres principes didactiques et en extrait des conséquences didactiques concrètes.",
+                                "formule, dans sa conception didactique, des contenus, formes d'enseignement/d'apprentissage et modalités d'apprentissage en accord avec la conception de l'enseignement/l'apprentissage.",
+                                "conçoit le design didactique de manière cohérente avec la conception de l'enseignement et de l'apprentissage et les principes didactiques."
+                            ]
+                        },
+                        {
+                            "id": "G4",
+                            "titre": "Concevoir la validation de l'acquisition des compétences",
+                            "criteres_performance": [
+                                "conçoit des stratégies cohérentes et des instruments pour évaluer les prestations.",
+                                "met en place des justificatifs de prestations et des instruments d'évaluation de manière axée sur les compétences."
+                            ]
+                        },
+                        {
+                            "id": "G5",
+                            "titre": "Développer un concept de transfert pour une unité de formation",
+                            "criteres_performance": [
+                                "décrit un concept de transfert avec des formes, des orientations, des moments, etc. en s'aidant de justifications théoriques.",
+                                "conçoit le transfert au niveau personnel, interpersonnel et matériel."
+                            ]
+                        },
+                        {
+                            "id": "G6",
+                            "titre": "Concevoir des sessions d'enseignement/d'apprentissage orientées sur une thématique avec une biographie spécifique",
+                            "criteres_performance": [
+                                "formule des tâches de transfert concrètes, qui abordent le développement ultérieur des compétences visées en tenant compte de la situation d'apprentissage et de travail individuelle ainsi que de la biographie personnelle.",
+                                "aménage les sessions de transfert au moyen de tâches qui peuvent être adaptées aux participants en fonction de leur situation individuelle."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "H",
+                    "titre": "Réfléchir à leurs propres actions professionnelles et les développer continuellement",
+                    "description": "Les formateurs réfléchissent à leur propre rôle, à leur conception de l'apprentissage, à leurs valeurs et attitudes et se développent continuellement.",
+                    "competences": [
+                        {
+                            "id": "H1",
+                            "titre": "Clarifier son propre rôle et influencer en conséquence",
+                            "criteres_performance": [
+                                "comprend le rôle comme une action réciproque entre personnes, fonction et attentes des autres.",
+                                "reconnaît son propre rôle en fonction de la situation et y réfléchit.",
+                                "se penche sur les différences de perception dans le rôle.",
+                                "reconnaît sa propre fonction de modèle et adapte ses actions éthiques, sociales et écologiques aux valeurs transmises."
+                            ]
+                        },
+                        {
+                            "id": "H2",
+                            "titre": "Réfléchir sur sa propre conception de l'enseignement et de l'apprentissage, sur ses propres valeurs, attitudes et normes dans le contexte de son expérience et ressources spécifiques",
+                            "criteres_performance": [
+                                "formule sa propre conception de l'enseignement/apprentissage.",
+                                "décrit des situations, interprète sur la base de jugements et expériences personnels, analyse en s'appuyant sur la théorie et catégorise professionnellement grâce à un discours critique intégrant plusieurs perspectives.",
+                                "comprend sa propre biographie comme une déterminante de la conception de l'enseignement et de l'apprentissage et du comportement en la matière."
+                            ]
+                        },
+                        {
+                            "id": "H3",
+                            "titre": "Vérifier son propre comportement et l'adapter si nécessaire",
+                            "criteres_performance": [
+                                "réfléchit à son propre comportement en se percevant lui-même et en percevant les autres.",
+                                "prend conscience de ses possibles angles morts.",
+                                "utilise des stratégies de changement de comportement."
+                            ]
+                        },
+                        {
+                            "id": "H4",
+                            "titre": "Réfléchir aux problèmes de la pratique et les résoudre au sein d'une équipe collégiale",
+                            "criteres_performance": [
+                                "collabore avec d'autres formateurs.",
+                                "rend exploitables les résultats de conseils collégiaux pour ses propres actions."
+                            ]
+                        },
+                        {
+                            "id": "H5",
+                            "titre": "Développer et appliquer des stratégies pour la gestion des situations difficiles",
+                            "criteres_performance": [
+                                "anticipe les situations difficiles et prend des mesures de manière proactive.",
+                                "perçoit et nomme les situations difficiles sur le plan cognitif, physique et émotionnel.",
+                                "applique des stratégies de délestage dans les situations où s'exerce une certaine pression."
+                            ]
+                        },
+                        {
+                            "id": "H6",
+                            "titre": "Anticiper et prendre en compte les changements, les incertitudes, les contradictions et la complexité dans ses propres mises en œuvre didactiques",
+                            "criteres_performance": [
+                                "reconnaît et peut nommer les contradictions",
+                                "reconnaît les ambiguïtés et les supporte.",
+                                "fait preuve de calme dans les situations contradictoires."
+                            ]
+                        },
+                        {
+                            "id": "H7",
+                            "titre": "Développer une compréhension de la profession dans son propre contexte de travail",
+                            "criteres_performance": [
+                                "est en mesure de décrire son développement personnel en tant que formateurs.",
+                                "réfléchit à ses propres conclusions axées sur l'expérience et les compare aux résultats de la recherche.",
+                                "réfléchit à son action professionnelle avant, pendant et après l'action."
+                            ]
+                        },
+                        {
+                            "id": "H8",
+                            "titre": "Intégrer la diversité lors de ses réflexions sur les sessions d'enseignement/d'apprentissage",
+                            "criteres_performance": [
+                                "décrit la diversité dans un groupe d'apprentissage",
+                                "applique la prise en compte de la diversité à titre de principe dans l'action didactique."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "I",
+                    "titre": "Mettre en œuvre des normes éthiques",
+                    "description": "Les formateurs sont conscients de leur rôle de conception au sein de leur contexte de travail. Ils permettent un apprentissage de toute une vie, protègent l'intégrité des participants et respectent la diversité dans toutes ses dimensions possibles.",
+                    "competences": [
+                        {
+                            "id": "I1",
+                            "titre": "Encourager et rendre possible l'apprentissage tout au long de la vie",
+                            "criteres_performance": [
+                                "permet de faire un bilan et d'accompagner.",
+                                "incite les personnes peu qualifiées à suivre et terminer une formation professionnelle."
+                            ]
+                        },
+                        {
+                            "id": "I2",
+                            "titre": "Préserver l'intégrité des participants",
+                            "criteres_performance": [
+                                "conçoit son propre comportement de formation sans préjugés.",
+                                "aborde les participants d'égal à égal.",
+                                "vit dans une culture des questions visant à se connaître soi-même.",
+                                "argumente de façon logique, cohérente et avec un choix de mots appréciable.",
+                                "pratique une écoute active et pose des questions.",
+                                "fait consciemment la démonstration d'un changement de perspective et incite les autres à faire de même."
+                            ]
+                        },
+                        {
+                            "id": "I3",
+                            "titre": "Exploiter consciemment la diversité, l'interculturalité, la multiculturalité et la transculturalité lors de situations opportunes et constructives",
+                            "criteres_performance": [
+                                "clarifie la culture des valeurs dans le contexte de l'enseignement et de l'apprentissage et contribue consciemment à façonner les valeurs institutionnelles.",
+                                "questionne les sessions d'enseignement/d'apprentissage et les vérifie sous l'angle de la diversité.",
+                                "aborde les discriminations et contribue activement à les éliminer."
+                            ]
+                        },
+                        {
+                            "id": "I4",
+                            "titre": "Libérer son activité professionnelle des préjugés",
+                            "criteres_performance": [
+                                "communique et argumente avec impartialité."
+                            ]
+                        },
+                        {
+                            "id": "I5",
+                            "titre": "Accepter les diverses orientations de valeurs et procéder à des changements de perspective",
+                            "criteres_performance": [
+                                "pose des questions ouvertes en cas d'incertitudes.",
+                                "pratique et évalue le changement de perspective de manière transparente"
+                            ]
+                        },
+                        {
+                            "id": "I6",
+                            "titre": "Interpréter les processus d'enseignement/d'apprentissage en tant que concrétisation de l'apprentissage",
+                            "criteres_performance": [
+                                "propose des contextes qui encouragent l'autogestion et l'autorégulation.",
+                                "incite à l'autoréflexion et propose des moyens et des méthodes pour le faire.",
+                                "veille à une co-construction de l'itinéraire d'apprentissage."
+                            ]
+                        },
+                        {
+                            "id": "I7",
+                            "titre": "Viser l'excellence dans ses activités professionnelles",
+                            "criteres_performance": [
+                                "définit des stimulations positives pour soi-même et pour les autres.",
+                                "consulte régulièrement des personnes extérieures pour avoir leur avis.",
+                                "vérifie concrètement les feedbacks et en extrait des mesures.",
+                                "identifie ses propres compétences et les complète régulièrement."
+                            ]
+                        },
+                        {
+                            "id": "I8",
+                            "titre": "Permettre l'égalité des chances",
+                            "criteres_performance": [
+                                "vérifie et adapte les mesures d'encouragement.",
+                                "encourage de manière individualisée et permet l'accès à l'apprentissage."
+                            ]
+                        },
+                        {
+                            "id": "I9",
+                            "titre": "Planifier et mettre en œuvre les ressources en personnel et en matériel de façon durable",
+                            "criteres_performance": [
+                                "fait preuve d'une attitude réfléchie par rapport à ses propres forces et faiblesses et par rapport à celles des autres.",
+                                "utilise les offres de repos ou de compensation.",
+                                "vérifie continuellement les ressources matérielles en lien avec la rentabilité et l'écologie et prend des mesures de rééquilibrage ou d'optimisation si nécessaire."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+        
+        // Variables globales pour le stockage des données
+        let portfolioData = {
+            profile: {
+                name: "",
+                institution: "",
+                experience: "",
+                specialties: ""
+            },
+            competences: [],
+            situations: [],
+            proofs: [],
+            reflections: [],
+            goals: [],
+            lastSaved: null
+        };
+        
+        // Initialisation du portfolio
+        document.addEventListener('DOMContentLoaded', function() {
+            // Charger les données sauvegardées si elles existent
+            loadData();
+            
+            // Initialiser les éléments de l'interface
+            initializeUI();
+            
+            // Configuration des événements de sauvegarde automatique
+            setupAutoSave();
+            
+            // Afficher un message de bienvenue pour les nouveaux utilisateurs
+            if (!portfolioData.lastSaved) {
+                showWelcomeMessage();
+            }
+            
+            // Configurer les accordéons pour le guide d'utilisation
+            setupAccordions();
+            
+            // Initialiser l'interface de sélection des compétences
+            loadDomains();
+            renderCompetences();
+        });
+        
+        // Fonctions de gestion des données
+        function loadData() {
+            try {
+                const savedData = localStorage.getItem('portfolioData');
+                if (savedData) {
+                    portfolioData = JSON.parse(savedData);
+                    
+                    // Remplir les champs du profil
+                    document.getElementById('name').value = portfolioData.profile.name || "";
+                    document.getElementById('institution').value = portfolioData.profile.institution || "";
+                    document.getElementById('experience').value = portfolioData.profile.experience || "";
+                    document.getElementById('specialties').value = portfolioData.profile.specialties || "";
+                    
+                    // Mise à jour de la date de dernière sauvegarde
+                    if (portfolioData.lastSaved) {
+                        const lastSaved = new Date(portfolioData.lastSaved);
+                        console.log("Données chargées. Dernière sauvegarde: " + lastSaved.toLocaleString());
+                    }
+                }
+            } catch (error) {
+                console.error("Erreur lors du chargement des données:", error);
+                showSaveStatus('save-error', 'Erreur lors du chargement des données');
+            }
+        }
+        
+        function saveData() {
+            try {
+                // Mettre à jour la date de dernière sauvegarde
+                portfolioData.lastSaved = new Date().toISOString();
+                
+                // Sauvegarder dans le localStorage
+                localStorage.setItem('portfolioData', JSON.stringify(portfolioData));
+                console.log("Données sauvegardées avec succès: " + new Date().toLocaleString());
+                
+                return true;
+            } catch (error) {
+                console.error("Erreur lors de la sauvegarde des données:", error);
+                showSaveStatus('save-error', 'Erreur lors de la sauvegarde');
+                
+                return false;
+            }
+        }
+        
+        function saveProfile() {
+            portfolioData.profile.name = document.getElementById('name').value;
+            portfolioData.profile.institution = document.getElementById('institution').value;
+            portfolioData.profile.experience = document.getElementById('experience').value;
+            portfolioData.profile.specialties = document.getElementById('specialties').value;
+            
+            if (saveData()) {
+                showSaveStatus('save-success', 'Profil enregistré avec succès');
+            }
+        }
+        
+        // Fonctions pour la gestion des compétences
+        function loadDomains() {
+            const select = document.getElementById('domain-select');
+            if (!select) return;
+            
+            select.innerHTML = '<option value="">Sélectionnez un domaine de compétence</option>';
+            
+            qualificationProfile.domaines.forEach(domaine => {
+                const option = document.createElement('option');
+                option.value = domaine.id;
+                option.textContent = `${domaine.id}: ${domaine.titre}`;
+                select.appendChild(option);
+            });
+        }
+        
+        function loadCompetences(domaineId) {
+            const select = document.getElementById('competence-select');
+            if (!select) return;
+            
+            select.innerHTML = '<option value="">Sélectionnez une compétence</option>';
+            
+            if (!domaineId) {
+                select.disabled = true;
+                return;
+            }
+            
+            const domaine = qualificationProfile.domaines.find(d => d.id === domaineId);
+            if (domaine) {
+                domaine.competences.forEach(competence => {
+                    const option = document.createElement('option');
+                    option.value = competence.id;
+                    option.textContent = `${competence.id}: ${competence.titre}`;
+                    select.appendChild(option);
+                });
+                select.disabled = false;
+            }
+            
+            // Cacher les détails de la compétence
+            const detailsElement = document.getElementById('competence-details');
+            if (detailsElement) {
+                detailsElement.classList.add('hidden');
+            }
+        }
+        
+        function loadCriteres(competenceId) {
+            const detailsElement = document.getElementById('competence-details');
+            if (!detailsElement) return;
+            
+            if (!competenceId) {
+                detailsElement.classList.add('hidden');
+                return;
+            }
+            
+            // Trouver la compétence sélectionnée
+            let selectedCompetence = null;
+            let selectedDomaine = null;
+            
+            for (const domaine of qualificationProfile.domaines) {
+                const comp = domaine.competences.find(c => c.id === competenceId);
+                if (comp) {
+                    selectedCompetence = comp;
+                    selectedDomaine = domaine;
+                    break;
+                }
+            }
+            
+            if (selectedCompetence) {
+                // Afficher la description
+                const descriptionElement = document.getElementById('competence-description');
+                if (descriptionElement) {
+                    descriptionElement.value = `${selectedCompetence.titre}\n\nContexte: ${selectedDomaine.description}`;
+                }
+                
+                // Afficher les critères de performance
+                const container = document.getElementById('criteres-container');
+                if (container) {
+                    container.innerHTML = '';
+                    
+                    selectedCompetence.criteres_performance.forEach((critere, index) => {
+                        const div = document.createElement('div');
+                        div.className = 'critere-item';
+                        
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.id = `critere-${index}`;
+                        checkbox.className = 'critere-checkbox';
+                        checkbox.checked = true;
+                        
+                        const label = document.createElement('label');
+                        label.htmlFor = `critere-${index}`;
+                        label.className = 'critere-label';
+                        label.textContent = critere;
+                        
+                        div.appendChild(checkbox);
+                        div.appendChild(label);
+                        container.appendChild(div);
+                    });
+                }
+                
+                // Afficher les détails de la compétence
+                detailsElement.classList.remove('hidden');
+            }
+        }
+        
+        function saveCompetence() {
+            // Obtenir le domaine et la compétence sélectionnés
+            const domaineId = document.getElementById('domain-select').value;
+            const competenceId = document.getElementById('competence-select').value;
+            
+            if (!domaineId || !competenceId) {
+                alert('Veuillez sélectionner un domaine et une compétence.');
+                return;
+            }
+            
+            // Trouver la compétence dans le profil de qualification
+            let selectedCompetence = null;
+            let selectedDomaine = null;
+            
+            for (const domaine of qualificationProfile.domaines) {
+                if (domaine.id === domaineId) {
+                    selectedDomaine = domaine;
+                    const comp = domaine.competences.find(c => c.id === competenceId);
+                    if (comp) {
+                        selectedCompetence = comp;
+                        break;
+                    }
+                }
+            }
+            
+            if (!selectedCompetence || !selectedDomaine) {
+                alert('Compétence non trouvée.');
+                return;
+            }
+            
+            // Obtenir les critères de performance sélectionnés
+            const criteres = [];
+            document.querySelectorAll('.critere-checkbox:checked').forEach((checkbox, index) => {
+                criteres.push(selectedCompetence.criteres_performance[index]);
+            });
+            
+            // Vérifier si l'importance a été renseignée
+            const importance = document.getElementById('competence-importance').value;
+            if (!importance.trim()) {
+                alert('Veuillez indiquer l\'importance de cette compétence dans votre pratique.');
+                return;
+            }
+            
+            // Créer l'objet de compétence à sauvegarder
+            const competenceToSave = {
+                id: selectedCompetence.id,
+                title: selectedCompetence.titre,
+                domain: {
+                    id: selectedDomaine.id,
+                    title: selectedDomaine.titre
+                },
+                description: selectedCompetence.titre,
+                criteria: criteres,
+                importance: importance,
+                dateAdded: new Date().toISOString()
+            };
+            
+            // Ajouter la compétence aux données du portfolio
+            portfolioData.competences.push(competenceToSave);
+            
+            // Sauvegarder les données
+            if (saveData()) {
+                showSaveStatus('save-success', 'Compétence enregistrée avec succès');
+                
+                // Réinitialiser le formulaire
+                document.getElementById('domain-select').value = '';
+                document.getElementById('competence-select').value = '';
+                document.getElementById('competence-select').disabled = true;
+                document.getElementById('competence-importance').value = '';
+                document.getElementById('competence-details').classList.add('hidden');
+                
+                // Mettre à jour l'affichage des compétences
+                renderCompetences();
+                updateCompetenceLinkedSelects();
+            }
+        }
+        
+        function renderCompetences() {
+            // Afficher les compétences dans l'onglet "Compétences opérationnelles"
+            const competencesList = document.getElementById('competences-list');
+            if (competencesList) {
+                competencesList.innerHTML = '';
+                
+                if (portfolioData.competences.length === 0) {
+                    const emptyMessage = document.createElement('div');
+                    emptyMessage.className = 'alert alert-info';
+                    emptyMessage.textContent = 'Vous n\'avez pas encore documenté de compétences. Utilisez le formulaire ci-dessus pour en ajouter.';
+                    competencesList.appendChild(emptyMessage);
+                } else {
+                    // Regrouper les compétences par domaine
+                    const competencesByDomain = {};
+                    
+                    portfolioData.competences.forEach(competence => {
+                        const domainId = competence.domain.id;
+                        if (!competencesByDomain[domainId]) {
+                            competencesByDomain[domainId] = [];
+                        }
+                        competencesByDomain[domainId].push(competence);
+                    });
+                    
+                    // Afficher les compétences par domaine
+                    for (const domainId in competencesByDomain) {
+                        // Trouver le domaine correspondant
+                        const domain = qualificationProfile.domaines.find(d => d.id === domainId);
+                        const domainTitle = domain ? domain.titre : 'Domaine inconnu';
+                        
+                        // Créer un titre pour le domaine
+                        const domainHeading = document.createElement('div');
+                        domainHeading.className = 'domaine-heading';
+                        domainHeading.textContent = `${domainId}: ${domainTitle}`;
+                        competencesList.appendChild(domainHeading);
+                        
+                        // Afficher les compétences de ce domaine
+                        competencesByDomain[domainId].forEach((competence, index) => {
+                            const card = createCompetenceCard(competence, index);
+                            competencesList.appendChild(card);
+                        });
+                    }
+                }
+            }
+            
+            // Mettre à jour le résumé des compétences dans l'onglet "Vue d'ensemble"
+            const competencesOverview = document.getElementById('competences-overview');
+            if (competencesOverview) {
+                competencesOverview.innerHTML = '';
+                
+                if (portfolioData.competences.length === 0) {
+                    const emptyMessage = document.createElement('div');
+                    emptyMessage.className = 'alert alert-info';
+                    emptyMessage.textContent = 'Vous n\'avez pas encore documenté de compétences.';
+                    competencesOverview.appendChild(emptyMessage);
+                } else {
+                    portfolioData.competences.forEach(competence => {
+                        // Trouver les situations associées à cette compétence
+                        const situationsCount = portfolioData.situations.filter(s => s.competenceId === competence.id).length;
+                        // Trouver les preuves associées aux situations de cette compétence
+                        const situations = portfolioData.situations.filter(s => s.competenceId === competence.id);
+                        const situationIds = situations.map(s => s.id);
+                        const proofsCount = portfolioData.proofs.filter(p => situationIds.includes(p.situationId)).length;
+                        
+                        const card = document.createElement('div');
+                        card.className = 'competence-card';
+                        card.innerHTML = `
+                            <h4>${competence.id}: ${competence.title}</h4>
+                            <p>${situationsCount} situation${situationsCount !== 1 ? 's' : ''} documentée${situationsCount !== 1 ? 's' : ''}, ${proofsCount} preuve${proofsCount !== 1 ? 's' : ''}</p>
+                        `;
+                        competencesOverview.appendChild(card);
+                    });
+                }
+            }
+        }
+        
+        function createCompetenceCard(competence, index) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            
+            const cardHeader = document.createElement('div');
+            cardHeader.className = 'card-header';
+            
+            const cardTitle = document.createElement('h3');
+            cardTitle.className = 'card-title';
+            cardTitle.textContent = `${competence.id}: ${competence.title}`;
+            
+            const actionButtons = document.createElement('div');
+            actionButtons.className = 'action-buttons';
+            
+            const editButton = document.createElement('button');
+            editButton.className = 'btn btn-outline';
+            editButton.textContent = 'Modifier';
+            editButton.onclick = () => editCompetence(index);
+            
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn btn-danger';
+            deleteButton.textContent = 'Supprimer';
+            deleteButton.onclick = () => deleteCompetence(index);
+            
+            actionButtons.appendChild(editButton);
+            actionButtons.appendChild(deleteButton);
+            
+            cardHeader.appendChild(cardTitle);
+            cardHeader.appendChild(actionButtons);
+            
+            const description = document.createElement('p');
+            description.innerHTML = `<strong>Description:</strong> ${competence.description}`;
+            
+            const criteriaTitle = document.createElement('h4');
+            criteriaTitle.textContent = 'Critères de performance:';
+            
+            const criteriaList = document.createElement('ul');
+            competence.criteria.forEach(criterion => {
+                const item = document.createElement('li');
+                item.textContent = criterion;
+                criteriaList.appendChild(item);
+            });
+            
+            const importanceTitle = document.createElement('h4');
+            importanceTitle.textContent = 'Importance dans ma pratique:';
+            
+            const importance = document.createElement('p');
+            importance.textContent = competence.importance;
+            
+            card.appendChild(cardHeader);
+            card.appendChild(description);
+            card.appendChild(criteriaTitle);
+            card.appendChild(criteriaList);
+            card.appendChild(importanceTitle);
+            card.appendChild(importance);
+            
+            // Ajouter la date d'ajout si disponible
+            if (competence.dateAdded) {
+                const dateAdded = document.createElement('p');
+                dateAdded.className = 'text-light';
+                dateAdded.style.fontSize = '0.9em';
+                dateAdded.style.fontStyle = 'italic';
+                dateAdded.style.marginTop = '15px';
+                dateAdded.textContent = `Ajoutée le: ${new Date(competence.dateAdded).toLocaleDateString()}`;
+                card.appendChild(dateAdded);
+            }
+            
+            return card;
+        }
+        
+        function editCompetence(index) {
+            const competence = portfolioData.competences[index];
+            if (!competence) return;
+            
+            // Ouvrir l'onglet compétences si nécessaire
+            openTab({ currentTarget: document.querySelector('.tab[onclick*="competences"]') }, 'competences');
+            
+            // Faire défiler jusqu'au formulaire d'ajout
+            document.querySelector('#competences .card').scrollIntoView({ behavior: 'smooth' });
+            
+            // Pré-remplir le formulaire avec les valeurs existantes
+            // Note: Cette fonction est limitée car on ne peut pas réellement éditer la compétence
+            // à partir du profil de qualification, mais on peut au moins montrer ses informations
+            
+            alert(`Pour modifier cette compétence (${competence.id}), supprimez-la et ajoutez-la à nouveau avec vos modifications.`);
+        }
+        
+        function toggleExperimentations(id) {
+    const content = document.getElementById(`experimentations-${id}`);
+    const arrow = document.getElementById(`exp-arrow-${id}`);
+    
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        arrow.style.transform = 'rotate(180deg)';
+    } else {
+        content.classList.add('hidden');
+        arrow.style.transform = 'rotate(0deg)';
+    }
+}
+function deleteCompetence(index) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette compétence ? Cette action supprimera également toutes les situations de travail et preuves associées.')) {
+                const competenceToDelete = portfolioData.competences[index];
+                
+                // Supprimer la compétence
+                portfolioData.competences.splice(index, 1);
+                
+                // Supprimer les situations associées
+                const situationsToDelete = portfolioData.situations.filter(s => s.competenceId === competenceToDelete.id);
+                const situationIdsToDelete = situationsToDelete.map(s => s.id);
+                portfolioData.situations = portfolioData.situations.filter(s => s.competenceId !== competenceToDelete.id);
+                
+                // Supprimer les preuves associées aux situations
+                portfolioData.proofs = portfolioData.proofs.filter(p => !situationIdsToDelete.includes(p.situationId));
+                
+                // Supprimer les réflexions associées
+                portfolioData.reflections = portfolioData.reflections.filter(r => r.competenceId !== competenceToDelete.id);
+                
+                // Supprimer les objectifs associés
+                portfolioData.goals = portfolioData.goals.filter(g => g.competenceId !== competenceToDelete.id);
+                
+                if (saveData()) {
+                    showSaveStatus('save-success', 'Compétence supprimée avec succès');
+                    renderCompetences();
+                    updateCompetenceLinkedSelects();
+                }
+            }
+        }
+        
+        // Fonction pour mettre à jour les menus déroulants de compétences
+        function updateCompetenceLinkedSelects() {
+            // Mise à jour du menu déroulant dans l'onglet "Situations de travail"
+            const competenceLinked = document.getElementById('competence-linked');
+            if (competenceLinked) {
+                competenceLinked.innerHTML = '<option value="">Sélectionner une compétence</option>';
+                
+                portfolioData.competences.forEach(competence => {
+                    const option = document.createElement('option');
+                    option.value = competence.id;
+                    option.textContent = `${competence.id}: ${competence.title}`;
+                    competenceLinked.appendChild(option);
+                });
+            }
+            
+            // Mise à jour du menu déroulant dans l'onglet "Réflexion et Évaluation"
+            const reflectionCompetence = document.getElementById('reflection-competence');
+            if (reflectionCompetence) {
+                reflectionCompetence.innerHTML = '<option value="">Sélectionner une compétence</option>';
+                
+                portfolioData.competences.forEach(competence => {
+                    const option = document.createElement('option');
+                    option.value = competence.id;
+                    option.textContent = `${competence.id}: ${competence.title}`;
+                    reflectionCompetence.appendChild(option);
+                });
+            }
+            
+            // Mise à jour du menu déroulant dans l'onglet "Progrès et Plans"
+            const goalCompetence = document.getElementById('goal-competence');
+            if (goalCompetence) {
+                goalCompetence.innerHTML = '<option value="">Sélectionner une compétence</option>';
+                
+                portfolioData.competences.forEach(competence => {
+                    const option = document.createElement('option');
+                    option.value = competence.id;
+                    option.textContent = `${competence.id}: ${competence.title}`;
+                    goalCompetence.appendChild(option);
+                });
+            }
+        }
+        
+        // Fonctions pour les situations de travail
+        function saveSituation() {
+            const title = document.getElementById('situation-title').value;
+            const competenceId = document.getElementById('competence-linked').value;
+            const date = document.getElementById('situation-date').value;
+            const context = document.getElementById('situation-context').value;
+            const description = document.getElementById('situation-description').value;
+            const relevance = document.getElementById('competence-relevance').value;
+            
+            // Validation basique
+            if (!title || !competenceId || !date || !context || !description || !relevance) {
+                alert('Veuillez remplir tous les champs.');
+                return;
+            }
+            
+            // Créer un identifiant unique pour la situation
+            const situationId = 'sit_' + Date.now();
+            
+            // Récupérer les champs d'expérimentation
+const expTested = document.getElementById('experimentation-tested').value;
+const expPositive = document.getElementById('experimentation-positive').value;
+const expDifficult = document.getElementById('experimentation-difficult').value;
+const expLearning = document.getElementById('experimentation-learning').value;
+const expNext = document.getElementById('experimentation-next').value;
+
+// Créer l'objet de situation à sauvegarder
+const situationToSave = {
+    id: situationId,
+    title: title,
+    competenceId: competenceId,
+    date: date,
+    context: context,
+    description: description,
+    relevance: relevance,
+    experimentations: {
+        tested: expTested,
+        positive: expPositive,
+        difficult: expDifficult,
+        learning: expLearning,
+        next: expNext
+    },
+    dateAdded: new Date().toISOString()
+};
+            
+            // Ajouter la situation aux données du portfolio
+            portfolioData.situations.push(situationToSave);
+            
+            // Sauvegarder les données
+            if (saveData()) {
+                showSaveStatus('save-success', 'Situation enregistrée avec succès');
+                
+                // Réinitialiser le formulaire
+                document.getElementById('situation-title').value = '';
+                document.getElementById('competence-linked').value = '';
+                document.getElementById('situation-date').value = '';
+                document.getElementById('situation-context').value = '';
+                document.getElementById('situation-description').value = '';
+                document.getElementById('competence-relevance').value = '';
+		// Réinitialiser les champs d'expérimentation
+document.getElementById('experimentation-tested').value = '';
+document.getElementById('experimentation-positive').value = '';
+document.getElementById('experimentation-difficult').value = '';
+document.getElementById('experimentation-learning').value = '';
+document.getElementById('experimentation-next').value = '';
+                
+                // Mettre à jour l'affichage des situations
+                renderSituations();
+                updateSituationLinkedSelects();
+            }
+        }
+        
+        function renderSituations() {
+            const situationsList = document.getElementById('situations-list');
+            if (!situationsList) return;
+            
+            situationsList.innerHTML = '';
+            
+            if (portfolioData.situations.length === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'alert alert-info';
+                emptyMessage.textContent = 'Vous n\'avez pas encore documenté de situations de travail. Utilisez le formulaire ci-dessus pour en ajouter.';
+                situationsList.appendChild(emptyMessage);
+            } else {
+                // Regrouper les situations par compétence
+                const situationsByCompetence = {};
+                
+                portfolioData.situations.forEach(situation => {
+                    const competenceId = situation.competenceId;
+                    if (!situationsByCompetence[competenceId]) {
+                        situationsByCompetence[competenceId] = [];
+                    }
+                    situationsByCompetence[competenceId].push(situation);
+                });
+                
+                // Afficher les situations par compétence
+                for (const competenceId in situationsByCompetence) {
+                    // Trouver la compétence correspondante
+                    const competence = portfolioData.competences.find(c => c.id === competenceId);
+                    if (!competence) continue;
+                    
+                    // Créer un titre pour la compétence
+                    const competenceHeading = document.createElement('div');
+                    competenceHeading.className = 'domaine-heading';
+                    competenceHeading.textContent = `${competence.id}: ${competence.title}`;
+                    situationsList.appendChild(competenceHeading);
+                    
+                    // Afficher les situations de cette compétence
+                    situationsByCompetence[competenceId].forEach((situation, index) => {
+                        const card = createSituationCard(situation, index);
+                        situationsList.appendChild(card);
+                    });
+                }
+            }
+        }
+        
+        function createSituationCard(situation, index) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.id = situation.id;
+            
+            const cardHeader = document.createElement('div');
+            cardHeader.className = 'card-header';
+            
+            const cardTitle = document.createElement('h3');
+            cardTitle.className = 'card-title';
+            cardTitle.textContent = situation.title;
+            
+            const actionButtons = document.createElement('div');
+            actionButtons.className = 'action-buttons';
+            
+            const editButton = document.createElement('button');
+            editButton.className = 'btn btn-outline';
+            editButton.textContent = 'Modifier';
+            editButton.onclick = () => editSituation(index);
+            
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn btn-danger';
+            deleteButton.textContent = 'Supprimer';
+            deleteButton.onclick = () => deleteSituation(index);
+            
+            actionButtons.appendChild(editButton);
+            actionButtons.appendChild(deleteButton);
+            
+            cardHeader.appendChild(cardTitle);
+            cardHeader.appendChild(actionButtons);
+            
+            const date = document.createElement('p');
+            date.innerHTML = `<strong>Date:</strong> ${new Date(situation.date).toLocaleDateString()}`;
+            
+            const context = document.createElement('p');
+            context.innerHTML = `<strong>Contexte:</strong> ${situation.context}`;
+            
+            const descriptionTitle = document.createElement('h4');
+            descriptionTitle.textContent = 'Description détaillée:';
+            
+            const description = document.createElement('p');
+            description.textContent = situation.description;
+            
+            const relevanceTitle = document.createElement('h4');
+            relevanceTitle.textContent = 'Pertinence pour la compétence:';
+            
+            const relevance = document.createElement('p');
+            relevance.textContent = situation.relevance;
+            
+            // Trouver les preuves associées à cette situation
+            const associatedProofs = portfolioData.proofs.filter(p => p.situationId === situation.id);
+            
+            const proofsTitle = document.createElement('h4');
+            proofsTitle.textContent = 'Preuves et justificatifs associés:';
+            
+            const proofsList = document.createElement('ul');
+            if (associatedProofs.length === 0) {
+                const emptyItem = document.createElement('li');
+                emptyItem.textContent = 'Aucune preuve associée.';
+                emptyItem.style.fontStyle = 'italic';
+                proofsList.appendChild(emptyItem);
+            } else {
+                associatedProofs.forEach(proof => {
+                    const item = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = `#${proof.id}`;
+                    link.textContent = proof.title;
+                    item.appendChild(link);
+                    proofsList.appendChild(item);
+                });
+            }
+            
+            card.appendChild(cardHeader);
+            card.appendChild(date);
+            card.appendChild(context);
+            card.appendChild(descriptionTitle);
+            card.appendChild(description);
+            card.appendChild(relevanceTitle);
+            card.appendChild(relevance);
+            card.appendChild(proofsTitle);
+            card.appendChild(proofsList);
+            
+  // Afficher les expérimentations si elles existent
+if (situation.experimentations && 
+    (situation.experimentations.tested || situation.experimentations.positive || 
+     situation.experimentations.difficult || situation.experimentations.learning || 
+     situation.experimentations.next)) {
+    
+    const expSection = document.createElement('div');
+    expSection.style.cssText = 'margin-top: 20px; padding: 15px; background-color: #F9F9FF; border-left: 4px solid #E6E6FA; border-radius: 4px;';
+    
+    const expTitle = document.createElement('h4');
+    expTitle.style.color = '#6B46C1';
+    expTitle.innerHTML = '🧪 Expérimentations';
+    expSection.appendChild(expTitle);
+    
+    if (situation.experimentations.tested) {
+        const testedP = document.createElement('p');
+        testedP.innerHTML = `<strong>Ce que j'ai testé :</strong><br>${situation.experimentations.tested}`;
+        expSection.appendChild(testedP);
+    }
+    
+    if (situation.experimentations.positive) {
+        const positiveP = document.createElement('p');
+        positiveP.innerHTML = `<strong>Ce qui s'est passé (positif) :</strong><br>${situation.experimentations.positive}`;
+        expSection.appendChild(positiveP);
+    }
+    
+    if (situation.experimentations.difficult) {
+        const difficultP = document.createElement('p');
+        difficultP.innerHTML = `<strong>Ce qui a été difficile :</strong><br>${situation.experimentations.difficult}`;
+        expSection.appendChild(difficultP);
+    }
+    
+    if (situation.experimentations.learning) {
+        const learningP = document.createElement('p');
+        learningP.innerHTML = `<strong>Ce que j'en apprends :</strong><br>${situation.experimentations.learning}`;
+        expSection.appendChild(learningP);
+    }
+    
+    if (situation.experimentations.next) {
+        const nextP = document.createElement('p');
+        nextP.innerHTML = `<strong>Prochaines étapes :</strong><br>${situation.experimentations.next}`;
+        expSection.appendChild(nextP);
+    }
+    
+    card.appendChild(expSection);
+}         
+ return card;
+        }
+        
+        function editSituation(index) {
+            // À implémenter plus tard
+            alert("La fonction de modification de situations sera disponible dans une prochaine version.");
+        }
+        
+        function deleteSituation(index) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette situation ? Cette action supprimera également toutes les preuves associées.')) {
+                const situationToDelete = portfolioData.situations[index];
+                
+                // Supprimer la situation
+                portfolioData.situations.splice(index, 1);
+                
+                // Supprimer les preuves associées
+                portfolioData.proofs = portfolioData.proofs.filter(p => p.situationId !== situationToDelete.id);
+                
+                if (saveData()) {
+                    showSaveStatus('save-success', 'Situation supprimée avec succès');
+                    renderSituations();
+                    updateSituationLinkedSelects();
+                }
+            }
+        }
+        
+        function updateSituationLinkedSelects() {
+            const proofSituation = document.getElementById('proof-situation');
+            if (proofSituation) {
+                proofSituation.innerHTML = '<option value="">Sélectionner une situation</option>';
+                
+                portfolioData.situations.forEach(situation => {
+                    const option = document.createElement('option');
+                    option.value = situation.id;
+                    option.textContent = situation.title;
+                    proofSituation.appendChild(option);
+                });
+            }
+        }
+        
+        // Fonctions pour les preuves
+        function saveProof() {
+            // Similaire à saveSituation() (à implémenter)
+            // ...
+            
+            showSaveStatus('save-success', 'Preuve enregistrée avec succès');
+        }
+        
+        // Fonctions pour les réflexions
+        function saveReflection() {
+            // Similaire à saveSituation() (à implémenter)
+            // ...
+            
+            showSaveStatus('save-success', 'Réflexion enregistrée avec succès');
+        }
+        
+        // Fonction pour sélectionner une note
+        function selectRating(element, rating) {
+            // Retirer la classe selected de tous les éléments de rating
+            const siblings = element.parentElement.querySelectorAll('.rating-item');
+            siblings.forEach(sibling => sibling.classList.remove('selected'));
+            
+            // Ajouter la classe selected à l'élément cliqué
+            element.classList.add('selected');
+        }
+        
+        // Fonctions pour les objectifs
+        function saveGoal() {
+            // Similaire à saveSituation() (à implémenter)
+            // ...
+            
+            showSaveStatus('save-success', 'Objectif enregistré avec succès');
+        }
+        
+        // Fonctions d'exportation et d'importation
+        function exportJSON() {
+            // Préparer le fichier JSON à télécharger
+            const dataStr = JSON.stringify(portfolioData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            // Créer un lien de téléchargement et cliquer dessus
+            const link = document.createElement('a');
+            link.href = url;
+            const date = new Date().toISOString().slice(0, 10);
+            const filename = `Portfolio_${portfolioData.profile.name || 'Formateur'}_${date}.json`;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Libérer l'URL
+            setTimeout(() => {
+                URL.revokeObjectURL(url);
+                closeExportModal();
+                showSaveStatus('save-success', 'Portfolio exporté avec succès');
+            }, 100);
+        }
+        
+        function importData(file) {
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    // Vérifier si le fichier est un JSON valide
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    // Vérifier si le fichier contient les données attendues
+                    if (!importedData.profile) {
+                        throw new Error("Format de fichier non valide");
+                    }
+                    
+                    // Confirmation avant d'écraser les données actuelles
+                    if (confirm("Cette action remplacera toutes vos données actuelles. Continuer?")) {
+                        portfolioData = importedData;
+                        saveData();
+                        loadData(); // Recharger l'interface
+                        showSaveStatus('save-success', 'Données importées avec succès');
+                        
+                        // Recharger la page pour appliquer tous les changements
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
+                    }
+                } catch (error) {
+                    console.error("Erreur lors de l'importation:", error);
+                    showSaveStatus('save-error', 'Erreur: fichier non valide');
+                }
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        function printPortfolio() {
+            // Préparation pour l'impression
+            const originalTitle = document.title;
+            const name = portfolioData.profile.name || 'Formateur';
+            document.title = `Portfolio de ${name} - Brevet Fédéral`;
+            
+            // Impression
+            window.print();
+            
+            // Restaurer le titre original
+            setTimeout(() => {
+                document.title = originalTitle;
+                if (document.getElementById('export-modal').style.display === 'block') {
+                    closeExportModal();
+                }
+            }, 100);
+        }
+        
+        // Fonctions de l'interface utilisateur
+        function initializeUI() {
+            // Initialiser les barres de progression avec animation
+            const progressFills = document.querySelectorAll('.progress-fill');
+            progressFills.forEach(fill => {
+                const width = fill.style.width || '0%';
+                fill.style.width = '0%';
+                setTimeout(() => {
+                    fill.style.width = width;
+                }, 300);
+            });
+            
+            // Ajouter les écouteurs d'événements pour les échelles de notation
+            document.querySelectorAll('.rating-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    // Supprimer la classe 'selected' des frères
+                    const siblings = this.parentElement.querySelectorAll('.rating-item');
+                    siblings.forEach(sibling => sibling.classList.remove('selected'));
+                    
+                    // Ajouter la classe 'selected' à l'élément cliqué
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Ajouter les écouteurs d'événements pour les cartes de compétence
+            document.querySelectorAll('.competence-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                });
+            });
+            
+            // Initialiser les menus déroulants liés aux compétences
+            updateCompetenceLinkedSelects();
+            updateSituationLinkedSelects();
+        }
+        
+        function setupAccordions() {
+            const acc = document.getElementsByClassName("accordion");
+            for (let i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    const panel = this.nextElementSibling;
+                    if (panel.style.maxHeight) {
+                        panel.style.maxHeight = null;
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    } 
+                });
+            }
+            
+            // Ouvrir le premier accordéon par défaut
+            if (acc.length > 0) {
+                acc[0].click();
+            }
+        }
+        
+        function setupAutoSave() {
+            // Ajouter la sauvegarde automatique sur les changements de formulaire
+            const formInputs = document.querySelectorAll('input, textarea, select');
+            formInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    // Sauvegarder seulement si l'élément est dans un formulaire important
+                    if (this.closest('.card')) {
+                        saveData();
+                    }
+                });
+            });
+            
+            // Ajouter la sauvegarde avant de quitter la page
+            window.addEventListener('beforeunload', function() {
+                saveData();
+            });
+        }
+        
+        function showWelcomeMessage() {
+            alert("Bienvenue dans votre portfolio de développement des compétences!\n\nCet outil vous aidera à documenter vos compétences et à préparer votre dossier pour l'examen final du Brevet Fédéral de Formateur/trice.\n\nLa nouvelle version intègre le profil de qualification officiel avec toutes les compétences et critères de performance.\n\nConsultez le Guide d'utilisation pour découvrir toutes les fonctionnalités disponibles.");
+        }
+        
+        function showSaveStatus(type, message) {
+            const statusElement = document.getElementById('save-status');
+            statusElement.textContent = message;
+            statusElement.className = 'save-status ' + type;
+            statusElement.classList.remove('hidden');
+            
+            // Faire disparaître le message après quelques secondes
+            setTimeout(() => {
+                statusElement.classList.add('fade-out');
+                setTimeout(() => {
+                    statusElement.classList.add('hidden');
+                    statusElement.classList.remove('fade-out');
+                }, 500);
+            }, 3000);
+        }
+        
+        // Fonctions de navigation
+        function openTab(evt, tabName) {
+            const tabcontent = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            
+            const tablinks = document.getElementsByClassName("tab");
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+        
+        // Fonctions pour les modales
+        function openExportModal() {
+            document.getElementById('export-modal').style.display = 'block';
+        }
+        
+        function closeExportModal() {
+            document.getElementById('export-modal').style.display = 'none';
+        }
+        
+        // Fermer la modale lorsqu'on clique en dehors
+        window.onclick = function(event) {
+            const modal = document.getElementById('export-modal');
+            if (event.target === modal) {
+                closeExportModal();
+            }
+        };
+    </script>
+</body>
+</html>
