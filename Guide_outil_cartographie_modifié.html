@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide d'utilisation - Cartographie des profils d'apprenants</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 3rem 2rem;
+        }
+
+        .intro {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 3rem;
+            border-left: 5px solid #4facfe;
+        }
+
+        .structure {
+            margin-bottom: 3rem;
+        }
+
+        .structure h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .circles-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .circle-info {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-top: 4px solid;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .circle-info.outer { border-color: #3498db; }
+        .circle-info.middle { border-color: #9b59b6; }
+        .circle-info.inner { border-color: #2ecc71; }
+
+        .circle-info h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .circle-info.outer h3 { color: #3498db; }
+        .circle-info.middle h3 { color: #9b59b6; }
+        .circle-info.inner h3 { color: #2ecc71; }
+
+        .circle-info ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .circle-info li {
+            padding: 0.3rem 0;
+            color: #666;
+        }
+
+        .circle-info li::before {
+            content: "▸ ";
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .circle-info.outer li::before { color: #3498db; }
+        .circle-info.middle li::before { color: #9b59b6; }
+        .circle-info.inner li::before { color: #2ecc71; }
+
+        .usage-steps {
+            margin: 3rem 0;
+        }
+
+        .usage-steps h2 {
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .step {
+            display: flex;
+            margin-bottom: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 80px;
+        }
+
+        .step-content {
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .step-content h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .step-content p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .step-content ul {
+            color: #666;
+            padding-left: 1.5rem;
+        }
+
+        .conseil {
+            background: #e8f5e8;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #2ecc71;
+            margin-top: 1rem;
+        }
+
+        .conseil strong {
+            color: #2ecc71;
+        }
+
+        .examples {
+            margin: 3rem 0;
+        }
+
+        .examples h2 {
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .example-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .example-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .example-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .example-header {
+            padding: 1.5rem;
+            color: white;
+            text-align: center;
+        }
+
+        .example-header.fatou { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .example-header.amir { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .example-header.ahmed { background: linear-gradient(135deg, #3498db, #2980b9); }
+
+        .example-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .example-body {
+            padding: 1.5rem;
+        }
+
+        .example-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .example-section h4 {
+            color: #2c3e50;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 0.3rem;
+        }
+
+        .factors {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+
+        .factors h5 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .factors ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .factors li {
+            padding: 0.2rem 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .recommendation {
+            background: #e8f4fd;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .recommendation h5 {
+            color: #2980b9;
+            margin-bottom: 0.5rem;
+        }
+
+        .recommendation ul {
+            color: #666;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .attention {
+            background: #fff3cd;
+            padding: 0.8rem;
+            border-radius: 6px;
+            border-left: 4px solid #ffc107;
+            margin-top: 0.5rem;
+        }
+
+        .attention strong {
+            color: #856404;
+        }
+
+        .advantages {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 3rem 0;
+        }
+
+        .advantages h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .advantage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .advantage {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .advantage-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .advantage h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .advantage p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .conseils {
+            margin: 3rem 0;
+        }
+
+        .conseils h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .conseils-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .conseil-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #4facfe;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .conseil-item strong {
+            color: #2c3e50;
+        }
+
+        .mise-en-oeuvre {
+            margin: 3rem 0;
+        }
+
+        .mise-en-oeuvre h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .etapes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .etape {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .etape:hover {
+            transform: translateY(-3px);
+        }
+
+        .etape-number {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: bold;
+        }
+
+        .etape h4 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .etape p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .tool-link {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin: 3rem 0;
+            border-radius: 15px;
+        }
+
+        .tool-link h2 {
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #4facfe;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 2rem 1rem;
+            }
+            
+            .step {
+                flex-direction: column;
+            }
+            
+            .step-number {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Guide d'utilisation de l'outil de cartographie des profils d'apprenants</h1>
+            <p>Un guide visuel pour comprendre et exploiter l'outil de cartographie des apprenant-es</p>
+        </div>
+
+        <div class="content">
+            <div class="intro">
+                <h2>Introduction à l'outil</h2>
+                <p>Cet outil de cartographie a été conçu pour vous aider à analyser et à visualiser les profils d'apprenant-es selon une approche multidimensionnelle, allant au-delà des simples niveaux linguistiques (A1, A2, B1...). L'objectif est d'identifier précisément les besoins spécifiques de chaque apprenant-e pour créer des groupes d'apprentissage plus pertinents et efficaces.</p>
+            </div>
+
+            <div class="structure">
+                <h2>Structure de l'outil</h2>
+                <p>L'outil s'articule autour de trois dimensions fondamentales représentées par des cercles concentriques :</p>
+                
+                <div class="circles-info">
+                    <div class="circle-info outer">
+                        <h3>Cercle extérieur (bleu) : Environnement socioculturel</h3>
+                        <p>Ce cercle concerne les facteurs externes qui influencent l'apprentissage :</p>
+                        <ul>
+                            <li>Utilisation du français au quotidien</li>
+                            <li>Intégration sociale</li>
+                            <li>Situation socio-économique</li>
+                            <li>Réseaux de soutien</li>
+                            <li>Stabilité du parcours migratoire</li>
+                        </ul>
+                    </div>
+
+                    <div class="circle-info middle">
+                        <h3>Cercle intermédiaire (violet) : Compétences d'apprentissage</h3>
+                        <p>Ce cercle concerne les capacités et stratégies d'apprentissage générales :</p>
+                        <ul>
+                            <li>Parcours scolaire antérieur</li>
+                            <li>Méthodes d'apprentissage familières</li>
+                            <li>Autonomie d'apprentissage</li>
+                            <li>Langues maîtrisées</li>
+                            <li>Capacité à se fixer des objectifs</li>
+                        </ul>
+                    </div>
+
+                    <div class="circle-info inner">
+                        <h3>Cercle central (vert) : Rapport à l'écrit</h3>
+                        <p>Ce cercle concerne les compétences spécifiques liées à la littératie :</p>
+                        <ul>
+                            <li>Alphabétisation dans la langue d'origine</li>
+                            <li>Conscience phonologique</li>
+                            <li>Familiarité avec l'alphabet latin</li>
+                            <li>Capacité à produire de l'écrit</li>
+                            <li>Erreurs fossilisées spécifiques</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="usage-steps">
+                <h2>Comment utiliser l'outil</h2>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Recueillir les informations</h3>
+                        <p>Avant d'utiliser l'outil, rassemblez des informations sur l'apprenant-e :</p>
+                        <ul>
+                            <li>Informations de base (âge, pays d'origine, langues parlées, niveau d'éducation)</li>
+                            <li>Observations pendant le cours</li>
+                            <li>Résultats aux évaluations</li>
+                            <li>Informations sur le contexte de vie et d'apprentissage</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Remplir les informations générales</h3>
+                        <p>Entrez le nom de l'apprenant-e</p>
+                        <p>Complétez la section "Contexte et observations" avec une description générale du profil</p>
+                        <div class="conseil">
+                            <strong>Conseil</strong><br>
+                            Soyez précis dans la description du contexte. Des informations comme "parle deux langues", "scolarisé-e jusqu'à l'âge de 10 ans" ou "travaille à plein temps" sont importantes pour comprendre la situation globale de l'apprenant-e.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Évaluer les facteurs dans chaque dimension</h3>
+                        <p>Pour chaque dimension (les trois cercles) :</p>
+                        <ul>
+                            <li>Examinez la liste des facteurs prédéfinis</li>
+                            <li>Cliquez sur le cercle de couleur correspondant pour les facteurs pertinents (ceux qui ont un impact significatif sur l'apprentissage)</li>
+                            <li>Pour ajouter des détails, cliquez sur l'icône "?" qui ouvrira un champ de notes</li>
+                            <li>Si nécessaire, ajoutez des facteurs personnalisés en utilisant les champs prévus à cet effet</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Analyser le profil</h3>
+                        <p>Une fois les facteurs identifiés :</p>
+                        <ul>
+                            <li>Observez la répartition des facteurs entre les trois cercles</li>
+                            <li>Identifiez les cercles où se concentrent les besoins les plus importants</li>
+                            <li>Déterminez les facteurs prioritaires à prendre en compte</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Créer des groupes pertinents</h3>
+                        <p>En analysant plusieurs cartographies :</p>
+                        <ul>
+                            <li>Recherchez des besoins communs entre différent-es apprenant-es</li>
+                            <li>Créez des groupes thématiques ciblant ces besoins spécifiques</li>
+                            <li>Concevez, si possible, un planning flexible permettant aux apprenant-es de participer aux groupes correspondant à leurs besoins</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="examples">
+                <h2>Exemples d'application</h2>
+                
+                <div class="example-cards">
+                    <div class="example-card">
+                        <div class="example-header fatou">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">F</div>
+                            <h3>Fatou (profil alpha)</h3>
+                        </div>
+                        <div class="example-body">
+                            <div class="example-section">
+                                <h4>Contexte:</h4>
+                                <p>37 ans, originaire du Sénégal, en Suisse depuis 14 mois. Parle wolof (langue première) et possède de bonnes compétences à l'oral en français. N'a jamais été scolarisée. Travaille comme aide de cuisine.</p>
+                            </div>
+                            
+                            <div class="example-section">
+                                <h4>Facteurs identifiés</h4>
+                                <div class="factors">
+                                    <h5>Cercle central (vert):</h5>
+                                    <ul>
+                                        <li>Besoins majeurs en conscience phonologique (2/5)</li>
+                                        <li>Alphabétisation inexistante (1/5)</li>
+                                    </ul>
+                                </div>
+                                <div class="factors">
+                                    <h5>Cercle intermédiaire (violet):</h5>
+                                    <ul>
+                                        <li>Aucune scolarisation antérieure (1/5)</li>
+                                        <li>Excellente mémorisation orale (5/5)</li>
+					<li>Capacité d'adaptation: très bonne adaptation au contexte suisse (4/5)</li>
+					<li>Gestion du stress: forte résilience malgré les difficultés d'apprentissage (4/5)</li>
+                                    </ul>
+                                </div>
+                                <div class="factors">
+                                    <h5>Cercle extérieur (bleu):</h5>
+                                    <ul>
+                                        <li>Bonnes compétences en français oral (4/5)</li>
+                                        <li>Contraintes de temps importantes (2/5)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="recommendation">
+                                <h5>Recommandation</h5>
+                                <p><strong>Priorité:</strong> Groupe "Conscience phonologique et alphabétisation" (3x par semaine)</p>
+                                <p><strong>Complémentaire:</strong> Groupe "Écrit fonctionnel" centré sur les besoins immédiats</p>
+                                
+                                <div class="attention">
+                                    <strong>Point d'attention</strong><br>
+                                    Un simple placement en niveau A1 ne tiendrait pas compte de ses compétences orales déjà développées. Utiliser des approches multimodales pour compenser l'absence d'habitudes scolaires.
+				<strong>Valoriser ses forces transversales :</strong> Capitaliser sur son excellente capacité d'adaptation et sa résilience pour maintenir la motivation. Proposer des activités collaboratives où elle peut aider d'autres apprenants grâce à son expérience d'intégration.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="example-card">
+                        <div class="example-header amir">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">A</div>
+                            <h3>Amir (profil avec erreurs fossilisées)</h3>
+                        </div>
+                        <div class="example-body">
+                            <div class="example-section">
+                                <h4>Contexte:</h4>
+                                <p>38 ans, originaire du Kosovo, en Suisse depuis 12 ans. Formation professionnelle dans son pays d'origine. Travaille comme ouvrier dans le bâtiment.</p>
+                            </div>
+                            
+                            <div class="example-section">
+                                <h4>Facteurs identifiés</h4>
+                                <div class="factors">
+                                    <h5>Cercle central (vert):</h5>
+                                    <ul>
+                                        <li>Structures grammaticales à l'écrit très problématiques (1/5)</li>
+                                        <li>Orthographe: difficultés importantes (2/5)</li>
+                                    </ul>
+                                </div>
+                                <div class="factors">
+                                    <h5>Cercle intermédiaire (violet):</h5>
+                                    <ul>
+                                        <li>Scolarité basique, pas d'études supérieures (2/5)</li>
+                                        <li>Difficulté avec les règles grammaticales abstraites (2/5)</li>
+					<li>Collaboration: excellente dans le cadre professionnel du bâtiment (4/5) </li>
+					<li>Gestion du stress: tendance à l'évitement face aux situations d'écriture (2/5)</li>
+                                    </ul>
+                                </div>
+                                <div class="factors">
+                                    <h5>Cercle extérieur (bleu):</h5>
+                                    <ul>
+                                        <li>Usage régulier du français à l'oral, rare à l'écrit (4/5)</li>
+                                        <li>Cercle social principalement albanophone (3/5)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="recommendation">
+                                <h5>Recommandation</h5>
+                                <p><strong>Priorité:</strong> Groupe "Remédiation des erreurs fossilisées" (1x par semaine)</p>
+                                <p><strong>Complémentaire:</strong> Groupe "Écrit fonctionnel" pour les besoins quotidiens</p>
+                                
+                                <div class="attention">
+                                    <strong>Point d'attention</strong><br>
+                                    Un simple passage au niveau B2 ne résoudrait pas ses erreurs fossilisées qui persistent depuis plusieurs années. Une approche ciblée sur la correction de ces erreurs est nécessaire.<strong> Exploiter ses compétences collaboratives :</strong> Utiliser ses excellentes capacités de travail en équipe pour des activités de révision par les pairs. Travailler spécifiquement la gestion du stress face à l'écrit par des approches progressives et rassurantes.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="example-card">
+                        <div class="example-header ahmed">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">A</div>
+                            <h3>Ahmed (profil académique)</h3>
+                        </div>
+                        <div class="example-body">
+                            <div class="example-section">
+                                <h4>Contexte:</h4>
+                                <p>42 ans, ingénieur syrien hautement qualifié, en Suisse depuis 8 mois avec statut de réfugié. Parle arabe (langue maternelle) et anglais (niveau C1). Son niveau en français est débutant (A1).</p>
+                            </div>
+                            
+                            <div class="example-section">
+                                <h4>Facteurs identifiés</h4>
+                                <div class="factors">
+                                    <h5>Cercle central (vert):</h5>
+                                    <ul>
+                                        <li>Excellente familiarité avec les alphabets (5/5)</li>
+                                        <li>Maîtrise des sons spécifiques français limitée (2/5)</li>
+                                    </ul>
+                                </div>
+                                <div class="factors">
+                                    <h5>Cercle intermédiaire (violet):</h5>
+                                    <ul>
+                                        <li>Formation universitaire complète (5/5)</li>
+                                        <li>Méthodologie d'apprentissage excellente (5/5)</li>
+					<li>Esprit critique et résolution de problèmes: excellentes capacités analytiques (5/5)</li>
+					<li>Capacité d'adaptation: très bonne, s'ajuste rapidement aux nouvelles situations (4/5)</li>
+                                    </ul>
+                                </div>
+                                <div class="factors">
+                                    <h5>Cercle extérieur (bleu):</h5>
+                                    <ul>
+                                        <li>Exposition au français limitée (2/5)</li>
+                                        <li>Réseau social francophone très restreint (1/5)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="recommendation">
+                                <h5>Recommandation</h5>
+                                <p><strong>Priorité:</strong> Groupe "Français professionnel accéléré" (2x par semaine)</p>
+                                <p><strong>Complémentaire:</strong> Groupe "Phonétique et communication orale"</p>
+                                
+                                <div class="attention">
+                                    <strong>Point d'attention</strong><br>
+                                    Bien que débutant (A1), Ahmed a la capacité de progresser très rapidement avec une approche adaptée à son profil académique. L'association avec un mentor professionnel francophone serait particulièrement bénéfique.
+<strong>Valoriser son autonomie d'apprentissage :</strong> Son excellent esprit critique et sa capacité d'adaptation en font un candidat idéal pour l'auto-apprentissage guidé et le tutorat par les pairs. Proposer des défis intellectuels stimulants.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="advantages">
+                <h2>Avantages de cette approche</h2>
+                <div class="advantage-grid">
+                    <div class="advantage">
+                        <div class="advantage-icon">👁️</div>
+                        <h3>Vision holistique</h3>
+                        <p>Prend en compte l'ensemble des facteurs qui influencent l'apprentissage</p>
+                    </div>
+                    <div class="advantage">
+                        <div class="advantage-icon">🔍</div>
+                        <h3>Identification précise</h3>
+                        <p>Va au-delà du simple niveau linguistique global</p>
+                    </div>
+                    <div class="advantage">
+                        <div class="advantage-icon">🧩</div>
+                        <h3>Personnalisation</h3>
+                        <p>Permet d'adapter l'enseignement aux besoins spécifiques</p>
+                    </div>
+                    <div class="advantage">
+                        <div class="advantage-icon">🔄</div>
+                        <h3>Flexibilité</h3>
+                        <p>Les apprenant-es peuvent, si possible, participer à différents groupes selon leurs besoins</p>
+                    </div>
+                    <div class="advantage">
+                        <div class="advantage-icon">⚡</div>
+                        <h3>Efficacité</h3>
+                        <p>Concentration des ressources sur les obstacles réels à la progression</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="conseils">
+                <h2>Conseils d'utilisation</h2>
+                <div class="conseils-grid">
+                    <div class="conseil-item">
+                        <strong>Mettez à jour régulièrement les cartographies</strong><br>
+                        (tous les 2-3 mois)
+                    </div>
+                    <div class="conseil-item">
+                        <strong>Utilisez l'outil en complément</strong><br>
+                        d'autres évaluations
+                    </div>
+                    <div class="conseil-item">
+                        <strong>Impliquez l'apprenant-e</strong><br>
+                        dans le processus quand c'est possible
+                    </div>
+                    <div class="conseil-item">
+                        <strong>Partagez les cartographies</strong><br>
+                        avec les autres formateur-trices pour assurer la cohérence
+                    </div>
+                    <div class="conseil-item">
+                        <strong>Utilisez la fonction d'impression</strong><br>
+                        pour conserver une trace des cartographies
+                    </div>
+                </div>
+            </div>
+
+            <div class="mise-en-oeuvre">
+                <h2>Mise en œuvre progressive</h2>
+                <div class="etapes">
+                    <div class="etape">
+                        <div class="etape-number">1</div>
+                        <h4>Commencer petit</h4>
+                        <p>Cartographiez quelques apprenant-es aux profils typiques ou présentant des difficultés particulières.</p>
+                    </div>
+                    <div class="etape">
+                        <div class="etape-number">2</div>
+                        <h4>Identifier les besoins communs</h4>
+                        <p>Repérez 1-2 besoins communs prioritaires qui apparaissent dans plusieurs cartographies.</p>
+                    </div>
+                    <div class="etape">
+                        <div class="etape-number">3</div>
+                        <h4>Créer un premier groupe expérimental</h4>
+                        <p>Mettez en place un premier atelier thématique adressant un besoin spécifique identifié.</p>
+                    </div>
+                    <div class="etape">
+                        <div class="etape-number">4</div>
+                        <h4>Documenter les progrès</h4>
+                        <p>Notez les progrès réalisés pour évaluer l'efficacité de l'approche et la communiquer.</p>
+                    </div>
+                    <div class="etape">
+                        <div class="etape-number">5</div>
+                        <h4>Étendre progressivement</h4>
+                        <p>Élargissez l'approche à d'autres besoins et à plus d'apprenant-es en fonction des résultats.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-link">
+                <h2>Accéder à l'outil de cartographie</h2>
+                <a href="./cartographie_VF.html" class="btn" target="_blank">Ouvrir l'outil de cartographie</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Guide développé pour accompagner l'outil de cartographie des profils d'apprenants</p>
+            <p>© Dao Mercier 2025 - Tous droits réservés</p>
+        </div>
+    </div>
+</body>
+</html>
