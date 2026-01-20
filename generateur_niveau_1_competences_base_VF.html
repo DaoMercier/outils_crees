@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📝 Générateur de Supports Différenciés - Compétences de Base</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            color: #1e293b;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #64748b;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            color: #334155;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        
+        .label-description {
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 400;
+            margin-top: 5px;
+        }
+        
+        select, input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        select:focus, input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .checkbox-item:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+        
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .generate-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            display: none;
+        }
+        
+        .result.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result h3 {
+            color: #1e293b;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .prompt-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            white-space: pre-wrap;
+            line-height: 1.8;
+            color: #334155;
+            font-size: 14px;
+        }
+        
+        .copy-btn {
+            background: #4ade80;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background: #22c55e;
+        }
+        
+        .info-box {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        
+        .info-box p {
+            color: #1e40af;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .info-box strong {
+            color: #1e3a8a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="badge">📝 GÉNÉRATEUR DE SUPPORTS</span>
+            <h1>Créer des supports différenciés</h1>
+            <p class="subtitle">Générez des supports adaptés aux différents profils d'apprenants en compétences de base</p>
+        </div>
+        
+        <div class="info-box">
+            <p><strong>💡 Ce que fait cet outil :</strong> Il vous aide à créer rapidement 2-3 versions d'un même support, adaptées aux besoins spécifiques de vos apprenants (alphabétisation, illettrisme, FLE, etc.). L'IA fait en 2 minutes ce qui vous prendrait 30 minutes !</p>
+        </div>
+
+        <form id="promptForm">
+            <div class="form-group">
+                <label>
+                    1. Domaine de compétence
+                    <span class="label-description">Choisissez le domaine concerné</span>
+                </label>
+                <select id="domaine" required>
+                    <option value="">-- Sélectionnez un domaine --</option>
+                    <option value="Français (lecture, écriture, compréhension orale)">Français (lecture, écriture, compréhension orale)</option>
+                    <option value="Mathématiques/Calcul (numératie)">Mathématiques/Calcul (numératie)</option>
+                    <option value="Compétences numériques de base">Compétences numériques de base</option>
+                    <option value="Vie quotidienne/Autonomie">Vie quotidienne/Autonomie</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    2. Thème ou contenu du support
+                    <span class="label-description">Ex: "Remplir un formulaire administratif", "Comprendre une facture", "Faire ses courses", "Utiliser un distributeur bancaire"</span>
+                </label>
+                <input type="text" id="theme" placeholder="Décrivez le thème..." required>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    3. Profils de vos apprenants
+                    <span class="label-description">Cochez tous les profils concernés (minimum 2 pour différencier)</span>
+                </label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="alpha" name="profil" value="Alphabétisation">
+                        <label for="alpha">Alphabétisation (apprendre à lire/écrire pour la première fois)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="illettrisme" name="profil" value="Illettrisme">
+                        <label for="illettrisme">Illettrisme (difficultés malgré scolarisation en français)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="fli" name="profil" value="Français langue d'intégration">
+                        <label for="fli">Français langue d'intégration (FLI/Migration)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="peuscol" name="profil" value="Peu ou pas scolarisé">
+                        <label for="peuscol">Peu ou pas scolarisé</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="besoins" name="profil" value="Besoins d'apprentissage spécifiques">
+                        <label for="besoins">Besoins d'apprentissage spécifiques</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    4. Type de support souhaité
+                    <span class="label-description">Ex: "exercice", "fiche pratique", "activité de groupe", "document simplifié"</span>
+                </label>
+                <input type="text" id="typeSupport" placeholder="Quel format ?" required>
+            </div>
+
+            <button type="submit" class="generate-btn">✨ Générer mon prompt ChatGPT</button>
+        </form>
+
+        <div id="result" class="result">
+            <h3>📋 Votre prompt personnalisé</h3>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">
+                Copiez ce texte et collez-le dans <strong>ChatGPT gratuit</strong> pour obtenir vos supports différenciés :
+            </p>
+            <div class="prompt-box" id="promptText"></div>
+            <button class="copy-btn" onclick="copyPrompt()">📋 Copier le prompt</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('promptForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const domaine = document.getElementById('domaine').value;
+            const theme = document.getElementById('theme').value;
+            const typeSupport = document.getElementById('typeSupport').value;
+            
+            // Récupérer les profils cochés
+            const checkboxes = document.querySelectorAll('input[name="profil"]:checked');
+            const profils = Array.from(checkboxes).map(cb => cb.value);
+            
+            if (profils.length < 2) {
+                alert('⚠️ Merci de sélectionner au moins 2 profils pour créer des versions différenciées.');
+                return;
+            }
+            
+            const profilsTexte = profils.join(', ');
+            
+            const prompt = `Je suis formateur-trice en compétences de base et j'ai besoin de créer des supports différenciés.
+
+DOMAINE : ${domaine}
+THÈME : ${theme}
+TYPE DE SUPPORT : ${typeSupport}
+
+PROFILS DE MES APPRENANTS : ${profilsTexte}
+
+CONSIGNE :
+Crée ${profils.length} versions du même support, une pour chaque profil mentionné ci-dessus.
+
+Pour chaque version, adapte :
+- Le VOCABULAIRE (plus simple ou plus complexe)
+- La PRÉSENTATION VISUELLE (quantité de texte, aération, pictogrammes si nécessaire)
+- La QUANTITÉ D'INFORMATION (plus ou moins dense)
+- L'ÉTAYAGE (niveau de guidage et d'explications)
+- Les EXEMPLES (concrets et adaptés au vécu de chaque profil)
+
+Pour chaque version, indique clairement :
+1. POUR QUEL PROFIL elle est destinée
+2. LES ADAPTATIONS faites (explique pourquoi tu as fait ces choix)
+3. LE SUPPORT complet et prêt à l'emploi
+
+Objectif : que chaque apprenant puisse travailler sur le même thème, mais avec un support vraiment adapté à son niveau et ses besoins.`;
+
+            document.getElementById('promptText').textContent = prompt;
+            document.getElementById('result').classList.add('show');
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        function copyPrompt() {
+            const promptText = document.getElementById('promptText').textContent;
+            navigator.clipboard.writeText(promptText).then(function() {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copié !';
+                btn.style.background = '#22c55e';
+                setTimeout(function() {
+                    btn.textContent = originalText;
+                    btn.style.background = '#4ade80';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

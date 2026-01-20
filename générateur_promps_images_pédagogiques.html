@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Prompts - Images Pédagogiques FLI/Alpha</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8d8ea 0%, #7ec8e3 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #a8d8ea 0%, #7ec8e3 100%);
+            color: #1a4d6d;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #7ec8e3;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+        
+        .info-box h3 {
+            color: #1a4d6d;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .info-box li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .example-box {
+            background: #e3f2fd;
+            border-left: 4px solid #7ec8e3;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+
+        .example-box .example-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a4d6d;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .example-box .example-text {
+            font-size: 14px;
+            color: #4a5568;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin-top: 12px;
+            border-radius: 4px;
+        }
+
+        .warning-box .warning-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .warning-box .warning-text {
+            font-size: 13px;
+            color: #78350f;
+            line-height: 1.5;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f9fafb;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .form-section h2 {
+            color: #374151;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 600;
+        }
+        
+        .required {
+            color: #dc2626;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #7ec8e3;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .generate-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #a8d8ea 0%, #7ec8e3 100%);
+            color: #1a4d6d;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 30px;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(126, 200, 227, 0.4);
+        }
+        
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .output-section {
+            margin-top: 40px;
+            padding: 25px;
+            background: #f9fafb;
+            border-radius: 12px;
+            border: 2px solid #7ec8e3;
+            display: none;
+        }
+        
+        .output-section.active {
+            display: block;
+        }
+        
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .output-header h2 {
+            color: #1a4d6d;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .copy-btn,
+        .download-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn {
+            background: #7ec8e3;
+            color: white;
+        }
+        
+        .copy-btn:hover {
+            background: #5fb3d1;
+        }
+        
+        .download-btn {
+            background: #10b981;
+            color: white;
+        }
+        
+        .download-btn:hover {
+            background: #059669;
+        }
+        
+        .prompt-output {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+            font-weight: 600;
+        }
+        
+        .success-message.active {
+            display: block;
+        }
+        
+        .helper-text {
+            font-size: 0.9em;
+            color: #6b7280;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .sequence-options {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            border: 2px solid #7ec8e3;
+        }
+        
+        .sequence-options.active {
+            display: block;
+        }
+
+        .pedagogy-options {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fef3c7;
+            border-radius: 8px;
+            border: 2px solid #fbbf24;
+        }
+
+        .pedagogy-options h3 {
+            color: #92400e;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .footer {
+            background: #f7fafc;
+            padding: 20px;
+            text-align: center;
+            color: #718096;
+            font-size: 14px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .footer strong {
+            color: #1a4d6d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Générateur de Prompts - Images Pédagogiques</h1>
+            <p>Créez des images adaptées pour vos cours FLI/Alpha avec l'IA</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-box">
+                <h3>ℹ️ Mode d'emploi</h3>
+                <p>Remplissez le formulaire ci-dessous, cliquez sur "Générer le prompt", puis copiez-collez le résultat dans ChatGPT, Copilot ou Gemini pour obtenir votre image.</p>
+                <ul>
+                    <li><strong>📝 Différenciation pédagogique :</strong> Vous pouvez choisir d'inclure du texte ou non selon les besoins de vos apprenants (Alpha1 sans texte, Alpha2/A1 avec texte simple).</li>
+                    <li><strong>🔢 Séquences non numérotées :</strong> Les vignettes ne sont volontairement pas numérotées pour permettre aux apprenants de travailler l'ordre chronologique et la logique narrative.</li>
+                    <li><strong>🎯 Personnalisable :</strong> Adaptez le niveau de complexité, le vocabulaire ciblé et le contexte culturel à votre public.</li>
+                    <li><strong>👤 Cohérence visuelle :</strong> Décrivez précisément votre personnage principal pour qu'il reste identique dans toutes les vignettes.</li>
+                </ul>
+            </div>
+            
+            <form id="promptForm">
+                <div class="form-section">
+                    <h2>📍 Type d'image</h2>
+                    
+                    <div class="form-group">
+                        <label>Format <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="format-single" name="format" value="single" checked>
+                                <label for="format-single">Image unique</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="format-sequence" name="format" value="sequence">
+                                <label for="format-sequence">Séquence (plusieurs vignettes)</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sequence-options" id="sequenceOptions">
+                        <div class="form-group">
+                            <label>Nombre de vignettes <span class="required">*</span></label>
+                            <div class="example-box">
+                                <div class="example-label">💡 Exemple</div>
+                                <div class="example-text">9 vignettes (7 étapes + 2 intrus)</div>
+                            </div>
+                            <input type="number" id="numVignettes" min="2" max="20" value="9" placeholder="Ex: 4, 6, 9...">
+                            <p class="helper-text">Indiquez combien d'étapes vous voulez illustrer</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="withBubbles">
+                                <label for="withBubbles">Avec bulles de dialogue (verbes d'action)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pedagogy-options">
+                        <h3>🎓 Options pédagogiques (différenciation)</h3>
+                        
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="withCaptions">
+                                <label for="withCaptions">Avec texte (mots-clés simples sous chaque vignette)</label>
+                            </div>
+                            <p class="helper-text">💡 Sans texte pour Alpha1 pré-scripteurs | Avec texte pour Alpha2/A1 scripteurs</p>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="unnumbered" checked disabled>
+                                <label for="unnumbered">Vignettes NON numérotées (pour activités de séquençage)</label>
+                            </div>
+                            <p class="helper-text">🔢 Les apprenants devront remettre les images dans l'ordre chronologique</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Catégorie <span class="required">*</span></label>
+                        <div class="example-box">
+                            <div class="example-label">💡 Exemple</div>
+                            <div class="example-text">Scénario / Action quotidienne</div>
+                        </div>
+                        <select id="category" required>
+                            <option value="">-- Sélectionner --</option>
+                            <option value="espace-vie">Espace de vie (cuisine, salon, chambre...)</option>
+                            <option value="espace-public">Espace public suisse (gare, poste, médecin...)</option>
+                            <option value="objet">Objet du quotidien</option>
+                            <option value="action">Scénario / Action quotidienne</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Sujet précis <span class="required">*</span></label>
+                        <div class="example-box">
+                            <div class="example-label">💡 Exemple</div>
+                            <div class="example-text">Ranger ses courses dans la cuisine</div>
+                        </div>
+                        <input type="text" id="specificType" placeholder="Ex: La cuisine, Ranger les courses, Un frigo ouvert..." required>
+                        <p class="helper-text">Décrivez précisément ce que vous voulez illustrer</p>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>🎨 Style visuel</h2>
+                    
+                    <div class="form-group">
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="style-illustration" name="style" value="illustration" checked>
+                                <label for="style-illustration">Illustration simple épurée (comme Alpha+)</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="style-photo" name="style" value="photo">
+                                <label for="style-photo">Photo réaliste</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="blackWhite">
+                            <label for="blackWhite">Noir et blanc (meilleur pour impression)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>🎯 Contexte pédagogique</h2>
+                    
+                    <div class="form-group">
+                        <label>Niveau <span class="required">*</span></label>
+                        <div class="example-box">
+                            <div class="example-label">💡 Exemple</div>
+                            <div class="example-text">Alpha 1</div>
+                        </div>
+                        <select id="level" required>
+                            <option value="">-- Sélectionner --</option>
+                            <option value="alpha1">Alpha 1</option>
+                            <option value="alpha2">Alpha 2</option>
+                            <option value="A1">A1</option>
+                            <option value="A2">A2</option>
+                            <option value="B1">B1</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Éléments spécifiques à inclure (facultatif)</label>
+                        <div class="example-box">
+                            <div class="example-label">💡 Exemple</div>
+                            <div class="example-text">La cuisine, la table, le frigo, un petit poulet, la tomate / les tomates, le chou, la salade</div>
+                        </div>
+                        <textarea id="elements" placeholder="Ex: Un poulet, des tomates, un chou, une salade dans un sac de courses sur la table..."></textarea>
+                        <p class="helper-text">Listez les objets, personnes ou détails importants pour votre activité</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="swissContext">
+                            <label for="swissContext">Contexte clairement suisse (éléments culturels visibles)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>👥 Personnages (si applicable)</h2>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="includePersons">
+                            <label for="includePersons">Inclure des personnes dans l'image</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="personDetailsGroup" style="display: none;">
+                        <label>Description des personnes et actions</label>
+                        <div class="example-box">
+                            <div class="example-label">💡 Exemple</div>
+                            <div class="example-text">Une femme adulte qui range ses courses</div>
+                        </div>
+                        <textarea id="personDetails" placeholder="Ex: Une femme adulte range des courses, Un enfant à table, Deux personnes au guichet..."></textarea>
+                        <p class="helper-text">Décrivez l'action et le nombre de personnes (évitez détails ethniques trop précis)</p>
+                    </div>
+
+                    <div class="form-group" id="characterDescriptionGroup" style="display: none;">
+                        <label>🎭 Description détaillée du personnage principal (IMPORTANT pour cohérence visuelle)</label>
+                        <div class="example-box">
+                            <div class="example-label">💡 Exemple</div>
+                            <div class="example-text">Femme de 35 ans environ, cheveux courts et bruns, pull bleu clair à col rond, pantalon beige, chaussures confortables marron</div>
+                        </div>
+                        <textarea id="characterDescription" placeholder="Ex: Homme de 40 ans, cheveux gris courts, lunettes rectangulaires, chemise blanche, pantalon noir..."></textarea>
+                        
+                        <div class="warning-box">
+                            <div class="warning-label">⚠️ Pourquoi c'est important ?</div>
+                            <div class="warning-text">
+                                Pour maintenir le MÊME personnage dans toutes les vignettes, décrivez précisément :
+                                <br>• Âge approximatif (adulte, jeune, senior)
+                                <br>• Coiffure (courts/longs, couleur générale)
+                                <br>• Vêtements principaux (pull rouge, pantalon bleu, etc.)
+                                <br>➜ Plus vous êtes précis·e, plus l'IA maintiendra la cohérence visuelle !
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="generate-btn">✨ Générer le Prompt</button>
+            </form>
+            
+            <div class="output-section" id="outputSection">
+                <div class="output-header">
+                    <h2>📋 Prompt généré</h2>
+                    <div class="btn-group">
+                        <button class="copy-btn" id="copyBtn">📋 Copier</button>
+                        <button class="download-btn" id="downloadBtn">💾 Télécharger</button>
+                    </div>
+                </div>
+                <div class="prompt-output" id="promptOutput"></div>
+                <div class="success-message" id="successMessage">
+                    ✅ Prompt copié ! Collez-le maintenant dans ChatGPT, Copilot ou Gemini
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Créé avec 💙 par <strong>Dao Mercier</strong> | Décembre 2025
+        </div>
+    </div>
+    
+    <script>
+        // Toggle sequence options
+        document.querySelectorAll('input[name="format"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const sequenceOptions = document.getElementById('sequenceOptions');
+                if (this.value === 'sequence') {
+                    sequenceOptions.classList.add('active');
+                } else {
+                    sequenceOptions.classList.remove('active');
+                }
+            });
+        });
+        
+        // Toggle person details
+        document.getElementById('includePersons').addEventListener('change', function() {
+            document.getElementById('personDetailsGroup').style.display = this.checked ? 'block' : 'none';
+            document.getElementById('characterDescriptionGroup').style.display = this.checked ? 'block' : 'none';
+        });
+        
+        // Form submission
+        document.getElementById('promptForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            generatePrompt();
+        });
+        
+        function generatePrompt() {
+            const format = document.querySelector('input[name="format"]:checked').value;
+            const category = document.getElementById('category').value;
+            const specificType = document.getElementById('specificType').value;
+            const style = document.querySelector('input[name="style"]:checked').value;
+            const blackWhite = document.getElementById('blackWhite').checked;
+            const level = document.getElementById('level').value;
+            const elements = document.getElementById('elements').value;
+            const swissContext = document.getElementById('swissContext').checked;
+            const includePersons = document.getElementById('includePersons').checked;
+            const personDetails = document.getElementById('personDetails').value;
+            const characterDescription = document.getElementById('characterDescription').value;
+            const withCaptions = document.getElementById('withCaptions').checked;
+            
+            let prompt = "";
+            
+            // Format instruction
+            if (format === 'sequence') {
+                const numVignettes = document.getElementById('numVignettes').value;
+                const withBubbles = document.getElementById('withBubbles').checked;
+                
+                prompt += `Créer une séquence narrative en ${numVignettes} vignettes de style bande dessinée, NON NUMÉROTÉES, `;
+                prompt += "disposées en grille claire. ";
+                
+                if (withBubbles) {
+                    prompt += "Chaque vignette contient une bulle de dialogue avec le verbe d'action à l'infinitif. ";
+                }
+                
+                if (withCaptions) {
+                    prompt += "Ajouter un mot-clé simple et clair sous chaque vignette en français facile. ";
+                }
+                
+                prompt += "\n\n";
+            } else {
+                prompt += "Crée UNE SEULE IMAGE fixe (pas une bande dessinée, pas plusieurs vignettes). ";
+                prompt += "Format : Image unique rectangulaire. ";
+                
+                if (withCaptions) {
+                    prompt += "Ajouter un mot-clé simple et clair sous l'image en français facile. ";
+                } else {
+                    prompt += "Pas de bulles de dialogue, pas de texte incrusté dans l'image. ";
+                }
+                
+                prompt += "\n\n";
+            }
+            
+            // NOUVEAU : Instruction de cohérence visuelle TRÈS FORTE
+            if (includePersons && characterDescription.trim()) {
+                prompt += "⚠️ COHÉRENCE VISUELLE ABSOLUE REQUISE ⚠️\n";
+                prompt += `Le MÊME personnage principal doit apparaître dans TOUTES les vignettes avec EXACTEMENT la même apparence.\n`;
+                prompt += `Description du personnage à maintenir rigoureusement : ${characterDescription}\n`;
+                prompt += "Ce personnage doit garder EXACTEMENT les mêmes vêtements, la même coiffure, les mêmes traits du visage, la même morphologie dans chaque vignette de la séquence.\n";
+                prompt += "Ne fais AUCUNE variation de l'apparence de ce personnage d'une vignette à l'autre.\n\n";
+            }
+            
+            // Style instruction
+            if (style === 'illustration') {
+                prompt += "Style : Illustration simple et épurée en style pédagogique, ";
+                if (blackWhite) {
+                    prompt += "en noir et blanc avec des nuances de gris, ";
+                } else {
+                    prompt += "avec des couleurs douces et peu saturées, ";
+                }
+                prompt += "sans détails superflus, adaptée à un public en apprentissage du français. ";
+            } else {
+                prompt += "Style : Image photographique réaliste, ";
+                if (blackWhite) {
+                    prompt += "en noir et blanc, ";
+                } else {
+                    prompt += "avec des couleurs naturelles, ";
+                }
+                prompt += "claire et bien éclairée. ";
+            }
+            
+            // Main subject
+            prompt += `\n\nSujet principal : ${specificType}.\n\n`;
+            
+            // Specific elements
+            if (elements.trim()) {
+                prompt += `Éléments à inclure obligatoirement : ${elements}.\n\n`;
+            }
+            
+            // Swiss context
+            if (swissContext) {
+                prompt += "Contexte : Environnement clairement suisse romand (signalétique en français, détails culturels suisses visibles comme horloges CFF, architecture typique, etc.).\n\n";
+            }
+            
+            // Persons
+            if (includePersons && personDetails.trim()) {
+                prompt += `Personnages : ${personDetails}. Représente des personnes de manière inclusive et diversifiée, sans stéréotypes.\n\n`;
+            }
+            
+            // Pedagogical context
+            prompt += `Objectif pédagogique : Image destinée à un cours de français langue étrangère niveau ${level}. `;
+            prompt += "L'image doit être claire, sans ambiguïté, facilement compréhensible par des apprenants adultes migrants.\n\n";
+            
+            // Technical specs
+            if (style === 'illustration') {
+                prompt += "Style graphique : Traits nets, contours marqués, composition aérée, vue claire sans perspective complexe. ";
+                prompt += "Évite les ombres trop marquées et les textures trop détaillées.";
+            } else {
+                prompt += "Style photographique : Lumière naturelle, mise au point nette, composition simple et lisible.";
+            }
+            
+            // Display output
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').classList.add('active');
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Copy button
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const promptText = document.getElementById('promptOutput').textContent;
+            navigator.clipboard.writeText(promptText).then(function() {
+                const successMsg = document.getElementById('successMessage');
+                successMsg.classList.add('active');
+                setTimeout(() => {
+                    successMsg.classList.remove('active');
+                }, 3000);
+            });
+        });
+        
+        // Download button
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const promptText = document.getElementById('promptOutput').textContent;
+            const blob = new Blob([promptText], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'prompt-image-fle-alpha.txt';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        });
+    </script>
+</body>
+</html>

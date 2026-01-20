@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apprendre les Pourcentages (CH)</title>
+    <style>
+        :root {
+            --primary: #d63031; /* Rouge Suisse */
+            --primary-light: #ff7675;
+            --secondary: #f5f6fa;
+            --success: #00b894;
+            --error: #d63031;
+            --text: #2d3436;
+            --grey: #b2bec3;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #dfe6e9;
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align top pour le scroll si synthèse longue */
+            min-height: 100vh;
+            margin: 0;
+            padding: 15px;
+        }
+
+        .app-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        /* Navigation */
+        .tabs {
+            display: flex;
+            background: #f1f2f6;
+            padding: 5px;
+            flex-wrap: wrap; /* Pour mobile si écran très petit */
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px 5px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+            color: #636e72;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .content-area {
+            padding: 20px;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Mode Synthèse spécifique */
+        #synth-mode {
+            justify-content: flex-start; /* Alignement en haut */
+            text-align: left;
+        }
+
+        .instruction {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .big-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* --- STYLE QCM INDUCTIF --- */
+        .options-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .option-card {
+            background: white;
+            border: 3px solid #eee;
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90px;
+        }
+
+        .option-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-light);
+        }
+
+        /* Graphique Camembert CSS pur */
+        .pie-chart {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #eee;
+            position: relative;
+            border: 1px solid #ccc;
+            flex-shrink: 0; /* Empêche écrasement dans flexbox */
+        }
+        
+        /* --- STYLE GRILLE --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 2px;
+            width: 260px;
+            background: #ccc;
+            border: 2px solid #999;
+            margin-bottom: 15px;
+        }
+
+        .grid-cell {
+            aspect-ratio: 1;
+            background: white;
+            cursor: pointer;
+        }
+        .grid-cell.active { background-color: var(--primary); }
+
+        /* --- STYLE CALCUL --- */
+        input[type="number"] {
+            font-size: 1.5rem;
+            padding: 10px;
+            width: 120px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        /* --- STYLE SYNTHESE --- */
+        .synth-list {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .synth-card {
+            display: flex;
+            align-items: center;
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-left: 5px solid var(--primary);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+
+        .synth-info {
+            margin-left: 20px;
+            flex: 1;
+        }
+
+        .synth-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.4rem;
+            color: var(--text);
+        }
+
+        .synth-desc {
+            margin: 0;
+            font-size: 1rem;
+            color: #636e72;
+        }
+
+        .synth-tip {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* --- FEEDBACK & BOUTONS --- */
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .btn:hover { background-color: #c0392b; }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            width: 100%;
+            display: none;
+        }
+        .feedback.success { background-color: #dff9fb; color: #00b894; display: block; }
+        .feedback.error { background-color: #ff7675; color: white; display: block; }
+
+        .hidden { display: none !important; }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <span style="font-size: 1.5rem;">🇨🇭</span>
+        <h1>Les Pourcentages</h1>
+    </header>
+
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab('inductive')">1. Observer</div>
+        <div class="tab" onclick="switchTab('visual')">2. Construire</div>
+        <div class="tab" onclick="switchTab('calc')">3. Calculer</div>
+        <div class="tab" onclick="switchTab('synth')">4. Synthèse</div>
+    </div>
+
+    <!-- ETAPE 1 : INDUCTIF (QCM VISUEL) -->
+    <div id="inductive-mode" class="content-area">
+        <div class="instruction">
+            Quelle image correspond à <span id="qcm-target" class="big-number">50%</span> ?
+        </div>
+
+        <div class="options-container" id="qcm-options">
+            <!-- Les options sont générées ici -->
+        </div>
+
+        <div id="qcm-feedback" class="feedback"></div>
+        <button id="qcm-next" class="btn hidden" onclick="initInductive()">Suivant</button>
+    </div>
+
+    <!-- ETAPE 2 : VISUEL (GRILLE) -->
+    <div id="visual-mode" class="content-area hidden">
+        <div class="instruction">
+            Colorie <span id="grid-target" class="big-number">0%</span> de la grille.
+            <div style="font-size: 0.9rem; color: #666; margin-top:5px;">(C'est <span id="grid-target-num">0</span> cases sur 100)</div>
+        </div>
+        
+        <div class="grid-container" id="grid"></div>
+
+        <button class="btn" onclick="checkGrid()">Vérifier</button>
+        <div id="grid-feedback" class="feedback"></div>
+        <button id="grid-next" class="btn hidden" onclick="initGrid()">Suivant</button>
+    </div>
+
+    <!-- ETAPE 3 : CALCUL (CHF) -->
+    <div id="calc-mode" class="content-area hidden">
+        <div class="instruction">Calcule le montant en Francs :</div>
+        
+        <div style="font-size: 1.6rem; font-weight: bold; margin: 20px 0;">
+            <span id="calc-percent" style="color:var(--primary)">0</span>% de <span id="calc-total">0</span> CHF
+        </div>
+
+        <input type="number" id="user-answer" placeholder="?">
+        
+        <button class="btn" onclick="checkCalc()">Valider</button>
+        
+        <div id="calc-feedback" class="feedback"></div>
+        <button id="calc-next" class="btn hidden" onclick="initCalc()">Suivant</button>
+    </div>
+
+    <!-- ETAPE 4 : SYNTHESE -->
+    <div id="synth-mode" class="content-area hidden">
+        <div class="instruction" style="margin-bottom: 15px;">Fiche Mémo</div>
+        
+        <div class="synth-list">
+            
+            <!-- 0% -->
+            <div class="synth-card">
+                <div class="pie-chart" style="background: #eee;"></div>
+                <div class="synth-info">
+                    <h3>0%</h3>
+                    <p class="synth-desc">C'est <strong>rien du tout</strong>.</p>
+                    <span class="synth-tip">0% de 100 CHF = 0 CHF</span>
+                </div>
+            </div>
+
+            <!-- 25% -->
+            <div class="synth-card">
+                <div class="pie-chart" style="background: conic-gradient(var(--primary) 0% 25%, #eee 25% 100%);"></div>
+                <div class="synth-info">
+                    <h3>25%</h3>
+                    <p class="synth-desc">C'est <strong>un quart</strong>.</p>
+                    <span class="synth-tip">Astuce : Diviser par 4</span>
+                </div>
+            </div>
+
+            <!-- 50% -->
+            <div class="synth-card">
+                <div class="pie-chart" style="background: conic-gradient(var(--primary) 0% 50%, #eee 50% 100%);"></div>
+                <div class="synth-info">
+                    <h3>50%</h3>
+                    <p class="synth-desc">C'est <strong>la moitié</strong>.</p>
+                    <span class="synth-tip">Astuce : Diviser par 2</span>
+                </div>
+            </div>
+
+            <!-- 75% -->
+            <div class="synth-card">
+                <div class="pie-chart" style="background: conic-gradient(var(--primary) 0% 75%, #eee 75% 100%);"></div>
+                <div class="synth-info">
+                    <h3>75%</h3>
+                    <p class="synth-desc">C'est <strong>trois quarts</strong>.</p>
+                    <span class="synth-tip">Astuce : La moitié + le quart</span>
+                </div>
+            </div>
+
+            <!-- 100% -->
+            <div class="synth-card">
+                <div class="pie-chart" style="background: var(--primary);"></div>
+                <div class="synth-info">
+                    <h3>100%</h3>
+                    <p class="synth-desc">C'est <strong>le tout</strong> (l'entier).</p>
+                    <span class="synth-tip">100% de 100 CHF = 100 CHF</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Navigation ---
+    function switchTab(mode) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.content-area').forEach(c => c.classList.add('hidden'));
+        
+        if(mode === 'inductive') {
+            document.querySelector('.tab:nth-child(1)').classList.add('active');
+            document.getElementById('inductive-mode').classList.remove('hidden');
+        } else if(mode === 'visual') {
+            document.querySelector('.tab:nth-child(2)').classList.add('active');
+            document.getElementById('visual-mode').classList.remove('hidden');
+        } else if(mode === 'calc') {
+            document.querySelector('.tab:nth-child(3)').classList.add('active');
+            document.getElementById('calc-mode').classList.remove('hidden');
+        } else {
+            document.querySelector('.tab:nth-child(4)').classList.add('active');
+            document.getElementById('synth-mode').classList.remove('hidden');
+        }
+    }
+
+    // --- ETAPE 1 : INDUCTIF (QCM) ---
+    let currentQcmTarget = 0;
+
+    function initInductive() {
+        document.getElementById('qcm-feedback').className = 'feedback';
+        document.getElementById('qcm-feedback').innerHTML = '';
+        document.getElementById('qcm-next').classList.add('hidden');
+
+        // Pourcentages visuels clés
+        const levels = [10, 25, 50, 75, 100];
+        currentQcmTarget = levels[Math.floor(Math.random() * levels.length)];
+        document.getElementById('qcm-target').innerText = currentQcmTarget + "%";
+
+        // Créer les leurres (distractors)
+        let options = [currentQcmTarget];
+        while(options.length < 3) {
+            let r = levels[Math.floor(Math.random() * levels.length)];
+            if(!options.includes(r)) options.push(r);
+        }
+        // Mélanger
+        options.sort(() => Math.random() - 0.5);
+
+        const container = document.getElementById('qcm-options');
+        container.innerHTML = '';
+
+        options.forEach(val => {
+            let card = document.createElement('div');
+            card.className = 'option-card';
+            
+            let pie = document.createElement('div');
+            pie.className = 'pie-chart';
+            pie.style.background = `conic-gradient(var(--primary) 0% ${val}%, #eee ${val}% 100%)`;
+            
+            card.appendChild(pie);
+            card.onclick = () => checkInductive(val, card);
+            container.appendChild(card);
+        });
+    }
+
+    function checkInductive(selectedVal, cardElement) {
+        const cards = document.querySelectorAll('.option-card');
+        cards.forEach(c => c.style.pointerEvents = 'none');
+
+        const feedback = document.getElementById('qcm-feedback');
+        
+        if(selectedVal === currentQcmTarget) {
+            cardElement.style.borderColor = 'var(--success)';
+            cardElement.style.backgroundColor = '#dff9fb';
+            feedback.className = 'feedback success';
+            
+            let text = "Bravo ! ";
+            if(currentQcmTarget === 50) text += "C'est bien la moitié.";
+            if(currentQcmTarget === 25) text += "C'est bien un quart.";
+            if(currentQcmTarget === 75) text += "C'est bien les trois quarts.";
+            if(currentQcmTarget === 100) text += "C'est le tout (entier).";
+            
+            feedback.innerText = text;
+            document.getElementById('qcm-next').classList.remove('hidden');
+        } else {
+            cardElement.style.borderColor = 'var(--error)';
+            feedback.className = 'feedback error';
+            feedback.innerText = "Non, ce graphique représente " + selectedVal + "%.";
+            document.getElementById('qcm-next').classList.remove('hidden');
+        }
+    }
+
+    // --- ETAPE 2 : GRILLE ---
+    let currentGridTarget = 0;
+    let currentGridCount = 0;
+
+    function createGrid() {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = '';
+        for (let i = 0; i < 100; i++) {
+            let cell = document.createElement('div');
+            cell.className = 'grid-cell';
+            cell.onclick = function() { 
+                if(this.classList.contains('active')) {
+                    this.classList.remove('active');
+                    currentGridCount--;
+                } else {
+                    this.classList.add('active');
+                    currentGridCount++;
+                }
+            };
+            grid.appendChild(cell);
+        }
+    }
+
+    function initGrid() {
+        document.getElementById('grid-feedback').className = 'feedback';
+        document.getElementById('grid-feedback').innerHTML = '';
+        document.getElementById('grid-next').classList.add('hidden');
+        
+        const cells = document.querySelectorAll('.grid-cell');
+        cells.forEach(c => c.classList.remove('active'));
+        currentGridCount = 0;
+
+        const multiples = [10, 20, 25, 50, 75];
+        currentGridTarget = multiples[Math.floor(Math.random() * multiples.length)];
+        
+        document.getElementById('grid-target').innerText = currentGridTarget + "%";
+        document.getElementById('grid-target-num').innerText = currentGridTarget;
+    }
+
+    function checkGrid() {
+        const feedback = document.getElementById('grid-feedback');
+        if (currentGridCount === currentGridTarget) {
+            feedback.className = 'feedback success';
+            feedback.innerHTML = "Correct ! " + currentGridTarget + " cases sur 100.";
+            document.getElementById('grid-next').classList.remove('hidden');
+        } else {
+            feedback.className = 'feedback error';
+            feedback.innerHTML = "Tu as colorié " + currentGridCount + " cases. Il en faut " + currentGridTarget + ".";
+        }
+    }
+
+    // --- ETAPE 3 : CALCUL ---
+    let currentCalcPercent = 0;
+    let currentCalcTotal = 0;
+
+    function initCalc() {
+        document.getElementById('calc-feedback').className = 'feedback';
+        document.getElementById('calc-feedback').innerHTML = '';
+        document.getElementById('calc-next').classList.add('hidden');
+        document.getElementById('user-answer').value = '';
+
+        const percents = [10, 20, 25, 50];
+        currentCalcPercent = percents[Math.floor(Math.random() * percents.length)];
+
+        let totals = [];
+        if (currentCalcPercent === 10) totals = [10, 20, 50, 80, 100, 200];
+        else if (currentCalcPercent === 20) totals = [10, 20, 50, 100];
+        else if (currentCalcPercent === 25) totals = [4, 8, 20, 40, 80, 100];
+        else if (currentCalcPercent === 50) totals = [2, 10, 20, 40, 60, 100, 200];
+
+        currentCalcTotal = totals[Math.floor(Math.random() * totals.length)];
+
+        document.getElementById('calc-percent').innerText = currentCalcPercent;
+        document.getElementById('calc-total').innerText = currentCalcTotal;
+    }
+
+    function checkCalc() {
+        const userAnswer = parseFloat(document.getElementById('user-answer').value);
+        const correctAnswer = (currentCalcPercent / 100) * currentCalcTotal;
+        const feedback = document.getElementById('calc-feedback');
+
+        if (userAnswer === correctAnswer) {
+            feedback.className = 'feedback success';
+            feedback.innerHTML = "Exact ! " + correctAnswer + " CHF.";
+            document.getElementById('calc-next').classList.remove('hidden');
+        } else {
+            feedback.className = 'feedback error';
+            let hint = "";
+            if (currentCalcPercent === 50) hint = " (C'est la moitié)";
+            if (currentCalcPercent === 25) hint = " (Divise par 4)";
+            if (currentCalcPercent === 10) hint = " (Enlève un zéro ou décale la virgule)";
+            feedback.innerHTML = "Ce n'est pas ça. Essaie encore." + hint;
+        }
+    }
+
+    // Initialisation globale
+    window.onload = function() {
+        createGrid();
+        initInductive();
+        initGrid();
+        initCalc();
+    };
+</script>
+
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Générateur d'Analyse Critique - Analyser sa pratique avec l'IA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .intro-box {
+            background: #f0f4ff;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        
+        .intro-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .warning-box strong {
+            color: #e65100;
+        }
+
+        .example-box {
+            background: #f3e5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #9c27b0;
+        }
+
+        .example-box strong {
+            color: #6a1b9a;
+        }
+        
+        .question-block {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .question-block label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        .question-block input[type="text"],
+        .question-block textarea,
+        .question-block select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        .question-block input[type="text"]:focus,
+        .question-block textarea:focus,
+        .question-block select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .question-block textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .hint {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 8px;
+        }
+        
+        .generate-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .result-section {
+            display: none;
+            margin-top: 30px;
+            padding: 30px;
+            background: #f0f4ff;
+            border-radius: 10px;
+            border: 2px solid #667eea;
+        }
+        
+        .result-section.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .prompt-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+        
+        .copy-btn {
+            padding: 12px 25px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .copy-btn.copied {
+            background: #155724;
+        }
+        
+        .instructions {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .instructions strong {
+            color: #856404;
+        }
+        
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔍 Générateur d'Analyse Critique</h1>
+            <p>Analyser sa pratique avec l'IA</p>
+            <div class="badge">✨ L'IA vous aide à utiliser l'IA de manière critique</div>
+        </header>
+        
+        <div class="content">
+            <div class="intro-box">
+                <h3>🎯 Pourquoi analyser les biais ?</h3>
+                <p>L'IA peut être un outil puissant en formation, mais elle n'est pas neutre. Elle reproduit les biais de ses données d'entraînement. En formation de base, où on travaille avec des publics vulnérables, il est essentiel d'avoir un regard critique.</p>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ Exemples de biais possibles :</strong><br>
+                • Stéréotypes culturels ou de genre dans les exemples générés<br>
+                • Vocabulaire inadapté aux niveaux débutants<br>
+                • Situations trop éloignées de la réalité des apprenants<br>
+                • Exclusion involontaire de certaines réalités (handicap, migration, précarité)
+            </div>
+
+            <div class="example-box">
+                <strong>💡 Utilisation concrète :</strong><br>
+                Vous utilisez déjà l'IA pour créer vos supports. Mais avez-vous vérifié si elle ne reproduit pas des stéréotypes ? Si elle n'exclut pas certaines réalités de vos apprenants ?<br>
+                → Ce générateur vous aide à identifier vos angles morts.
+            </div>
+            
+            <form id="generatorForm">
+                <div class="question-block">
+                    <label>1️⃣ Comment utilisez-vous actuellement l'IA dans vos formations ?</label>
+                    <textarea id="utilisation" placeholder="Ex: Je l'utilise pour créer des exercices de compréhension écrite, pour simplifier des textes administratifs, pour générer des exemples de CV..." required></textarea>
+                    <p class="hint">💡 Décrivez concrètement ce que vous faites avec l'IA</p>
+                </div>
+                
+                <div class="question-block">
+                    <label>2️⃣ Quel est votre public cible ?</label>
+                    <input type="text" id="public" placeholder="Ex: Adultes migrants, niveau A1-A2, situations de précarité" required>
+                    <p class="hint">💡 Plus vous êtes précis, mieux l'analyse sera adaptée</p>
+                </div>
+
+                <div class="question-block">
+                    <label>3️⃣ Quelles questions vous posez-vous déjà sur votre usage de l'IA ?</label>
+                    <textarea id="questions" placeholder="Ex: Est-ce que mes exercices générés par IA sont vraiment adaptés ? Est-ce qu'ils reproduisent des stéréotypes ? Est-ce que je ne perds pas le contact humain ?"></textarea>
+                    <p class="hint">💡 Optionnel - mais aide à cibler l'analyse</p>
+                </div>
+                
+                <button type="submit" class="generate-btn">✨ Générer mon prompt d'analyse critique</button>
+            </form>
+            
+            <div class="result-section" id="resultSection">
+                <h3>🎉 Votre prompt est prêt !</h3>
+                <p style="margin-bottom: 15px;">Copiez ce texte et collez-le dans ChatGPT ou Claude :</p>
+                
+                <div class="prompt-box" id="promptBox"></div>
+                
+                <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">📋 Copier le prompt</button>
+                
+                <div class="instructions">
+                    <strong>📌 Comment utiliser ce prompt :</strong>
+                    <ol style="margin-top: 10px; margin-left: 20px;">
+                        <li>Cliquez sur "Copier le prompt" ci-dessus</li>
+                        <li>Ouvrez ChatGPT ou Claude</li>
+                        <li>Collez le prompt et envoyez</li>
+                        <li>L'IA vous donne une analyse critique de VOTRE pratique</li>
+                        <li>Utilisez cette analyse pour ajuster votre façon d'utiliser l'IA</li>
+                        <li>Recommencez régulièrement cet exercice de réflexivité</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            Colloque Compétences de Base - 25 novembre 2025<br>
+            Dao Mercier - CPNE
+        </footer>
+    </div>
+    
+    <script>
+        document.getElementById('generatorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const utilisationValue = document.getElementById('utilisation').value;
+            const publicValue = document.getElementById('public').value;
+            const questionsValue = document.getElementById('questions').value;
+            
+            const questionsSection = questionsValue ? `
+
+🤔 MES QUESTIONS ACTUELLES :
+${questionsValue}` : '';
+            
+            const prompt = `Je suis formateur/formatrice en compétences de base et j'utilise l'IA dans mes formations. Je souhaite avoir un regard critique sur ma pratique pour m'assurer que je l'utilise de manière éthique, inclusive et adaptée.
+
+📋 MON UTILISATION ACTUELLE DE L'IA :
+${utilisationValue}
+
+👥 MON PUBLIC :
+${publicValue}${questionsSection}
+
+Peux-tu m'aider à analyser ma pratique de manière critique en répondant aux questions suivantes :
+
+1️⃣ BIAIS POTENTIELS
+→ Quels biais (culturels, de genre, sociaux) mon utilisation de l'IA pourrait-elle reproduire ?
+→ Quels stéréotypes pourraient se glisser dans les contenus générés ?
+→ Comment vérifier si mes contenus générés sont vraiment inclusifs ?
+
+2️⃣ ANGLES MORTS
+→ Qu'est-ce que je risque de ne PAS voir en utilisant l'IA de cette façon ?
+→ Quelles réalités de mes apprenants pourraient être invisibilisées ?
+→ Est-ce que l'IA me fait perdre quelque chose d'important dans ma relation pédagogique ?
+
+3️⃣ RISQUES D'EXCLUSION
+→ Pour qui mes contenus générés par IA risquent-ils de NE PAS fonctionner ?
+→ Quelles barrières involontaires je pourrais créer ?
+→ Comment m'assurer que personne n'est laissé au bord du chemin ?
+
+4️⃣ PISTES D'AMÉLIORATION
+→ Quelles précautions concrètes je peux prendre dans mes prompts ?
+→ Comment vérifier la qualité éthique des contenus générés ?
+→ Quelle grille de relecture je peux me créer ?
+
+IMPORTANT :
+✅ Sois spécifique et concret (pas de généralités)
+✅ Donne-moi des ACTIONS concrètes à mettre en place
+✅ Aide-moi à garder un usage RESPONSABLE de l'IA
+
+Merci pour cette analyse critique !`;
+            
+            document.getElementById('promptBox').textContent = prompt;
+            document.getElementById('resultSection').classList.add('show');
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+        
+        function copyPrompt() {
+            const promptText = document.getElementById('promptBox').textContent;
+            navigator.clipboard.writeText(promptText).then(function() {
+                const btn = document.getElementById('copyBtn');
+                btn.textContent = '✅ Copié !';
+                btn.classList.add('copied');
+                setTimeout(function() {
+                    btn.textContent = '📋 Copier le prompt';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

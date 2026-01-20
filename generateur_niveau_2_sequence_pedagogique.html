@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Générateur de Séquences - Concevoir une séquence adaptée à son public</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .intro-box {
+            background: #f0f4ff;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        
+        .intro-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .trois-a-box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .a-card {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .a-card h4 {
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .a-card p {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .example-box {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        .example-box strong {
+            color: #856404;
+        }
+        
+        .question-block {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .question-block label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        .question-block input[type="text"],
+        .question-block textarea,
+        .question-block select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        .question-block input[type="text"]:focus,
+        .question-block textarea:focus,
+        .question-block select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .question-block textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .hint {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 8px;
+        }
+        
+        .generate-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .result-section {
+            display: none;
+            margin-top: 30px;
+            padding: 30px;
+            background: #f0f4ff;
+            border-radius: 10px;
+            border: 2px solid #667eea;
+        }
+        
+        .result-section.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .prompt-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+        
+        .copy-btn {
+            padding: 12px 25px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .copy-btn.copied {
+            background: #155724;
+        }
+        
+        .instructions {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .instructions strong {
+            color: #856404;
+        }
+        
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Générateur de Séquences</h1>
+            <p>Concevoir une séquence pédagogique adaptée à son public</p>
+            <div class="badge">✨ L'IA vous aide à structurer, vous gardez la main sur le pédagogique</div>
+        </header>
+        
+        <div class="content">
+            <div class="intro-box">
+                <h3>🎯 Structurer avec les 3A</h3>
+                <p>Une bonne séquence pédagogique suit une logique en 3 phases. L'IA peut vous proposer des idées d'activités pour chaque phase.</p>
+                
+                <div class="trois-a-box">
+                    <div class="a-card">
+                        <h4>1️⃣ APPEL</h4>
+                        <p>Donner du sens, faire le lien avec leur vécu</p>
+                    </div>
+                    <div class="a-card">
+                        <h4>2️⃣ APPORT</h4>
+                        <p>Travailler les ressources, pratiquer en contexte d'apprentissage</p>
+                    </div>
+                    <div class="a-card">
+                        <h4>3️⃣ ANCRAGE</h4>
+                        <p>Consolider et transférer dans la vie réelle</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <strong>💡 Exemple concret :</strong><br>
+                Vous voulez former un groupe à "comprendre une facture" (2h).<br>
+                → L'IA vous propose des activités concrètes pour les 3 phases : lien avec leur vécu (difficultés rencontrées), travail guidé sur les différentes parties d'une facture (vocabulaire, calculs), puis mise en situation avec leurs propres factures.
+            </div>
+            
+            <form id="generatorForm">
+                <div class="question-block">
+                    <label>1️⃣ Décrivez votre public</label>
+                    <input type="text" id="public" placeholder="Ex: 8 personnes peu ou pas scolarisées, illettrisme et alphabétisation, âge 30-55 ans" required>
+                    <p class="hint">💡 Nombre, profil, niveau, contexte</p>
+                </div>
+                
+                <div class="question-block">
+                    <label>2️⃣ Quel est votre objectif principal ?</label>
+                    <textarea id="objectif" placeholder="Ex: À la fin, ils seront capables de comprendre les différentes parties d'une facture (émetteur, destinataire, montants, dates) et de vérifier si elle est correcte" required></textarea>
+                    <p class="hint">💡 Complétez : "À la fin, mes participants seront capables de..."</p>
+                </div>
+
+                <div class="question-block">
+                    <label>3️⃣ Durée de votre séquence</label>
+                    <select id="duree" required>
+                        <option value="">-- Choisissez --</option>
+                        <option value="1 heure">1 heure</option>
+                        <option value="1h30">1h30</option>
+                        <option value="2 heures">2 heures</option>
+                        <option value="2h30">2h30</option>
+                        <option value="3 heures">3 heures</option>
+                        <option value="demi-journée (3-4h)">Demi-journée (3-4h)</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="generate-btn">✨ Générer mon prompt</button>
+            </form>
+            
+            <div class="result-section" id="resultSection">
+                <h3>🎉 Votre prompt est prêt !</h3>
+                <p style="margin-bottom: 15px;">Copiez ce texte et collez-le dans ChatGPT ou Claude :</p>
+                
+                <div class="prompt-box" id="promptBox"></div>
+                
+                <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">📋 Copier le prompt</button>
+                
+                <div class="instructions">
+                    <strong>📌 Comment utiliser ce prompt :</strong>
+                    <ol style="margin-top: 10px; margin-left: 20px;">
+                        <li>Cliquez sur "Copier le prompt" ci-dessus</li>
+                        <li>Ouvrez ChatGPT ou Claude</li>
+                        <li>Collez le prompt et envoyez</li>
+                        <li>L'IA vous propose des activités pour les 3 phases</li>
+                        <li>Piochez dans ses idées, adaptez à VOTRE contexte</li>
+                        <li>Vous restez le designer, l'IA est juste votre assistant</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            Colloque Compétences de Base - 25 novembre 2025<br>
+            Dao Mercier - CPNE
+        </footer>
+    </div>
+    
+    <script>
+        document.getElementById('generatorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const publicValue = document.getElementById('public').value;
+            const objectifValue = document.getElementById('objectif').value;
+            const dureeValue = document.getElementById('duree').value;
+            
+            const prompt = `Je prépare une séquence de formation en compétences de base avec les caractéristiques suivantes :
+
+👥 MON PUBLIC :
+${publicValue}
+
+🎯 MON OBJECTIF :
+${objectifValue}
+
+⏱️ DURÉE :
+${dureeValue}
+
+Je veux structurer ma séquence selon les 3 PHASES suivantes :
+
+1️⃣ APPEL (10-15% du temps)
+→ Donner du sens à l'apprentissage
+→ Faire le lien avec leur vécu et leurs besoins
+
+2️⃣ APPORT (60-70% du temps)
+→ Travailler les ressources nécessaires
+→ Pratiquer en contexte d'apprentissage (guidé, en salle)
+→ Vérifier la compréhension
+
+3️⃣ ANCRAGE (15-20% du temps)
+→ Consolider les acquis
+→ Transférer dans la vie réelle (contexte autonome)
+→ Donner envie de continuer
+
+Peux-tu me proposer des idées d'ACTIVITÉS CONCRÈTES pour chaque phase ?
+
+IMPORTANT :
+✅ Tiens compte du NIVEAU de mes apprenants (compétences de base)
+✅ Propose des activités PARTICIPATIVES (pas seulement de l'écoute)
+✅ Reste RÉALISTE par rapport au temps disponible
+✅ Pense INCLUSION : activités accessibles à tous
+
+Pour chaque activité, précise :
+- Ce que JE fais (le formateur)
+- Ce que font les PARTICIPANTS
+- Le TIMING approximatif
+- Le MATÉRIEL nécessaire (si pertinent)
+
+Merci de me donner 2-3 idées par phase, pour que je puisse choisir ce qui colle le mieux à mon contexte !`;
+            
+            document.getElementById('promptBox').textContent = prompt;
+            document.getElementById('resultSection').classList.add('show');
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+        
+        function copyPrompt() {
+            const promptText = document.getElementById('promptBox').textContent;
+            navigator.clipboard.writeText(promptText).then(function() {
+                const btn = document.getElementById('copyBtn');
+                btn.textContent = '✅ Copié !';
+                btn.classList.add('copied');
+                setTimeout(function() {
+                    btn.textContent = '📋 Copier le prompt';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

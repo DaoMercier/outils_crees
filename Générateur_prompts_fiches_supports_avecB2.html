@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Prompts - Fiches Pédagogiques FLE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f7fafc;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 18px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #64748b;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab:hover {
+            background: #edf2f7;
+            color: #475569;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: white;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .form-section h2 {
+            font-size: 20px;
+            color: #1e293b;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .checkbox-item label {
+            margin-bottom: 0;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            flex: 1;
+            min-width: 200px;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(245, 87, 108, 0.3);
+        }
+
+        .output-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .output-section.visible {
+            display: block;
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .output-header h3 {
+            font-size: 18px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .output-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 14px;
+            min-width: auto;
+        }
+
+        .btn-copy {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-copy:hover {
+            background: #5568d3;
+        }
+
+        .btn-download {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-download:hover {
+            background: #059669;
+        }
+
+        .prompt-output {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            max-height: 400px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #334155;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+            font-weight: 600;
+        }
+
+        .success-message.visible {
+            display: block;
+        }
+
+        .info-box {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #1e40af;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .form-section {
+                padding: 15px;
+            }
+
+            button {
+                min-width: 100%;
+            }
+
+            .checkbox-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                border-bottom: 1px solid #e2e8f0;
+                border-left: 3px solid transparent;
+            }
+
+            .tab.active {
+                border-bottom-color: transparent;
+                border-left-color: #667eea;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Générateur de Prompts pour Fiches Pédagogiques FLE</h1>
+            <p>Créez des prompts détaillés pour générer vos fiches et supports pédagogiques avec Claude ou ChatGPT</p>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('fiche')">📄 Fiche Pédagogique</div>
+            <div class="tab" onclick="switchTab('supports')">📚 Supports Pédagogiques</div>
+        </div>
+
+        <div class="content">
+            <div class="info-box">
+                ℹ️ <strong>Mode d'emploi :</strong> Remplissez le formulaire ci-dessous, cliquez sur "Générer", puis copiez le prompt généré et collez-le dans Claude.ai ou ChatGPT pour obtenir votre fiche pédagogique complète ou vos supports.
+            </div>
+
+            <!-- TAB FICHE PÉDAGOGIQUE -->
+            <div id="tab-fiche" class="tab-content active">
+                <form id="form-fiche">
+                    <div class="form-section">
+                        <h2>📋 Informations de base</h2>
+                        
+                        <div class="form-group">
+                            <label for="titre">Titre de votre micro-tâche *</label>
+                            <input type="text" id="titre" required placeholder="Ex: Safari urbain des lieux méconnus">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="niveau">Niveau CECRL *</label>
+                            <select id="niveau" required>
+                                <option value="">-- Sélectionner --</option>
+                                <option value="A1">A1 - Débutant</option>
+                                <option value="A2">A2 - Élémentaire</option>
+                                <option value="B1">B1 - Intermédiaire</option>
+                                <option value="B2">B2 - Intermédiaire avancé</option>
+                                <option value="C1">C1 - Avancé</option>
+                                <option value="C2">C2 - Maîtrise</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="duree">Durée de la séance *</label>
+                            <input type="text" id="duree" required placeholder="Ex: 45 minutes ou 2 × 1h ou 3 séances de 45 min">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mode">Mode de travail *</label>
+                            <input type="text" id="mode" required placeholder="Ex: Groupes de 3-4 apprenants, Binômes, Individuel puis groupes">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2>📝 Description de la tâche</h2>
+                        
+                        <div class="form-group">
+                            <label for="description">Décrivez ce que les apprenants vont créer/produire *</label>
+                            <textarea id="description" required placeholder="Ex: Les apprenants créent un guide touristique alternatif présentant des lieux méconnus de leur ville avec descriptions détaillées et conseils personnalisés."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2>🎯 Objectifs linguistiques</h2>
+                        
+                        <div class="form-group">
+                            <label for="grammaire">Grammaire ciblée *</label>
+                            <input type="text" id="grammaire" required placeholder="Ex: Adjectifs qualificatifs et leur accord, Prépositions de lieu">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vocabulaire">Vocabulaire ciblé *</label>
+                            <input type="text" id="vocabulaire" required placeholder="Ex: Lieux urbains, architecture, tourisme alternatif">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="actes">Actes de parole ciblés *</label>
+                            <input type="text" id="actes" required placeholder="Ex: Décrire un lieu, Recommander, Justifier son choix">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2>⚙️ Options avancées (facultatif)</h2>
+                        
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="differenciation">
+                                <label for="differenciation">Inclure la différenciation pédagogique</label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="prolongements">
+                                <label for="prolongements">Inclure les prolongements possibles</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn-primary">
+                            ✨ Générer la Fiche Pédagogique Complète
+                        </button>
+                    </div>
+                </form>
+
+                <div id="output-fiche" class="output-section">
+                    <div class="output-header">
+                        <h3>📋 Prompt généré - Fiche Pédagogique</h3>
+                        <div class="output-buttons">
+                            <button class="btn-small btn-copy" onclick="copyPrompt('fiche')">📋 Copier</button>
+                            <button class="btn-small btn-download" onclick="downloadPrompt('fiche')">💾 Télécharger</button>
+                        </div>
+                    </div>
+                    <div id="prompt-fiche" class="prompt-output"></div>
+                    <div id="success-fiche" class="success-message">✅ Prompt copié ! Collez-le maintenant dans Claude.ai ou ChatGPT</div>
+                </div>
+            </div>
+
+            <!-- TAB SUPPORTS PÉDAGOGIQUES -->
+            <div id="tab-supports" class="tab-content">
+                <form id="form-supports">
+                    <div class="form-section">
+                        <h2>📋 Informations de base</h2>
+                        
+                        <div class="form-group">
+                            <label for="titre-s">Titre de votre micro-tâche *</label>
+                            <input type="text" id="titre-s" required placeholder="Ex: Safari urbain des lieux méconnus">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="niveau-s">Niveau CECRL *</label>
+                            <select id="niveau-s" required>
+                                <option value="">-- Sélectionner --</option>
+                                <option value="A1">A1 - Débutant</option>
+                                <option value="A2">A2 - Élémentaire</option>
+                                <option value="B1">B1 - Intermédiaire</option>
+                                <option value="B2">B2 - Intermédiaire avancé</option>
+                                <option value="C1">C1 - Avancé</option>
+                                <option value="C2">C2 - Maîtrise</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="duree-s">Durée de la séance *</label>
+                            <input type="text" id="duree-s" required placeholder="Ex: 45 minutes ou 2 × 1h">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mode-s">Mode de travail *</label>
+                            <input type="text" id="mode-s" required placeholder="Ex: Groupes de 3-4 apprenants">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2>📝 Description de la tâche</h2>
+                        
+                        <div class="form-group">
+                            <label for="description-s">Décrivez ce que les apprenants vont créer/produire *</label>
+                            <textarea id="description-s" required placeholder="Ex: Les apprenants créent un guide touristique alternatif..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2>🎯 Objectifs linguistiques</h2>
+                        
+                        <div class="form-group">
+                            <label for="grammaire-s">Grammaire ciblée *</label>
+                            <input type="text" id="grammaire-s" required placeholder="Ex: Adjectifs qualificatifs et leur accord">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vocabulaire-s">Vocabulaire ciblé *</label>
+                            <input type="text" id="vocabulaire-s" required placeholder="Ex: Lieux urbains, architecture">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="actes-s">Actes de parole ciblés *</label>
+                            <input type="text" id="actes-s" required placeholder="Ex: Décrire un lieu, Recommander">
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn-secondary">
+                            📦 Générer les Supports Pédagogiques
+                        </button>
+                    </div>
+                </form>
+
+                <div id="output-supports" class="output-section">
+                    <div class="output-header">
+                        <h3>📚 Prompt généré - Supports Pédagogiques</h3>
+                        <div class="output-buttons">
+                            <button class="btn-small btn-copy" onclick="copyPrompt('supports')">📋 Copier</button>
+                            <button class="btn-small btn-download" onclick="downloadPrompt('supports')">💾 Télécharger</button>
+                        </div>
+                    </div>
+                    <div id="prompt-supports" class="prompt-output"></div>
+                    <div id="success-supports" class="success-message">✅ Prompt copié ! Collez-le maintenant dans Claude.ai ou ChatGPT</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Switch between tabs
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tabName).classList.add('active');
+        }
+
+        // Generate prompt for Fiche Pédagogique
+        document.getElementById('form-fiche').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const titre = document.getElementById('titre').value;
+            const niveau = document.getElementById('niveau').value;
+            const duree = document.getElementById('duree').value;
+            const mode = document.getElementById('mode').value;
+            const description = document.getElementById('description').value;
+            const grammaire = document.getElementById('grammaire').value;
+            const vocabulaire = document.getElementById('vocabulaire').value;
+            const actes = document.getElementById('actes').value;
+            const differenciation = document.getElementById('differenciation').checked;
+            const prolongements = document.getElementById('prolongements').checked;
+
+            const prompt = `# GÉNÉRATION DE FICHE PÉDAGOGIQUE - MICRO-TÂCHE FLE
+
+## CONTEXTE DE LA MICRO-TÂCHE
+
+**Titre :** ${titre}
+**Niveau CECRL :** ${niveau}
+**Durée :** ${duree}
+**Mode de travail :** ${mode}
+
+**Description de la production attendue :**
+${description}
+
+---
+
+## OBJECTIFS LINGUISTIQUES
+
+### Grammaire ciblée :
+${grammaire}
+
+### Vocabulaire ciblé :
+${vocabulaire}
+
+### Actes de parole ciblés :
+${actes}
+
+---
+
+## MISSION
+
+Créez une fiche pédagogique complète et détaillée pour cette micro-tâche en respectant EXACTEMENT la structure suivante :
+
+---
+
+# 📋 FICHE PÉDAGOGIQUE : [Titre de la micro-tâche]
+
+## 1. INFORMATIONS GÉNÉRALES
+
+- **Niveau :** [Niveau CECRL]
+- **Durée totale :** [Durée]
+- **Type d'activité :** Micro-tâche actionnelle
+- **Mode de travail :** [Mode]
+- **Thématique :** [Thématique principale]
+
+---
+
+## 2. CONTEXTE ET SCÉNARIO
+
+[Décrivez le contexte authentique et motivant dans lequel s'inscrit la micro-tâche. Expliquez pourquoi cette tâche est pertinente et proche de situations réelles de communication.]
+
+---
+
+## 3. PRODUCTION FINALE ATTENDUE
+
+**Les apprenants devront :**
+[Décrivez précisément ce que les apprenants vont créer/produire]
+
+**Format de la production :**
+[Précisez le format : écrit, oral, multimodal, etc.]
+
+**Critères de réussite principaux :**
+- [Critère 1]
+- [Critère 2]
+- [Critère 3]
+- [etc.]
+
+---
+
+## 4. OBJECTIF SMART DE LA MICRO-TÂCHE
+
+**Spécifique :** [Que vont faire exactement les apprenants ?]
+
+**Mesurable :** [Comment évaluer la réussite ? Quels critères observables ?]
+
+**Atteignable :** [Pourquoi est-ce adapté à ce niveau ? Quels prérequis ?]
+
+**Réaliste :** [En quoi cela correspond à une situation authentique ?]
+
+**Temporellement défini :** [Durée précise et organisation temporelle]
+
+---
+
+## 5. OBJECTIFS D'APPRENTISSAGE
+
+### 5.1 Objectifs linguistiques
+
+**Grammaire :**
+- [Point grammatical 1 avec exemples]
+- [Point grammatical 2 avec exemples]
+- [etc.]
+
+**Vocabulaire thématique :**
+- [Champ lexical 1 avec exemples de mots/expressions]
+- [Champ lexical 2 avec exemples]
+- [etc.]
+
+**Actes de parole :**
+- [Acte de parole 1 avec exemples de phrases]
+- [Acte de parole 2 avec exemples]
+- [etc.]
+
+### 5.2 Objectifs pragmatiques
+- [Savoir-faire langagier 1]
+- [Savoir-faire langagier 2]
+- [etc.]
+
+### 5.3 Objectifs socio-culturels
+- [Aspect culturel/interculturel 1]
+- [Aspect culturel/interculturel 2]
+- [etc.]
+
+### 5.4 Compétences transversales (soft skills)
+- [Compétence 1 : ex. collaboration, créativité, etc.]
+- [Compétence 2]
+- [etc.]
+
+---
+
+## 6. PRÉREQUIS
+
+**Linguistiques :**
+- [Prérequis grammatical 1]
+- [Prérequis lexical 1]
+- [etc.]
+
+**Pragmatiques :**
+- [Savoir-faire préalable 1]
+- [etc.]
+
+---
+
+## 7. MATÉRIEL ET RESSOURCES NÉCESSAIRES
+
+### Pour l'enseignant :
+- [Matériel 1]
+- [Matériel 2]
+- [etc.]
+
+### Pour les apprenants :
+- [Matériel 1]
+- [Matériel 2]
+- [etc.]
+
+### Supports pédagogiques :
+- [Support 1 avec description]
+- [Support 2 avec description]
+- [etc.]
+
+---
+
+## 8. DÉROULEMENT DÉTAILLÉ DE LA SÉANCE
+
+### PHASE 1 : MISE EN SITUATION ET ACTIVATION (Durée : [X] minutes)
+
+**Objectif de la phase :** [Objectif précis]
+
+**Déroulement :**
+
+1. **[Étape 1 - Titre]** (X min)
+   - **Action enseignant :** [Ce que fait l'enseignant]
+   - **Action apprenants :** [Ce que font les apprenants]
+   - **Consigne exacte :** "[Consigne textuelle à donner aux apprenants]"
+   - **Modalité :** [Individuel/Binôme/Groupe/Classe entière]
+
+2. **[Étape 2 - Titre]** (X min)
+   - **Action enseignant :** [...]
+   - **Action apprenants :** [...]
+   - **Consigne exacte :** "[...]"
+   - **Modalité :** [...]
+
+[Continuez pour chaque étape de cette phase]
+
+**Transition vers la phase suivante :** [Comment passer à la phase 2]
+
+---
+
+### PHASE 2 : DÉCOUVERTE ET PRÉPARATION LINGUISTIQUE (Durée : [X] minutes)
+
+**Objectif de la phase :** [Objectif précis]
+
+**Déroulement :**
+
+1. **[Étape 1 - Titre]** (X min)
+   - **Action enseignant :** [...]
+   - **Action apprenants :** [...]
+   - **Consigne exacte :** "[...]"
+   - **Modalité :** [...]
+   - **Exemples linguistiques à travailler :** [Exemples concrets]
+
+2. **[Étape 2 - Titre]** (X min)
+   - [...]
+
+[Continuez pour chaque étape]
+
+**Transition vers la phase suivante :** [...]
+
+---
+
+### PHASE 3 : RÉALISATION DE LA MICRO-TÂCHE (Durée : [X] minutes)
+
+**Objectif de la phase :** [Objectif précis]
+
+**Déroulement :**
+
+1. **Explication de la tâche** (X min)
+   - **Action enseignant :** [...]
+   - **Consigne exacte :** "[Consigne très claire et détaillée de la production à réaliser]"
+   - **Critères de réussite rappelés :** [Liste des critères]
+
+2. **Production par les apprenants** (X min)
+   - **Action apprenants :** [Ce qu'ils font concrètement]
+   - **Rôle de l'enseignant :** [Accompagnement, étayage, circulation, etc.]
+   - **Outils/ressources disponibles :** [Ce à quoi ils ont accès]
+
+3. **Finalisation et vérification** (X min)
+   - **Action apprenants :** [...]
+   - **Action enseignant :** [...]
+
+**Transition vers la phase suivante :** [...]
+
+---
+
+### PHASE 4 : MISE EN COMMUN ET PARTAGE (Durée : [X] minutes)
+
+**Objectif de la phase :** [Objectif précis]
+
+**Déroulement :**
+
+1. **[Modalité de partage - ex: Présentation orale, galerie, etc.]** (X min)
+   - **Action apprenants :** [...]
+   - **Action enseignant :** [...]
+   - **Consigne exacte :** "[...]"
+
+2. **Échanges et feedback entre pairs** (X min)
+   - **Action apprenants :** [...]
+   - **Action enseignant :** [...]
+
+[Continuez pour chaque étape]
+
+**Transition vers la phase suivante :** [...]
+
+---
+
+### PHASE 5 : RETOUR RÉFLEXIF ET BILAN (Durée : [X] minutes)
+
+**Objectif de la phase :** [Objectif précis]
+
+**Déroulement :**
+
+1. **Auto-évaluation** (X min)
+   - **Action apprenants :** [...]
+   - **Outil utilisé :** [Grille d'auto-évaluation, questionnaire, etc.]
+
+2. **Bilan linguistique collectif** (X min)
+   - **Action enseignant :** [Synthèse des points forts, difficultés rencontrées, correction si nécessaire]
+   - **Action apprenants :** [Participation active au bilan]
+
+3. **Feedback sur la tâche** (X min)
+   - **Questions de l'enseignant :** 
+     - "[Question 1 pour encourager la métacognition]"
+     - "[Question 2]"
+     - "[etc.]"
+
+---
+
+## 9. ÉVALUATION
+
+### 9.1 Type d'évaluation
+- [Formative/Sommative/Diagnostique]
+- [Auto-évaluation, co-évaluation, évaluation par l'enseignant]
+
+### 9.2 Critères d'évaluation détaillés
+
+**Critère 1 : [Nom du critère - ex: Respect de la consigne]**
+- Très bien : [Descripteur précis]
+- Bien : [Descripteur précis]
+- À améliorer : [Descripteur précis]
+
+**Critère 2 : [Nom du critère - ex: Richesse linguistique]**
+- Très bien : [...]
+- Bien : [...]
+- À améliorer : [...]
+
+**Critère 3 : [Nom du critère - ex: Correction de la langue]**
+- [...]
+
+**Critère 4 : [Nom du critère - ex: Créativité/Originalité]**
+- [...]
+
+[Ajoutez autant de critères que nécessaire]
+
+### 9.3 Grille d'évaluation (format tableau)
+
+| Critère | Très bien (4 pts) | Bien (3 pts) | Passable (2 pts) | À améliorer (1 pt) | Points |
+|---------|-------------------|--------------|------------------|---------------------|--------|
+| [Critère 1] | [Descripteur] | [Descripteur] | [Descripteur] | [Descripteur] | /4 |
+| [Critère 2] | [...] | [...] | [...] | [...] | /4 |
+| [Critère 3] | [...] | [...] | [...] | [...] | /4 |
+| [Critère 4] | [...] | [...] | [...] | [...] | /4 |
+| **TOTAL** | | | | | **/16** |
+
+### 9.4 Grille d'auto-évaluation pour les apprenants
+
+| Je peux... | Facilement ✅ | Avec difficulté 🤔 | Pas encore ❌ |
+|------------|---------------|---------------------|---------------|
+| [Savoir-faire 1] | | | |
+| [Savoir-faire 2] | | | |
+| [Savoir-faire 3] | | | |
+| [etc.] | | | |
+
+---
+
+## 10. DIFFÉRENCIATION PÉDAGOGIQUE${differenciation ? '' : ' (OPTIONNEL - à développer si nécessaire)'}
+
+### Pour les apprenants en difficulté :
+- **Étayage 1 :** [Action concrète de simplification ou d'aide]
+- **Étayage 2 :** [...]
+- **Ressources supplémentaires :** [...]
+
+### Pour les apprenants avancés :
+- **Enrichissement 1 :** [Tâche plus complexe ou extension]
+- **Enrichissement 2 :** [...]
+- **Défi supplémentaire :** [...]
+
+### Adaptations possibles :
+- **Temporelle :** [Donner plus/moins de temps selon les besoins]
+- **Matérielle :** [...]
+- **Modalité :** [...]
+
+---
+
+## 11. PROLONGEMENTS POSSIBLES${prolongements ? '' : ' (OPTIONNEL)'}
+
+### À court terme (séance suivante) :
+- [Prolongement 1]
+- [Prolongement 2]
+
+### À moyen terme (dans la séquence) :
+- [Prolongement 1]
+- [Prolongement 2]
+
+### Vers une macro-tâche :
+- [Comment cette micro-tâche peut s'intégrer dans un projet plus vaste]
+
+### Interdisciplinarité :
+- [Liens avec d'autres disciplines]
+
+---
+
+## 12. CONSEILS PRATIQUES POUR L'ENSEIGNANT
+
+### Avant la séance :
+- [Conseil préparatoire 1]
+- [Conseil préparatoire 2]
+- [etc.]
+
+### Pendant la séance :
+- **Points de vigilance :**
+  - [Point 1]
+  - [Point 2]
+  - [etc.]
+
+- **Gestion du temps :**
+  - [Conseil 1]
+  - [Conseil 2]
+
+- **Gestion de groupe :**
+  - [Conseil 1]
+  - [Conseil 2]
+
+### Après la séance :
+- [Conseil pour le suivi]
+- [Conseil pour l'ajustement]
+
+---
+
+## 13. VARIANTES ET ADAPTATIONS POSSIBLES
+
+### Variante 1 : [Titre de la variante]
+[Description de comment modifier la tâche]
+
+### Variante 2 : [Titre de la variante]
+[Description]
+
+### Adaptation pour l'enseignement à distance :
+- [Adaptation 1]
+- [Adaptation 2]
+- [Outils numériques recommandés]
+
+---
+
+## 14. RESSOURCES COMPLÉMENTAIRES
+
+### Pour l'enseignant :
+- [Ressource 1 avec lien ou référence]
+- [Ressource 2]
+- [etc.]
+
+### Pour les apprenants :
+- [Ressource 1]
+- [Ressource 2]
+- [etc.]
+
+---
+
+## 15. ANNEXES SUGGÉRÉES
+
+1. **Document apprenant avec consignes détaillées**
+2. **Fiche de ressources linguistiques (boîte à outils)**
+3. **Modèle/Template de la production attendue**
+4. **Exemple de production réussie**
+5. **Grille d'évaluation détaillée (version imprimable)**
+6. **Fiche d'auto-évaluation (version imprimable)**
+7. **Matériel complémentaire spécifique à la tâche**
+
+---
+
+**IMPORTANT :** La fiche doit être complète, détaillée, directement exploitable en classe, et adaptée au niveau ${niveau}. Chaque phase doit contenir des consignes textuelles exactes que l'enseignant peut utiliser. Tous les tableaux doivent être remplis avec des contenus concrets et pertinents.
+
+${differenciation ? '\n**Note :** Développez particulièrement la section différenciation pédagogique avec des propositions concrètes et actionnables.\n' : ''}${prolongements ? '\n**Note :** Développez particulièrement la section prolongements avec des idées créatives et variées.\n' : ''}
+
+---
+
+# FIN DU PROMPT`;
+
+            document.getElementById('prompt-fiche').textContent = prompt;
+            document.getElementById('output-fiche').classList.add('visible');
+            document.getElementById('output-fiche').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        // Generate prompt for Supports Pédagogiques
+        document.getElementById('form-supports').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const titre = document.getElementById('titre-s').value;
+            const niveau = document.getElementById('niveau-s').value;
+            const duree = document.getElementById('duree-s').value;
+            const mode = document.getElementById('mode-s').value;
+            const description = document.getElementById('description-s').value;
+            const grammaire = document.getElementById('grammaire-s').value;
+            const vocabulaire = document.getElementById('vocabulaire-s').value;
+            const actes = document.getElementById('actes-s').value;
+
+            const prompt = `# GÉNÉRATION DE SUPPORTS PÉDAGOGIQUES - MICRO-TÂCHE FLE
+
+## CONTEXTE DE LA MICRO-TÂCHE
+
+**Titre :** ${titre}
+**Niveau CECRL :** ${niveau}
+**Durée :** ${duree}
+**Mode de travail :** ${mode}
+
+**Description de la production attendue :**
+${description}
+
+---
+
+## OBJECTIFS LINGUISTIQUES
+
+### Grammaire ciblée :
+${grammaire}
+
+### Vocabulaire ciblé :
+${vocabulaire}
+
+### Actes de parole ciblés :
+${actes}
+
+---
+
+## MISSION
+
+Créez TOUS les supports pédagogiques nécessaires pour cette micro-tâche. Chaque support doit être complet, directement imprimable/utilisable en classe, et adapté au niveau ${niveau}.
+
+---
+
+# 📚 SUPPORTS PÉDAGOGIQUES POUR : ${titre}
+
+---
+
+## SUPPORT 1 : DOCUMENT APPRENANT - CONSIGNES DE LA TÂCHE
+
+**Format :** Document A4, prêt à imprimer
+
+---
+
+### 📋 [TITRE DE LA MICRO-TÂCHE]
+
+**Niveau :** ${niveau} | **Durée :** ${duree} | **Travail :** ${mode}
+
+---
+
+#### 🎯 VOTRE MISSION
+
+[Expliquez la mission de manière claire, motivante et accessible pour des apprenants de niveau ${niveau}]
+
+---
+
+#### 📝 CE QUE VOUS ALLEZ CRÉER
+
+[Décrivez précisément la production attendue]
+
+**Format attendu :**
+- [Précision 1]
+- [Précision 2]
+- [Précision 3]
+
+---
+
+#### ⏱️ ORGANISATION DU TEMPS
+
+**Étape 1 : [Titre]** (X minutes)
+[Ce que vous devez faire]
+
+**Étape 2 : [Titre]** (X minutes)
+[Ce que vous devez faire]
+
+**Étape 3 : [Titre]** (X minutes)
+[Ce que vous devez faire]
+
+[Continuez pour chaque étape]
+
+---
+
+#### ✅ CRITÈRES DE RÉUSSITE
+
+Votre production sera réussie si :
+- ✓ [Critère 1]
+- ✓ [Critère 2]
+- ✓ [Critère 3]
+- ✓ [Critère 4]
+- ✓ [Critère 5]
+
+---
+
+#### 💡 CONSEILS
+
+- [Conseil pratique 1]
+- [Conseil pratique 2]
+- [Conseil pratique 3]
+
+---
+
+#### 📚 RESSOURCES À VOTRE DISPOSITION
+
+- [Ressource 1]
+- [Ressource 2]
+- [Ressource 3]
+
+---
+
+**Bon travail ! 🌟**
+
+---
+
+---
+
+## SUPPORT 2 : FICHE DE RESSOURCES LINGUISTIQUES (BOÎTE À OUTILS)
+
+**Format :** Document A4, prêt à imprimer
+
+---
+
+### 🧰 BOÎTE À OUTILS LINGUISTIQUES
+
+#### Pour réussir votre tâche : ${titre}
+
+---
+
+#### 📖 VOCABULAIRE UTILE
+
+**[Thème/Catégorie 1] :**
+| Français | Exemple dans une phrase |
+|----------|-------------------------|
+| [Mot 1] | [Phrase exemple] |
+| [Mot 2] | [Phrase exemple] |
+| [Mot 3] | [Phrase exemple] |
+| [etc.] | [etc.] |
+
+**[Thème/Catégorie 2] :**
+| Français | Exemple dans une phrase |
+|----------|-------------------------|
+| [Mot 1] | [Phrase exemple] |
+| [Mot 2] | [Phrase exemple] |
+| [etc.] | [etc.] |
+
+[Continuez pour chaque champ lexical pertinent]
+
+---
+
+#### 🔤 GRAMMAIRE ESSENTIELLE
+
+**[Point grammatical 1] :**
+
+**Règle :** [Explication simple et claire de la règle]
+
+**Exemples :**
+- ✅ [Exemple correct 1]
+- ✅ [Exemple correct 2]
+- ✅ [Exemple correct 3]
+
+**Attention aux erreurs fréquentes :**
+- ❌ [Erreur fréquente] → ✅ [Correction]
+- ❌ [Erreur fréquente] → ✅ [Correction]
+
+---
+
+**[Point grammatical 2] :**
+
+**Règle :** [...]
+
+**Exemples :**
+- ✅ [...]
+- ✅ [...]
+
+**Attention aux erreurs fréquentes :**
+- ❌ [...] → ✅ [...]
+
+[Continuez pour chaque point grammatical ciblé]
+
+---
+
+#### 💬 EXPRESSIONS ET PHRASES UTILES
+
+**Pour [Acte de parole 1 - ex: décrire un lieu] :**
+- [Expression 1]
+- [Expression 2]
+- [Expression 3]
+- [Expression 4]
+- [Expression 5]
+
+**Pour [Acte de parole 2 - ex: donner son opinion] :**
+- [Expression 1]
+- [Expression 2]
+- [Expression 3]
+- [etc.]
+
+**Pour [Acte de parole 3] :**
+- [Expression 1]
+- [Expression 2]
+- [etc.]
+
+[Continuez pour chaque acte de parole ciblé]
+
+---
+
+#### 🔗 MOTS DE LIAISON
+
+**Pour organiser votre texte/discours :**
+
+**Introduction :**
+- [Connecteur 1 + exemple]
+- [Connecteur 2 + exemple]
+
+**Développement :**
+- [Connecteur 1 + exemple]
+- [Connecteur 2 + exemple]
+- [Connecteur 3 + exemple]
+
+**Conclusion :**
+- [Connecteur 1 + exemple]
+- [Connecteur 2 + exemple]
+
+**Pour ajouter une idée :**
+- [Connecteur + exemple]
+
+**Pour opposer :**
+- [Connecteur + exemple]
+
+**Pour donner un exemple :**
+- [Connecteur + exemple]
+
+---
+
+#### ✏️ MODÈLES DE PHRASES
+
+**Structure 1 :** [Modèle de phrase avec des espaces à remplir]
+Exemple : [Phrase complétée]
+
+**Structure 2 :** [Modèle de phrase]
+Exemple : [Phrase complétée]
+
+**Structure 3 :** [Modèle de phrase]
+Exemple : [Phrase complétée]
+
+[Donnez 5-8 structures de phrases adaptées à la tâche]
+
+---
+
+---
+
+## SUPPORT 3 : TEMPLATE/MODÈLE DE PRODUCTION
+
+**Format :** Document A4, format de la production attendue vierge
+
+---
+
+### 📄 MODÈLE : [Titre de la production]
+
+[Créez ici un modèle vierge que les apprenants peuvent directement compléter. Le format doit correspondre exactement à ce qui est demandé dans la tâche.]
+
+[Exemple : si c'est un guide touristique, créez la mise en page d'un guide avec des sections à remplir, des espaces pour les images/descriptions, etc.]
+
+[Incluez des indications visuelles comme :]
+- [Titre de la section à compléter]
+- [Zone pour texte/dessin/photo]
+- [Encadrés avec instructions]
+- [etc.]
+
+---
+
+---
+
+## SUPPORT 4 : EXEMPLE DE PRODUCTION RÉUSSIE
+
+**Format :** Document A4, exemple complet
+
+---
+
+### 🌟 EXEMPLE DE PRODUCTION RÉUSSIE
+
+#### [Titre de l'exemple]
+
+[Créez ici un exemple complet et détaillé d'une production qui répond à tous les critères de réussite. Cet exemple doit servir de modèle inspirant pour les apprenants, tout en restant adapté au niveau ${niveau}.]
+
+[L'exemple doit inclure :]
+- [Tous les éléments demandés dans la consigne]
+- [Utilisation correcte des ressources linguistiques ciblées]
+- [Respect du format attendu]
+- [Créativité et originalité]
+
+---
+
+**💡 Pourquoi cet exemple est réussi :**
+
+- ✅ [Critère 1 respecté + explication]
+- ✅ [Critère 2 respecté + explication]
+- ✅ [Critère 3 respecté + explication]
+- ✅ [Critère 4 respecté + explication]
+- ✅ [Critère 5 respecté + explication]
+
+---
+
+---
+
+## SUPPORT 5 : GRILLE D'ÉVALUATION (VERSION ENSEIGNANT)
+
+**Format :** Document A4, prêt à imprimer
+
+---
+
+### 📊 GRILLE D'ÉVALUATION : ${titre}
+
+**Nom de l'apprenant/groupe :** ___________________________
+**Date :** _______________
+
+---
+
+| **CRITÈRE** | **Descripteurs** | **Points** | **Commentaires** |
+|-------------|------------------|------------|------------------|
+| **[Critère 1 - ex: Respect de la consigne]** (/4) | | | |
+| Excellent (4 pts) | [Descripteur très précis de ce qui est attendu pour 4 points] | ☐ | |
+| Bien (3 pts) | [Descripteur précis] | ☐ | |
+| Passable (2 pts) | [Descripteur précis] | ☐ | |
+| Insuffisant (1 pt) | [Descripteur précis] | ☐ | |
+| **[Critère 2 - ex: Richesse linguistique]** (/4) | | | |
+| Excellent (4 pts) | [Descripteur] | ☐ | |
+| Bien (3 pts) | [Descripteur] | ☐ | |
+| Passable (2 pts) | [Descripteur] | ☐ | |
+| Insuffisant (1 pt) | [Descripteur] | ☐ | |
+| **[Critère 3 - ex: Correction de la langue]** (/4) | | | |
+| Excellent (4 pts) | [Descripteur] | ☐ | |
+| Bien (3 pts) | [Descripteur] | ☐ | |
+| Passable (2 pts) | [Descripteur] | ☐ | |
+| Insuffisant (1 pt) | [Descripteur] | ☐ | |
+| **[Critère 4 - ex: Créativité/Originalité]** (/4) | | | |
+| Excellent (4 pts) | [Descripteur] | ☐ | |
+| Bien (3 pts) | [Descripteur] | ☐ | |
+| Passable (2 pts) | [Descripteur] | ☐ | |
+| Insuffisant (1 pt) | [Descripteur] | ☐ | |
+
+---
+
+**TOTAL : _____ / 16**
+
+---
+
+**Points forts de la production :**
+- 
+- 
+- 
+
+**Points à améliorer :**
+- 
+- 
+- 
+
+**Conseils pour progresser :**
+- 
+- 
+
+---
+
+**Signature de l'enseignant :** _________________
+
+---
+
+---
+
+## SUPPORT 6 : FICHE D'AUTO-ÉVALUATION (VERSION APPRENANT)
+
+**Format :** Document A4, prêt à imprimer
+
+---
+
+### 🪞 FICHE D'AUTO-ÉVALUATION
+
+#### Je réfléchis sur mon travail : ${titre}
+
+**Mon nom :** ___________________________
+**Date :** _______________
+
+---
+
+#### ✅ J'AI RÉUSSI À...
+
+| **Compétence** | **Facilement ✅** | **Avec un peu de difficulté 🤔** | **Avec beaucoup de difficulté ❌** |
+|----------------|-------------------|-----------------------------------|-------------------------------------|
+| [Savoir-faire 1 concret] | ☐ | ☐ | ☐ |
+| [Savoir-faire 2 concret] | ☐ | ☐ | ☐ |
+| [Savoir-faire 3 concret] | ☐ | ☐ | ☐ |
+| [Savoir-faire 4 concret] | ☐ | ☐ | ☐ |
+| [Savoir-faire 5 concret] | ☐ | ☐ | ☐ |
+| [Savoir-faire 6 concret] | ☐ | ☐ | ☐ |
+
+---
+
+#### 📝 UTILISATION DES RESSOURCES LINGUISTIQUES
+
+**Grammaire :**
+- J'ai utilisé [point grammatical 1] : ☐ Oui ☐ Parfois ☐ Non
+- J'ai utilisé [point grammatical 2] : ☐ Oui ☐ Parfois ☐ Non
+
+**Vocabulaire :**
+- J'ai utilisé du vocabulaire varié : ☐ Oui ☐ Parfois ☐ Non
+- J'ai utilisé les mots nouveaux : ☐ Oui ☐ Parfois ☐ Non
+
+**Expressions :**
+- J'ai utilisé des expressions utiles : ☐ Oui ☐ Parfois ☐ Non
+
+---
+
+#### 💭 JE RÉFLÉCHIS
+
+**Ce que j'ai trouvé facile :**
+_____________________________________________________________
+_____________________________________________________________
+
+**Ce que j'ai trouvé difficile :**
+_____________________________________________________________
+_____________________________________________________________
+
+**Ce que j'ai appris de nouveau :**
+_____________________________________________________________
+_____________________________________________________________
+
+**Ce que j'ai aimé dans cette activité :**
+_____________________________________________________________
+_____________________________________________________________
+
+---
+
+#### 🎯 ÉVALUATION DE MA PRODUCTION
+
+Je pense que ma production est : ☐ Excellente ☐ Bien ☐ Moyenne ☐ À améliorer
+
+**Pourquoi ?**
+_____________________________________________________________
+_____________________________________________________________
+
+---
+
+#### 🚀 MES OBJECTIFS POUR PROGRESSER
+
+**La prochaine fois, je veux améliorer :**
+1. _________________________________________________________
+2. _________________________________________________________
+3. _________________________________________________________
+
+---
+
+---
+
+## SUPPORT 7 : MATÉRIEL COMPLÉMENTAIRE SPÉCIFIQUE À LA TÂCHE
+
+[Créez ici des supports supplémentaires spécifiques à cette micro-tâche]
+
+[Exemples selon la tâche :]
+- Fiches de vocabulaire avec images
+- Cartes à découper (si activité ludique)
+- Documents authentiques simplifiés
+- Infographies
+- Modèles visuels
+- QR codes vers ressources en ligne
+- Etc.
+
+[Adaptez cette section en fonction de la nature spécifique de la micro-tâche]
+
+---
+
+---
+
+## SUPPORT 8 : GUIDE ENSEIGNANT - UTILISATION DES SUPPORTS
+
+**Format :** Document A4, guide pratique
+
+---
+
+### 👨‍🏫 GUIDE D'UTILISATION DES SUPPORTS PÉDAGOGIQUES
+
+#### Pour la micro-tâche : ${titre}
+
+---
+
+#### 📋 LISTE DE CONTRÔLE AVANT LA SÉANCE
+
+**À préparer :**
+- ☐ Imprimer le document apprenant (1 par apprenant/groupe)
+- ☐ Imprimer la fiche de ressources linguistiques (1 par apprenant)
+- ☐ Imprimer le template de production (1 par apprenant/groupe)
+- ☐ Afficher/distribuer l'exemple de production réussie
+- ☐ Préparer la grille d'évaluation
+- ☐ Préparer les fiches d'auto-évaluation
+- ☐ [Autres matériels spécifiques]
+
+**À prévoir dans la classe :**
+- [Matériel 1]
+- [Matériel 2]
+- [etc.]
+
+---
+
+#### 🎯 COMMENT UTILISER CHAQUE SUPPORT
+
+**Support 1 - Document apprenant :**
+- **Quand le distribuer :** [Moment précis]
+- **Comment le présenter :** [Consignes pour l'enseignant]
+- **Points à clarifier :** [Éléments à expliquer oralement]
+
+**Support 2 - Fiche de ressources linguistiques :**
+- **Quand le distribuer :** [Moment précis]
+- **Comment l'exploiter :** [Activités possibles avec cette fiche]
+- **Conseils :** [Comment aider les apprenants à l'utiliser efficacement]
+
+**Support 3 - Template de production :**
+- **Quand le distribuer :** [Moment précis]
+- **Consignes d'utilisation :** [Comment remplir le template]
+- **Adaptations possibles :** [Comment adapter pour différenciation]
+
+**Support 4 - Exemple de production :**
+- **Quand le montrer :** [Moment précis]
+- **Comment l'exploiter :** [Analyse collective, repérage des critères, etc.]
+- **Attention :** [Éviter la simple copie, encourager l'originalité]
+
+**Support 5 - Grille d'évaluation :**
+- **Quand l'utiliser :** [Pendant/après la production]
+- **Comment remplir :** [Conseils pour évaluer objectivement]
+- **Restitution :** [Comment donner le feedback aux apprenants]
+
+**Support 6 - Fiche d'auto-évaluation :**
+- **Quand la distribuer :** [Après la production]
+- **Temps accordé :** [X minutes]
+- **Exploitation :** [Discussion individuelle/collective]
+
+**Support 7 - Matériel complémentaire :**
+- **Utilisation :** [Comment intégrer ce matériel dans la séance]
+
+---
+
+#### ⏱️ GESTION DU TEMPS - PROPOSITION
+
+**Phase 1 :** (X min)
+- Distribution de [Support X]
+- [Action]
+
+**Phase 2 :** (X min)
+- Distribution de [Support X]
+- [Action]
+
+[Continuez pour toute la séance]
+
+---
+
+#### 💡 CONSEILS PRATIQUES
+
+**Pour gagner du temps :**
+- [Conseil 1]
+- [Conseil 2]
+
+**Pour gérer l'hétérogénéité :**
+- [Conseil 1]
+- [Conseil 2]
+
+**Pour maintenir la motivation :**
+- [Conseil 1]
+- [Conseil 2]
+
+**En cas de difficulté :**
+- [Solution 1]
+- [Solution 2]
+
+---
+
+#### 🔄 ADAPTATIONS POSSIBLES
+
+**Pour un public plus faible :**
+- [Simplification 1]
+- [Simplification 2]
+
+**Pour un public plus avancé :**
+- [Complexification 1]
+- [Complexification 2]
+
+**Pour l'enseignement à distance :**
+- [Adaptation numérique 1]
+- [Adaptation numérique 2]
+- [Outils recommandés]
+
+---
+
+#### ✅ APRÈS LA SÉANCE
+
+**À faire :**
+- [Action 1 - ex: archiver les productions]
+- [Action 2 - ex: noter les ajustements pour l'année suivante]
+- [Action 3]
+
+**À préparer pour la suite :**
+- [Prolongement éventuel]
+
+---
+
+---
+
+**IMPORTANT :** Tous les supports doivent être complets, directement utilisables, et adaptés au niveau ${niveau}. Les contenus doivent être concrets, avec de vrais exemples et non des placeholders génériques.
+
+---
+
+# FIN DU PROMPT`;
+
+            document.getElementById('prompt-supports').textContent = prompt;
+            document.getElementById('output-supports').classList.add('visible');
+            document.getElementById('output-supports').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        // Copy prompt to clipboard
+        function copyPrompt(type) {
+            const promptText = document.getElementById('prompt-' + type).textContent;
+            navigator.clipboard.writeText(promptText).then(function() {
+                const successMsg = document.getElementById('success-' + type);
+                successMsg.classList.add('visible');
+                setTimeout(function() {
+                    successMsg.classList.remove('visible');
+                }, 3000);
+            }, function(err) {
+                alert('Erreur lors de la copie. Veuillez sélectionner et copier manuellement le texte.');
+            });
+        }
+
+        // Download prompt as text file
+        function downloadPrompt(type) {
+            const promptText = document.getElementById('prompt-' + type).textContent;
+            const titre = type === 'fiche' ? document.getElementById('titre').value : document.getElementById('titre-s').value;
+            const filename = 'prompt-' + type + '-' + titre.replace(/[^a-z0-9]/gi, '-').toLowerCase() + '.txt';
+            
+            const blob = new Blob([promptText], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de prompts - Fiches différenciées Défi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+        
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .info-box p {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+        }
+        
+        .btn-fiches {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .btn-supports {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .output-section {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            background: #f9fafb;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .output-section.active {
+            display: block;
+        }
+        
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .output-header h3 {
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .copy-btn {
+            padding: 8px 20px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #059669;
+        }
+        
+        .copy-btn.copied {
+            background: #6366f1;
+        }
+        
+        .prompt-output {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #333;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .guide-section {
+            margin-top: 40px;
+            padding: 25px;
+            background: #fff7ed;
+            border-radius: 12px;
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .guide-section h3 {
+            color: #f59e0b;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .guide-section ol {
+            margin-left: 20px;
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        .guide-section li {
+            margin-bottom: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 25px;
+            background: #f9fafb;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .example {
+            font-style: italic;
+            color: #888;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✨ Générateur de prompts</h1>
+            <p>Fiches et supports différenciés pour Défi 1, 2, 3</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-box">
+                <h3>🎯 Comment ça marche ?</h3>
+                <p>Remplissez les informations ci-dessous sur votre unité et micro-tâche. Le générateur créera automatiquement deux prompts optimisés : un pour les fiches différenciées (A/B/C) et un pour les supports visuels. Vous pourrez ensuite les copier-coller dans ChatGPT ou Claude pour obtenir vos documents prêts à imprimer.</p>
+            </div>
+            
+            <form id="promptForm">
+                <div class="form-group">
+                    <label for="unite">1. Unité du manuel *</label>
+                    <input type="text" id="unite" placeholder="Ex: Unité 1 : Chiffres, lieux, métiers" required>
+                    <div class="example">Exemple : Unité 3 : Alimentation et santé</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="microtache">2. Micro-tâche visée *</label>
+                    <input type="text" id="microtache" placeholder="Ex: Profil métier" required>
+                    <div class="example">Exemple : Prendre rendez-vous chez le médecin</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pages">3. Pages du manuel *</label>
+                    <input type="text" id="pages" placeholder="Ex: p. 20-31" required>
+                    <div class="example">Exemple : p. 45-58</div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" class="btn-fiches" onclick="generateFichesPrompt()">
+                        🔵 Générer prompt FICHES
+                    </button>
+                    <button type="button" class="btn-supports" onclick="generateSupportsPrompt()">
+                        🟣 Générer prompt SUPPORTS
+                    </button>
+                </div>
+            </form>
+            
+            <div id="outputFiches" class="output-section">
+                <div class="output-header">
+                    <h3>✅ Prompt FICHES prêt !</h3>
+                    <button class="copy-btn" onclick="copyPrompt('fiches')">📋 Copier</button>
+                </div>
+                <div id="promptFiches" class="prompt-output"></div>
+            </div>
+            
+            <div id="outputSupports" class="output-section">
+                <div class="output-header">
+                    <h3>✅ Prompt SUPPORTS prêt !</h3>
+                    <button class="copy-btn" onclick="copyPrompt('supports')">📋 Copier</button>
+                </div>
+                <div id="promptSupports" class="prompt-output"></div>
+            </div>
+            
+            <div class="guide-section">
+                <h3>💡 Comment utiliser vos prompts ?</h3>
+                <ol>
+                    <li><strong>Remplissez les informations</strong> : Unité, micro-tâche, pages du manuel</li>
+                    <li><strong>Cliquez sur les boutons</strong> : D'abord "FICHES", puis "SUPPORTS"</li>
+                    <li><strong>Copiez les prompts</strong> : Cliquez sur 📋 "Copier" pour chaque prompt</li>
+                    <li><strong>Collez dans ChatGPT ou Claude</strong> : D'abord le prompt FICHES, puis le prompt SUPPORTS</li>
+                    <li><strong>Enregistrez les résultats</strong> : Copiez le code HTML généré dans un fichier .html et ouvrez-le dans votre navigateur</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="footer">
+            © 2025 Dao Mercier | Conçu avec Claude (Anthropic)
+        </div>
+    </div>
+    
+    <script>
+        function generateFichesPrompt() {
+            const unite = document.getElementById('unite').value;
+            const microtache = document.getElementById('microtache').value;
+            const pages = document.getElementById('pages').value;
+            
+            if (!unite || !microtache || !pages) {
+                alert('⚠️ Veuillez remplir tous les champs obligatoires (*)');
+                return;
+            }
+            
+            const prompt = `Tu es un expert en didactique du FLE/FLS et en différenciation pédagogique. Tu connais parfaitement le manuel Défi (Maison des Langues).
+
+Ta tâche : Créer 3 fiches pédagogiques différenciées (A, B, C) pour la micro-tâche "${microtache}" de l'unité "${unite}" (${pages}).
+
+CONTEXTE DU MANUEL :
+- Manuel : Défi (A1, A2 ou B1 selon l'unité)
+- Public : adultes migrants en cours FLE/FLS/Alpha
+- Approche actionnelle et communicative
+
+PROFILS DES APPRENANTS :
+- FICHE A : Apprenant·e·s en grande difficulté (scripteurs faibles, primo-arrivants)
+- FICHE B : Apprenant·e·s de niveau standard pour le niveau visé
+- FICHE C : Apprenant·e·s autonomes ou avancé·e·s
+
+STRUCTURE OBLIGATOIRE POUR CHAQUE FICHE :
+
+**En-tête :**
+- Unité : [Unité complète]
+- Micro-tâche : [Micro-tâche]
+- Profil ciblé : [Description du profil]
+
+**1. CONSIGNES**
+- Courtes et claires (phrases simples pour Fiche A)
+- Adaptées au niveau de chaque profil
+- Verbes d'action concrets
+
+**2. EXEMPLE**
+- Utiliser des prénoms VARIÉS (pas toujours le même !)
+- FICHE A : Prénom masculin (ex: Marc - cuisinier)
+- FICHE B : Prénom féminin (ex: Sofia - professeure)
+- FICHE C : Prénom différent (ex: Ahmed - chauffeur)
+- ⚠️ VÉRIFIER les accords masculin/féminin (prénom ↔ métier ↔ pronoms)
+
+**3. EXERCICES**
+- FICHE A : 3-4 exercices très guidés (QCM, associations, phrases à trous)
+- FICHE B : 4-5 exercices semi-guidés (complétions, productions courtes)
+- FICHE C : 3-4 exercices ouverts (productions libres, créativité)
+- Progression logique de la difficulté
+
+**4. DIALOGUE / JEU DE RÔLE**
+- FICHE A : Dialogue très simple avec répliques modèles
+- FICHE B : Dialogue semi-guidé avec variations possibles
+- FICHE C : Consignes ouvertes pour dialogue libre
+
+**5. SUPPORTS VISUELS**
+- Liste claire des supports nécessaires
+- Pictogrammes, cartes, calendriers, banques de phrases...
+- Adapter la complexité au profil
+
+EXIGENCES DE QUALITÉ :
+✅ Cohérence avec l'approche Défi (actionnel, vie quotidienne)
+✅ Différenciation claire et progressive A → B → C
+✅ Exemples variés et inclusifs (diversité des prénoms)
+✅ Accords grammaticaux impeccables
+✅ Consignes adaptées aux compétences en lecture
+✅ Activités motivantes et réalistes
+
+FORMAT DE SORTIE :
+Génère un document HTML structuré avec :
+- Titre principal : "Fiches différenciées – ${unite} (${microtache})"
+- 3 sections distinctes : FICHE A, FICHE B, FICHE C
+- Mise en page claire (titres, listes, espaces)
+- Prêt à imprimer (format A4)
+
+Crée maintenant ces 3 fiches différenciées en HTML.`;
+            
+            document.getElementById('promptFiches').textContent = prompt;
+            document.getElementById('outputFiches').classList.add('active');
+            document.getElementById('outputFiches').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function generateSupportsPrompt() {
+            const unite = document.getElementById('unite').value;
+            const microtache = document.getElementById('microtache').value;
+            const pages = document.getElementById('pages').value;
+            
+            if (!unite || !microtache || !pages) {
+                alert('⚠️ Veuillez remplir tous les champs obligatoires (*)');
+                return;
+            }
+            
+            const prompt = `Tu es un expert en création de supports pédagogiques FLE/FLS. Tu dois créer des supports visuels pour accompagner les fiches différenciées de la micro-tâche "${microtache}" de l'unité "${unite}" (${pages}).
+
+SUPPORTS À CRÉER (selon les besoins de la micro-tâche) :
+
+**1. CALENDRIER**
+- Format tableau clair (jours de la semaine)
+- Pour Fiche C : ajouter des horaires types (8h-16h)
+- Cases assez grandes pour écrire
+- Indication "Imprimez en mode PAYSAGE" si nécessaire
+
+**2. PICTOGRAMMES**
+- Grille découpable avec cadres pointillés
+- Émojis Unicode + texte
+- Taille adaptée au découpage
+- Exemples : métiers (🍳 cuisinier, 👨‍⚕️ médecin, 🚗 chauffeur, 👨‍🏫 professeur, 🛒 vendeur)
+- Exemples : loisirs (🎵 musique, ⚽ sport, 📚 lecture, 🍳 cuisine)
+- Case "✍️ Autre (à remplir)" pour personnalisation
+
+**3. CARTE GÉOGRAPHIQUE**
+- Si pertinent : carte simplifiée de la Suisse avec villes principales
+- Contour visible du pays
+- Points clairs pour chaque ville (● Lausanne, ● Genève, ● Neuchâtel)
+- Légende avec noms des villes
+- ⚠️ Ne pas mettre juste "[Contour de la Suisse]" → créer un vrai visuel simple
+
+**4. BANQUES DE PHRASES**
+- Étiquettes découpables (format rectangulaire)
+- Phrases modèles avec espaces à compléter
+- Ex: "Je m'appelle __________", "Je suis __________", "Je travaille à __________"
+- Bordures pointillées pour le découpage
+- Taille lisible (police 12-14pt minimum)
+
+**5. AUTRES SUPPORTS SELON LA MICRO-TÂCHE**
+- Horaires (matin/après-midi/soir)
+- Prix (billets, courses...)
+- Numéros de téléphone
+- Adresses
+- Tout support visuel pertinent pour la tâche
+
+EXIGENCES DE QUALITÉ :
+✅ Noir et blanc compatible (économie d'impression)
+✅ Format A4 clair et aéré
+✅ Bordures de découpage visibles (pointillés ou traits fins)
+✅ Instructions d'impression si nécessaire ("Mode paysage", "Agrandir à 120%"...)
+✅ Émojis Unicode (pas d'images externes)
+✅ Accessibilité : police lisible, contrastes élevés
+✅ Prêt à imprimer directement
+
+FORMAT DE SORTIE :
+Génère un document HTML avec :
+- Titre : "Supports visuels - ${microtache}"
+- Sections claires pour chaque type de support
+- Mise en page professionnelle
+- Instructions d'utilisation si nécessaire
+- Mention "Document prêt pour impression — Format A4"
+
+Crée maintenant ces supports visuels en HTML.`;
+            
+            document.getElementById('promptSupports').textContent = prompt;
+            document.getElementById('outputSupports').classList.add('active');
+            document.getElementById('outputSupports').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function copyPrompt(type) {
+            const promptText = type === 'fiches' 
+                ? document.getElementById('promptFiches').textContent
+                : document.getElementById('promptSupports').textContent;
+            
+            navigator.clipboard.writeText(promptText).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copié !';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
