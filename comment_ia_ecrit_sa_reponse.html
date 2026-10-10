@@ -122,6 +122,25 @@ const TEXTES = {
       { verbe: "Prompte.",   phrase: "Une bonne question l'aide à se relire." },
       { verbe: "Vérifie.",   phrase: "Probable ne veut pas dire vrai." }
     ]
+  },
+
+  scene8: {
+    titre: "En résumé",
+    /* Un clic par case. Les petites animations reprennent les scènes. */
+    devine: "Elle devine le plus probable",
+    mention: "⚠ Chiffres inventés",
+    morceaux: "Elle écrit morceau par morceau",
+    gomme: "Elle ne gomme pas, elle avance",
+    motFaux: "francophone",
+    motJuste: "bilingue",
+    relit: "Nouvelle réponse : elle relit tout",
+    doute: "Douter ne suffit pas",
+    douteAvant: "26 cantons",
+    douteRelance: "C'est vraiment juste ?",
+    douteApres: "23 cantons",
+    marqueJuste: "✓",
+    marqueFaux: "✗",
+    final: ["Réfléchis.", "Prompte.", "Vérifie."]
   }
 };
 /* ===================== FIN DES TEXTES ===================== */
@@ -352,6 +371,69 @@ const TEXTES = {
   }
   .phrase-verbe { font-size: 52px; text-align: center; margin-top: 40px; line-height: 1.35; }
 
+  /* --- Scène 8 : en résumé --- */
+  .resume { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 380px 380px; gap: 30px; }
+  .panneau {
+    border: 4px solid var(--texte); border-radius: 22px; padding: 18px 24px;
+    display: flex; flex-direction: column; gap: 14px; overflow: hidden; position: relative;
+  }
+  .panneau .num-resume {
+    position: absolute; right: 16px; top: 12px; font-size: 34px; font-weight: bold;
+    border: 3px solid var(--texte); border-radius: 50%; width: 52px; height: 52px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mini-mention { font-size: 32px; margin-top: 4px; }
+  .legende { font-size: 40px; font-weight: bold; color: var(--accent); line-height: 1.2; padding-right: 60px; }
+  .mini { font-size: 36px; line-height: 1.35; flex: 1; position: relative; }
+  /* 1. barres */
+  .mini-barre { display: grid; grid-template-columns: 140px 1fr 90px; gap: 12px; align-items: center; margin-bottom: 10px; font-size: 34px; }
+  .mini-piste { height: 34px; border: 3px solid var(--texte); }
+  .mini-rempl { height: 100%; width: 0; background: var(--accent); transition: width 1s ease var(--d, 0s); }
+  .panneau.visible .mini-rempl { width: var(--pct); }
+  /* 2. perles */
+  .mini-perles { display: flex; flex-wrap: wrap; row-gap: 14px; }
+  .mini-fil-perle { padding: 0 5px; display: flex; align-items: center; background: linear-gradient(#555,#555) center / 100% 5px no-repeat; }
+  .mini-perle {
+    font-size: 36px; font-weight: bold; padding: 4px 16px;
+    border: 4px solid var(--texte); border-radius: 999px;
+  }
+  .mini-fil-perle { opacity: 0; transition: opacity .4s ease var(--d, 0s); }
+  .panneau.visible .mini-fil-perle { opacity: 1; }
+  /* 3. gomme */
+  .mini-mot { position: relative; display: inline-block; }
+  .mini-gomme { position: absolute; left: 50%; top: -6px; margin-left: -50px; opacity: 0; pointer-events: none; }
+  .panneau.visible .mini-gomme { animation: mini-gommer 2.2s ease-in-out forwards; }
+  @keyframes mini-gommer {
+    0%   { transform: translate(160px, -90px); opacity: 0; }
+    15%  { transform: translate(0, 0); opacity: 1; }
+    30%  { transform: translate(-40px, 4px); }
+    45%  { transform: translate(40px, 0); }
+    60%  { transform: translate(-40px, 4px); }
+    75%  { transform: translate(0, 0); opacity: 1; }
+    100% { transform: translate(160px, -90px); opacity: 0; }
+  }
+  .apres { opacity: 0; transition: opacity .6s ease var(--d, 0s); }
+  .panneau.visible .apres { opacity: 1; }
+  /* 4. relecture */
+  .mini-fil { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 4px 0; }
+  .mini-bulle { height: 46px; border: 3px solid var(--texte); border-radius: 14px; font-size: 32px; font-weight: bold; padding: 0 12px; display: flex; align-items: center; }
+  .mini-bulle.v { align-self: flex-end; width: 55%; background: var(--doux); }
+  .mini-bulle.i { width: 75%; }
+  .mini-balayage {
+    position: absolute; left: -10px; right: -10px; height: 60px; bottom: 0; opacity: 0;
+    border-top: 8px solid var(--accent);
+    background: linear-gradient(to bottom, rgba(11,61,145,.30), rgba(11,61,145,0));
+  }
+  .panneau.visible .mini-balayage { animation: mini-balayer 2s ease-in-out .3s forwards; }
+  @keyframes mini-balayer {
+    0%   { bottom: 0; opacity: 1; }
+    85%  { bottom: calc(100% - 60px); opacity: 1; }
+    100% { bottom: calc(100% - 60px); opacity: 0; }
+  }
+  /* 6. case finale */
+  .panneau-final { background: var(--accent); border-color: var(--accent); color: #ffffff; justify-content: center; align-items: center; gap: 4px; }
+  .panneau-final p { font-size: 72px; font-weight: bold; line-height: 1.2; }
+
   @media print { #recommencer, #progression { display: none; } }
 </style>
 </head>
@@ -556,6 +638,53 @@ const TEXTES = {
           h("div", { c: "colonne-verbe" },
             h("div", { c: "verbe", e: 2 * i + 1 }, v.verbe),
             h("p", { c: "phrase-verbe", e: 2 * i + 2 }, v.phrase)))));
+    },
+
+    function scene8() {
+      const t = TEXTES.scene8;
+      const s1 = TEXTES.scene1, s2 = TEXTES.scene2;
+      let num = 0;
+      const panneau = (legende, ...contenu) => {
+        num++;
+        return h("div", { c: "panneau", e: num },
+          h("span", { c: "num-resume" }, String(num)),
+          h("p", { c: "legende" }, legende),
+          h("div", { c: "mini" }, ...contenu));
+      };
+      /* 1. les barres, avec les trois premiers choix de la scène 1 */
+      const barres = s1.choix.slice(0, 3).map((c, i) => {
+        const r = h("div", { c: "mini-rempl", d: i * 0.25 });
+        r.style.setProperty("--pct", c.pourcent + "%");
+        return h("div", { c: "mini-barre" }, h("span", {}, c.mot), h("div", { c: "mini-piste" }, r), h("b", {}, c.pourcent + "\u00a0%"));
+      });
+      /* 2. les perles de la scène 2, une à une */
+      const perles = h("div", { c: "mini-perles" },
+        ...s2.morceaux.map((m, i) => h("span", { c: "mini-fil-perle", d: i * 0.25 }, h("span", { c: "mini-perle p" + (i % 4) }, m))));
+      const gommeMini = '<svg width="100" height="54" viewBox="0 0 170 90" aria-hidden="true"><g transform="rotate(-18 85 45)">' +
+        '<rect x="10" y="22" width="150" height="50" rx="10" fill="#f48fb1" stroke="#111" stroke-width="6"/>' +
+        '<rect x="10" y="22" width="68" height="50" rx="10" fill="#1e63c4" stroke="#111" stroke-width="6"/></g></svg>';
+      return h("div", {},
+        h("h2", { e: 0 }, t.titre),
+        h("div", { c: "resume" },
+          panneau(t.devine, ...barres, h("p", { c: "mention mini-mention" }, t.mention)),
+          panneau(t.morceaux, perles),
+          panneau(t.gomme,
+            h("span", { c: "mini-mot faux" }, t.motFaux, h("span", { c: "mini-gomme", html: gommeMini })),
+            " ", h("span", { c: "marque marque-faux" }, t.marqueFaux),
+            h("br"),
+            h("span", { c: "apres", d: 2.2 }, "… ", h("span", { c: "juste" }, t.motJuste), " ",
+              h("span", { c: "marque marque-juste" }, t.marqueJuste))),
+          panneau(t.relit,
+            h("div", { c: "mini-fil" },
+              h("div", { c: "mini-bulle v" }, TEXTES.scene4.vous),
+              h("div", { c: "mini-bulle i" }, TEXTES.scene4.ia),
+              h("div", { c: "mini-bulle v" }, TEXTES.scene4.vous),
+              h("div", { c: "mini-balayage" }))),
+          panneau(t.doute,
+            h("div", {}, t.douteAvant, " ", h("span", { c: "marque marque-juste" }, t.marqueJuste)),
+            h("div", { c: "apres", d: 0.8 }, "↓ ", t.douteRelance),
+            h("div", { c: "apres", d: 1.6 }, t.douteApres, " ", h("span", { c: "marque marque-faux" }, t.marqueFaux))),
+          h("div", { c: "panneau panneau-final", e: num + 1 }, ...t.final.map(v => h("p", {}, v)))));
     }
   ];
 
