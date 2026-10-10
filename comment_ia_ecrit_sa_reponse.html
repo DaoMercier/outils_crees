@@ -114,16 +114,6 @@ const TEXTES = {
     message: "L'IA devine. C'est vous qui vérifiez."
   },
 
-  scene7: {
-    titre: "Ce qu'on retient",
-    /* Chaque verbe apparaît, puis sa phrase en dessous. */
-    verbes: [
-      { verbe: "Réfléchis.", phrase: "Elle devine, elle ne sait pas." },
-      { verbe: "Prompte.",   phrase: "Une bonne question l'aide à se relire." },
-      { verbe: "Vérifie.",   phrase: "Probable ne veut pas dire vrai." }
-    ]
-  },
-
   scene8: {
     titre: "En résumé",
     /* Un clic par case. Les petites animations reprennent les scènes. */
@@ -140,7 +130,12 @@ const TEXTES = {
     douteApres: "23 cantons",
     marqueJuste: "✓",
     marqueFaux: "✗",
-    final: ["Réfléchis.", "Prompte.", "Vérifie."]
+    /* Dernière case : chaque verbe avec sa phrase */
+    final: [
+      { verbe: "Réfléchis.", phrase: "Elle devine, elle ne sait pas." },
+      { verbe: "Prompte.",   phrase: "Une bonne question l'aide à se relire." },
+      { verbe: "Vérifie.",   phrase: "Probable ne veut pas dire vrai." }
+    ]
   }
 };
 /* ===================== FIN DES TEXTES ===================== */
@@ -362,17 +357,8 @@ const TEXTES = {
   .case-finale.allumee::after { content: "★"; position: absolute; right: 18px; top: 8px; font-size: 48px; }
   .fleche-chemin { display: flex; align-items: center; justify-content: center; font-size: 76px; font-weight: bold; color: var(--accent); }
 
-  /* --- Scène 7 --- */
-  .verbes { display: flex; justify-content: space-between; gap: 40px; margin-top: 30px; }
-  .colonne-verbe { flex: 1; }
-  .verbe {
-    text-align: center; font-size: 104px; font-weight: bold; color: var(--accent);
-    border: 6px solid var(--accent); border-radius: 28px; padding: 30px 10px;
-  }
-  .phrase-verbe { font-size: 52px; text-align: center; margin-top: 40px; line-height: 1.35; }
-
   /* --- Scène 8 : en résumé --- */
-  .resume { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 380px 380px; gap: 30px; }
+  .resume { display: grid; grid-template-columns: 1fr 1fr 1.2fr; grid-template-rows: 380px 380px; gap: 30px; }
   .panneau {
     border: 4px solid var(--texte); border-radius: 22px; padding: 18px 24px;
     display: flex; flex-direction: column; gap: 14px; overflow: hidden; position: relative;
@@ -432,7 +418,9 @@ const TEXTES = {
   }
   /* 6. case finale */
   .panneau-final { background: var(--accent); border-color: var(--accent); color: #ffffff; justify-content: center; align-items: center; gap: 4px; }
-  .panneau-final p { font-size: 72px; font-weight: bold; line-height: 1.2; }
+  .panneau-final { padding: 16px 26px; gap: 10px; align-items: stretch; }
+  .final-verbe { font-size: 52px; font-weight: bold; line-height: 1.1; }
+  .final-phrase { font-size: 34px; line-height: 1.2; }
 
   @media print { #recommencer, #progression { display: none; } }
 </style>
@@ -630,16 +618,6 @@ const TEXTES = {
         message(t.message, n + 1));
     },
 
-    function scene7() {
-      const t = TEXTES.scene7;
-      return h("div", {},
-        h("h2", { e: 0 }, t.titre),
-        h("div", { c: "verbes" }, ...t.verbes.map((v, i) =>
-          h("div", { c: "colonne-verbe" },
-            h("div", { c: "verbe", e: 2 * i + 1 }, v.verbe),
-            h("p", { c: "phrase-verbe", e: 2 * i + 2 }, v.phrase)))));
-    },
-
     function scene8() {
       const t = TEXTES.scene8;
       const s1 = TEXTES.scene1, s2 = TEXTES.scene2;
@@ -684,7 +662,7 @@ const TEXTES = {
             h("div", {}, t.douteAvant, " ", h("span", { c: "marque marque-juste" }, t.marqueJuste)),
             h("div", { c: "apres", d: 0.8 }, "↓ ", t.douteRelance),
             h("div", { c: "apres", d: 1.6 }, t.douteApres, " ", h("span", { c: "marque marque-faux" }, t.marqueFaux))),
-          h("div", { c: "panneau panneau-final", e: num + 1 }, ...t.final.map(v => h("p", {}, v)))));
+          h("div", { c: "panneau panneau-final", e: num + 1 }, ...t.final.map(v => h("div", { c: "final-ligne" }, h("p", { c: "final-verbe" }, v.verbe), h("p", { c: "final-phrase" }, v.phrase))))));
     }
   ];
 
