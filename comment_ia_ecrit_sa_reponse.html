@@ -17,6 +17,11 @@ const TEXTES = {
   progression: "Scène {s} sur {total}",
   fin: "Fin",
 
+  /* Premier écran : une question au groupe, avant l'accueil */
+  question: {
+    texte: "Quand vous posez une question à l'IA, vous lui faites complètement confiance ?"
+  },
+
   accueil: {
     titre: "Comment l'IA écrit sa réponse ?",
     sousTitre: "Trois idées simples pour recourir à l'IA les yeux ouverts",
@@ -51,20 +56,21 @@ const TEXTES = {
   scene3: {
     titre: "Moment 1 : pendant qu'elle écrit",
     etiquetteEcrit: "À l'écrit, l'IA :",
-    ecrit1: "La gravité est une force",
-    ecrit2: "qui",
-    motFaux: "repousse",
+    ecrit1: "Fribourg, en Suisse romande,",
+    ecrit2: "est un canton",
+    motFaux: "francophone",
     marqueFaux: "✗ faux",
     gomme: "La gomme essaie d'effacer… impossible : le mot reste.",
-    suiteAvant: "… non, qui",
-    motJuste: "attire",
-    suiteApres: "les objets.",
+    suiteAvant: "… non, c'est un canton",
+    motJuste: "bilingue.",
+    suiteApres: "",
     marqueJuste: "✓ juste",
     etiquetteOral: "À l'oral, un·e apprenant·e :",
-    oral1: "Hier, je suis",
-    oralFaux: "allé…",
-    oral2: "non, je suis",
-    oralJuste: "allée.",
+    oral1: "Hier,",
+    oralFaux: "j'ai allé…",
+    oral2: "non,",
+    oralJuste: "je suis allé",
+    oralApres: "à la gare.",
     message: "Pendant qu'elle écrit, elle ne peut rien effacer. Elle se corrige en avançant, comme un·e apprenant·e à l'oral."
   },
 
@@ -72,22 +78,49 @@ const TEXTES = {
     titre: "Moment 2 : dans une nouvelle réponse",
     vous: "Vous",
     ia: "IA",
-    question: "Qu'est-ce que la gravité ?",
-    reponse1: "La gravité est une force qui repousse les objets.",
-    relance: "Vous êtes sûr ?",
+    question: "Le canton de Fribourg est-il francophone ?",
+    reponse1: "Oui, le canton de Fribourg est francophone.",
+    relance: "C'est vraiment juste ?",
     relecture: "Elle relit toute la conversation",
-    reponse2: "Je corrige : la gravité attire les objets. Elle ne les repousse pas.",
+    reponse2: "Je corrige : le canton de Fribourg est bilingue, on y parle français et suisse allemand.",
     rienEfface: "◀ toujours là : rien n'a été effacé",
     message: "Dans une nouvelle réponse, elle relit tout. C'est souvent votre question qui déclenche la correction."
   },
 
   scene5: {
+    titre: "Attention : douter ne suffit pas",
+    vous: "Vous",
+    ia: "IA",
+    question: "Combien de cantons compte la Suisse ?",
+    reponse1: "La Suisse compte 26 cantons.",
+    marqueJuste: "✓ juste",
+    relance: "C'est vraiment juste ?",
+    reponse2: "Vous avez raison, je corrige : 23 cantons.",
+    marqueFaux: "✗ faux",
+    message: "Une relance peut aussi lui faire abandonner une bonne réponse. Votre question ne remplace pas la vérification."
+  },
+
+  scene6: {
+    titre: "Le chemin d'une réponse",
+    /* Les six cases, dans l'ordre. La dernière est mise en valeur. */
+    etapes: [
+      "Vous écrivez",
+      "Elle découpe en morceaux",
+      "Elle devine le morceau suivant",
+      "Elle écrit sans pouvoir gommer",
+      "Vous relancez, elle relit tout",
+      "Vous vérifiez"
+    ],
+    message: "L'IA devine. C'est vous qui vérifiez."
+  },
+
+  scene7: {
     titre: "Ce qu'on retient",
-    verbes: ["Réfléchis.", "Prompte.", "Vérifie."],
-    phrases: [
-      "Probable ne veut pas dire vrai.",
-      "Elle ne gomme jamais, elle se corrige en avançant.",
-      "Une bonne question l'aide à se relire."
+    /* Chaque verbe apparaît, puis sa phrase en dessous. */
+    verbes: [
+      { verbe: "Réfléchis.", phrase: "Elle devine, elle ne sait pas." },
+      { verbe: "Prompte.",   phrase: "Une bonne question l'aide à se relire." },
+      { verbe: "Vérifie.",   phrase: "Probable ne veut pas dire vrai." }
     ]
   }
 };
@@ -217,9 +250,9 @@ const TEXTES = {
 
   /* --- Scène 3 --- */
   .colonnes { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
-  .boite { border: 4px solid var(--texte); border-radius: 20px; padding: 26px 34px; min-height: 520px; }
+  .boite { border: 4px solid var(--texte); border-radius: 20px; padding: 22px 34px; min-height: 480px; }
   .boite .etiquette { font-size: 40px; font-weight: bold; color: var(--accent); margin-bottom: 20px; }
-  .boite .texte { font-size: 54px; line-height: 1.6; }
+  .boite .texte { font-size: 50px; line-height: 1.5; }
   .zone-faux { position: relative; display: inline-block; }
   .gomme {
     position: absolute; left: 50%; top: -10px; margin-left: -85px;
@@ -241,7 +274,7 @@ const TEXTES = {
   .instant .gomme { display: none; }
   .note-gomme { font-size: 38px; font-style: italic; color: var(--faux); margin-top: 20px; font-weight: bold; }
   .bulle-orale {
-    font-size: 54px; line-height: 1.6;
+    font-size: 50px; line-height: 1.5;
     border: 4px dashed var(--texte); border-radius: 40px; padding: 20px 30px;
   }
   .bulle-orale::before { content: "🗣 "; }
@@ -257,8 +290,8 @@ const TEXTES = {
   .ligne { display: flex; align-items: center; gap: 24px; }
   .ligne.vous { justify-content: flex-end; }
   .bulle {
-    font-size: 44px; padding: 18px 30px; border-radius: 24px;
-    border: 4px solid var(--texte); max-width: 1000px;
+    font-size: 40px; padding: 16px 28px; border-radius: 24px;
+    border: 4px solid var(--texte); max-width: 1150px;
   }
   .vous .bulle { background: var(--doux); }
   .ia .bulle { background: var(--fond); }
@@ -279,15 +312,45 @@ const TEXTES = {
   }
   .instant .balayage { display: none; }
 
-  /* --- Scène 5 --- */
-  .verbes { display: flex; justify-content: space-between; gap: 40px; margin: 30px 0 70px; }
+  /* --- Question au groupe --- */
+  .question-groupe { font-size: 88px; font-weight: bold; line-height: 1.35; max-width: 1600px; color: var(--accent); }
+
+  /* --- Scène 5 : le contre-exemple --- */
+  .fil-seul { margin-left: 0; }
+  .bulle-juste { outline: 6px solid var(--juste); outline-offset: 6px; }
+  .bulle-faux { outline: 6px dashed var(--faux); outline-offset: 6px; }
+
+  /* --- Scène 6 : le chemin d'une réponse --- */
+  .chemin {
+    display: grid; grid-template-columns: 1.3fr 90px 1fr 90px 1fr;
+    grid-template-rows: 230px 90px 270px; align-items: stretch;
+  }
+  .case {
+    position: relative; display: flex; align-items: center; justify-content: center; text-align: center;
+    font-size: 44px; line-height: 1.25; padding: 20px 26px 20px 70px;
+    border: 4px dashed #767676; border-radius: 24px; color: #6a6a6a; background: var(--fond);
+    transition: background .5s ease, color .5s ease;
+  }
+  .case .num {
+    position: absolute; left: 16px; top: 14px; font-size: 40px; font-weight: bold;
+    border: 3px solid currentColor; border-radius: 50%; width: 58px; height: 58px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .case.allumee { border: 8px solid var(--accent); background: var(--accent); color: #ffffff; font-weight: bold; }
+  .case.passee { border: 5px solid var(--accent); background: var(--doux); color: var(--texte); font-weight: normal; }
+  .case-finale { font-size: 60px; font-weight: bold; }
+  .case-finale.allumee, .case-finale.passee { border-width: 12px; }
+  .case-finale.allumee::after { content: "★"; position: absolute; right: 18px; top: 8px; font-size: 48px; }
+  .fleche-chemin { display: flex; align-items: center; justify-content: center; font-size: 76px; font-weight: bold; color: var(--accent); }
+
+  /* --- Scène 7 --- */
+  .verbes { display: flex; justify-content: space-between; gap: 40px; margin-top: 30px; }
+  .colonne-verbe { flex: 1; }
   .verbe {
-    flex: 1; text-align: center; font-size: 104px; font-weight: bold; color: var(--accent);
+    text-align: center; font-size: 104px; font-weight: bold; color: var(--accent);
     border: 6px solid var(--accent); border-radius: 28px; padding: 30px 10px;
   }
-  .phrases { list-style: none; font-size: 56px; }
-  .phrases li { margin-bottom: 28px; padding-left: 70px; position: relative; }
-  .phrases li::before { content: "▶"; position: absolute; left: 0; color: var(--accent); }
+  .phrase-verbe { font-size: 52px; text-align: center; margin-top: 40px; line-height: 1.35; }
 
   @media print { #recommencer, #progression { display: none; } }
 </style>
@@ -327,7 +390,7 @@ const TEXTES = {
   /* Une suite de mots qui apparaissent l'un après l'autre à la même étape */
   function mots(texte, etape, debut) {
     const frag = document.createDocumentFragment();
-    texte.split(" ").forEach((m, i) => {
+    texte.split(" ").filter(m => m).forEach((m, i) => {
       frag.append(h("span", { e: etape, d: (debut || 0) + i * 0.35 }, m), esp());
     });
     return frag;
@@ -341,6 +404,11 @@ const TEXTES = {
 
   /* ---------------- LES SCÈNES ---------------- */
   const SCENES = [
+    function question() {
+      return h("div", { c: "accueil" },
+        h("p", { c: "question-groupe", e: 0 }, TEXTES.question.texte));
+    },
+
     function accueil() {
       const t = TEXTES.accueil;
       return h("div", { c: "accueil" },
@@ -410,7 +478,8 @@ const TEXTES = {
         h("span", { c: "marque marque-faux sansplace", e: 8 }, t.marqueFaux), esp(),
         h("span", { e: 8 }, t.oral2 + " "),
         h("span", { e: 8, a: "8:juste" }, t.oralJuste),
-        h("span", { c: "marque marque-juste sansplace", e: 8, d: 0.4 }, t.marqueJuste));
+        h("span", { c: "marque marque-juste sansplace", e: 8, d: 0.4 }, t.marqueJuste), esp(),
+        h("span", { e: 8, d: 0.4 }, t.oralApres));
       return h("div", {},
         h("h2", { e: 0 }, t.titre),
         h("div", { c: "colonnes" },
@@ -443,10 +512,50 @@ const TEXTES = {
 
     function scene5() {
       const t = TEXTES.scene5;
+      const qui = (nom) => h("span", { c: "qui" }, nom);
       return h("div", {},
         h("h2", { e: 0 }, t.titre),
-        h("div", { c: "verbes" }, ...t.verbes.map((v, i) => h("div", { c: "verbe", e: i + 1 }, v))),
-        h("ul", { c: "phrases" }, ...t.phrases.map((p, i) => h("li", { e: t.verbes.length + 1 + i }, p))));
+        h("div", { c: "s4" },
+          h("div", { c: "fil fil-seul" },
+            h("div", { c: "ligne vous", e: 0 }, h("div", { c: "bulle" }, qui(t.vous), t.question)),
+            h("div", { c: "ligne ia", e: 0, d: 0.4 },
+              h("div", { c: "bulle", a: "1:bulle-juste" }, qui(t.ia), t.reponse1),
+              h("span", { c: "marque marque-juste sansplace", e: 1 }, t.marqueJuste)),
+            h("div", { c: "ligne vous sansplace", e: 2 }, h("div", { c: "bulle" }, qui(t.vous), t.relance)),
+            h("div", { c: "ligne ia sansplace", e: 3 },
+              h("div", { c: "bulle", a: "4:bulle-faux" }, qui(t.ia), t.reponse2),
+              h("span", { c: "marque marque-faux sansplace", e: 4 }, t.marqueFaux)))),
+        message(t.message, 5));
+    },
+
+    function scene6() {
+      const t = TEXTES.scene6;
+      const n = t.etapes.length;
+      /* Chaque case s'allume à son clic, la case du clic en cours est soulignée */
+      const kase = (i) => h("div", {
+          c: "case" + (i === n - 1 ? " case-finale" : ""),
+          a: (i + 1) + ":allumee" + (i < n - 1 ? ";" + (i + 2) + ":passee" : "")
+        }, h("span", { c: "num" }, String(i + 1)), t.etapes[i]);
+      const fl = (sens) => h("div", { c: "fleche-chemin" }, sens);
+      /* Disposition en boucle : 1 → 2 → 3, puis ↓, puis 6 ← 5 ← 4, puis ↑ vers 1 */
+      const grille = h("div", { c: "chemin" },
+        kase(0), fl("→"), kase(1), fl("→"), kase(2),
+        fl("↑"), h("div"), h("div"), h("div"), fl("↓"),
+        kase(5), fl("←"), kase(4), fl("←"), kase(3));
+      return h("div", {},
+        h("h2", { e: 0 }, t.titre),
+        h("div", { e: 0 }, grille),
+        message(t.message, n + 1));
+    },
+
+    function scene7() {
+      const t = TEXTES.scene7;
+      return h("div", {},
+        h("h2", { e: 0 }, t.titre),
+        h("div", { c: "verbes" }, ...t.verbes.map((v, i) =>
+          h("div", { c: "colonne-verbe" },
+            h("div", { c: "verbe", e: 2 * i + 1 }, v.verbe),
+            h("p", { c: "phrase-verbe", e: 2 * i + 2 }, v.phrase)))));
     }
   ];
 
@@ -481,10 +590,11 @@ const TEXTES = {
         n.classList.toggle(classe, etape >= +num);
       });
     });
-    const total = SCENES.length - 1;
-    const derniere = numScene === total && etape === nbEtapes - 1;
-    progression.textContent = numScene === 0 ? "" :
-      TEXTES.progression.replace("{s}", numScene).replace("{total}", total) +
+    const AVANT = 2; /* question au groupe + accueil, sans numéro */
+    const total = SCENES.length - AVANT;
+    const derniere = numScene === SCENES.length - 1 && etape === nbEtapes - 1;
+    progression.textContent = numScene < AVANT ? "" :
+      TEXTES.progression.replace("{s}", numScene - AVANT + 1).replace("{total}", total) +
       "  ·  " + (etape + 1) + "/" + nbEtapes + (derniere ? "  ·  " + TEXTES.fin : "");
   }
 
